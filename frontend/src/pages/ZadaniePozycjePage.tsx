@@ -41,7 +41,7 @@ export default function ZadaniePozycjePage() {
   // Modal podpisu
   const [showSignatureDialog, setShowSignatureDialog] = useState(false);
 
-  const showDoPrzegladu = user.role === "Kierownik";
+  const showDoPrzegladu = user.role === "Koordynator";
   const isSerwisant = user.role === "Serwisant";
   const isPodpisany = zadanie?.vZNAG_KlientPodpis ? true : false;
 

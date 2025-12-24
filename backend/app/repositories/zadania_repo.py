@@ -138,9 +138,10 @@ class ZadaniaRepo:
         return [dict(row._mapping) for row in result.fetchall()]
 
     def pozycje_serwisant(self, znag_id: int) -> List[Dict[str, Any]]:
-        # 6. To samo tutaj
+        # 6. Filtruj pozycje dla serwisanta: urządzenia do przeglądu z aktywnymi protokołami
+        # Pokazuj tylko urządzenia gdzie protokół jest aktywny (PNAGL_Aktywny = 1) lub nie ma jeszcze protokołu (PNAGL_Id IS NULL)
         stmt = text(
-            "SELECT * FROM dbo.v_ZadaniePozycje WHERE ZPOZ_ZNAG_Id = :znag_id AND ZPOZ_UrzadzenieDoPrzegladu = 1 ORDER BY ZPOZ_UrzadzenieNumer"
+            "SELECT * FROM dbo.v_ZadaniePozycje WHERE ZPOZ_ZNAG_Id = :znag_id AND ZPOZ_UrzadzenieDoPrzegladu = 1 AND (PNAGL_Aktywny = 1 OR PNAGL_Id IS NULL) ORDER BY ZPOZ_UrzadzenieNumer"
         )
         result = self.session.execute(stmt, {"znag_id": znag_id})
         return [dict(row._mapping) for row in result.fetchall()]
