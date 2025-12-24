@@ -1,0 +1,113 @@
+import { number, string } from "prop-types";
+
+export type Zadanie = {
+  vZNAG_Id: number;
+  vZNAG_TypPrzegladu: string;
+  vZNAG_KategoriaKod?: string | null;
+  vZNAG_KategoriaOpis?: string | null;
+  vZNAG_KlientNazwa: string;
+  vZNAG_KlientMiasto?: string;   // w widoku
+  vZNAG_Miejscowosc?: string;    // jeśli gdzieś indziej używasz
+  vZNAG_DataPlanowana?: string | null;
+  vZNAG_DataWykonania?: string | null;  // data przeglądu dla zamkniętych
+  vZNAG_Uwagi?: string | null;
+  vZNAG_UwagiGodziny?: string | null;
+  vZNAG_KlientPodpis?: string | null;  // zadanie z podpisem = archiwalne
+  vZNAG_GodzSwieta?: string | null;
+  vZNAG_GodzSobNoc?: string | null;
+  vZNAG_GodzDojazdu?: string | null;
+  vZNAG_GodzNaprawa?: string | null;
+  vZNAG_GodzWyjazd?: string | null;
+  vZNAG_GodzDieta?: string | null;
+  vZNAG_GodzKm?: string | null;
+  vZNAG_Urzadzenie?: string | null;
+  vZNAG_Tonaz?: string | null;
+  vZNAG_AwariaNumer?: string | null;
+  vZNAG_OkrGwar?: boolean | null;
+  vZNAG_KlientNazwisko?: string | null;
+  vZNAG_KlientDzial?: string | null;
+  vZNAG_KlientDataZatw?: string | null;
+  vZNAG_Osoby?: string | null;
+};
+
+
+export type ZadaniePozycja = {
+  ZPOZ_Id: number;
+  ZPOZ_ZNAG_Id: number;
+  ZPOZ_UrzadzenieNumer: string;
+  ZPOZ_UrzadzenieOpis: string;
+  ZPOZ_UrzadzenieDoPrzegladu: false | true;
+};
+
+export type ProtokolNaglowek = {
+  PNAGL_Id: number;
+  PNAGL_Tytul: string;
+  PNAGL_Klient: string;
+  PNAGL_Miejscowosc: string;
+  PNAGL_NrUrzadzenia: string;
+  PNAGL_PodpisKlienta: string;
+  PNAGL_Uwagi?: string | null;
+
+
+};
+
+// export type ProtokolPozycja = {
+//   PPOZ_Id: number;
+//   PPOZ_PNAGL_Id: number;
+//   PPOZ_Lp: number;
+//   PPOZ_GrupaOperacji: string;
+//   PPOZ_Operacja: string;
+//   PPOZ_OcenaNP?: string | null;
+//   PPOZ_OcenaO?: string | null;
+//   PPOZ_OcenaNR?: string | null;
+//   PPOZ_OcenaNA?: string | null;
+//   PPOZ_Uwagi?: string | null;
+//   PPOZ_CzyZdjecia?: 0 | 1 | null;
+// };
+
+export interface ProtokolPozycja {
+  PPOZ_GrupaOperacji: string;
+  PPOZ_OcenaNP: boolean;
+  PPOZ_OcenaNR: boolean;
+  PPOZ_CzyZdjecia: boolean;
+  PPOZ_TS: string; // Reprezentacja daty jako string (ISO 8601)
+  PPOZ_PNAGL_Id: number;
+  PPOZ_Id: number;
+  PPOZ_Lp: number;
+  PPOZ_Operacja: string;
+  PPOZ_OcenaO: boolean;
+  PPOZ_OcenaNA: boolean;
+  PPOZ_UZTOstatni: string;
+  PPOZ_Uwagi: string | null;
+  ZdjeciaProtokolPoz: ZdjecieProtokolPoz[]; // Możesz tu wstawić bardziej szczegółowy typ, jeśli wiesz, co zawiera ta tablica
+}
+
+export interface Role {
+  ROL_Id: number;
+  ROL_Opis: string;
+}
+
+export interface Uzytkownik{
+  UZT_Id: number;
+  UZT_Imie: string;
+  UZT_Nazwisko: string;
+  UZT_Login: string;
+  UZT_ROL_Id: number;
+  ROL_Opis: string;
+}
+
+export type ProtokolResponse = {
+  inspection: ProtokolNaglowek;
+  values: ProtokolPozycja[];
+};
+
+export type ProtokolZapis = {
+  user: string;
+  values: Partial<ProtokolPozycja & { PPOZ_CzyZdjecia: boolean }> & { PPOZ_Id: number };
+};
+
+export interface ZdjecieProtokolPoz {
+  ZDJP_Id: number;
+  ZDJP_PPOZ_Id: number;
+  ZDJP_Sciezka: string;
+}

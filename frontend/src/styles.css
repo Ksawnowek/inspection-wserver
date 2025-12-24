@@ -1,0 +1,30 @@
+/* frontend/src/styles.css */
+:root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #fafafa; color: #111; }
+.container { max-width: 1000px; margin: 24px auto; padding: 0 16px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { border-bottom: 1px solid #eee; padding: 8px 10px; text-align: left; }
+button { cursor: pointer; }
+
+.w-70{
+    width: 70% !important;
+}
+
+.table-shadow{
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.icon-hover-lift {
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.icon-hover-lift:hover {
+  transform: scale(1.15) translateY(-3px);
+}
+
+.protokol-row:nth-child(even) {
+  background-color: #f8f9fa; 
+}
+

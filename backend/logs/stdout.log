@@ -1,0 +1,444 @@
+INFO:     127.0.0.1:56256 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57673 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57673 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57752 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57752 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57755 - "GET / HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57756 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58548 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58548 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58717 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58782 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58783 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58909 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58910 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58921:0 - "GET /api/healthz%22 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58921:0 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58935 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58936 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58921:0 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58959 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58959 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59138 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59139 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59140 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59141 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59175 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59176 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59298 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59299 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59298 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59299 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59336 - "GET / HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59337 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59339 - "GET / HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59340 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59341 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59343 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59808 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59809 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59808 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59809 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59808 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59809 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59948 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59948 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59948 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59962 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60536:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:60536:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60536:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:60536:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60535:0 - "POST /api/auth/login HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60536:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:60536:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60535:0 - "POST /api/auth/login HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60535:0 - "POST /api/auth/login HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60588 - "GET /api/ HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60589 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60591 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60592 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60535:0 - "POST /api/auth/login HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60535:0 - "POST /api/auth/login HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60628:0 - "POST /api/auth/login HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60747:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:60747:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+my_refresh_token length: 149
+access_token length: 145
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDI5MTR9.86mMyplDfg59aRYbmtBkYb0NjNN4vBdkX7RVgeRMZsQ; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDI5MTR9.86mMyplDfg59aRYbmtBkYb0NjNN4vBdkX7RVgeRMZsQ; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QzIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkwMzMxMTR9.lbbBxALxpYxw_FbR-JdjvF7zUyNcbDpWy5mq-Vc9JAc; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     127.0.0.1:60746:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60747:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60747:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60746:0 - "GET /api/zadania?page=3&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60746:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60746:0 - "GET /api/zadania?page=3&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60746:0 - "GET /api/zadania?page=2&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60746:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60746:0 - "GET /api/zadania?search=dombud&page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60747:0 - "GET /api/zadania/12000/pozycje HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60746:0 - "GET /api/zadania/12000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60747:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60747:0 - "GET /api/zadania/12223/pozycje HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60746:0 - "GET /api/zadania/12223 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60747:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60747:0 - "GET /api/zadania/12256/pozycje HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60746:0 - "GET /api/zadania/12256 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60746:0 - "GET /api/protokoly/naglowek/5755 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60747:0 - "GET /api/protokoly/pozycje/5755 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60811:0 - "GET /api/zadania/12256 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania/12256/pozycje HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60811:0 - "GET /api/zadania/12232/pozycje HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania/12232 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania/12229 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60811:0 - "GET /api/zadania/12229/pozycje HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60811:0 - "GET /api/zadania/12256/pozycje HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania/12256 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania/12220 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60811:0 - "GET /api/zadania/12220/pozycje HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60811:0 - "GET /api/zadania/12228/pozycje HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania/12228 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60811:0 - "GET /api/zadania/12231/pozycje HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania/12231 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60811:0 - "GET /api/zadania/12232/pozycje HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania/12232 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60812:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60842 - "GET /api/healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60843 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     192.168.0.101:52441:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     192.168.0.101:52441:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+INFO:     192.168.0.101:52441:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     192.168.0.101:52441:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+my_refresh_token length: 149
+access_token length: 145
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDQxMDV9.R9CAkeYxHB63dYAndkIupSHWkaEJmDAnwhBkEihQakY; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDQxMDV9.R9CAkeYxHB63dYAndkIupSHWkaEJmDAnwhBkEihQakY; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QzIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkwMzQzMDV9.YWVA7PnV4UuE_yetS_YvYC3pRFBaocMA2sU0EDcKVFg; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     192.168.0.101:52441:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     192.168.0.101:52441:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     192.168.0.101:52441:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:52441:0 - "GET /api/zadania/12232 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:56903:0 - "GET /api/zadania/12232/pozycje HTTP/1.1" 404 Not Found
+INFO:     192.168.0.101:56903:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61164:0 - "POST /api/zadania/12229/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:61164:0 - "POST /api/zadania/12229/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:61164:0 - "POST /api/zadania/12229/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     192.168.0.101:53217:0 - "GET /api/zadania?page=3&page_size=25 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:53217:0 - "GET /api/zadania?search=POSCO+&page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:53217:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:63887:0 - "POST /api/zadania/12228/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:61401:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:61401:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61401:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:61401:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+my_refresh_token length: 145
+access_token length: 141
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJrMSIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDQ5NDN9.3tCHCakxDu__40j6sKFVMNyul0AFfj_2gaeeduNEzjI; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJrMSIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDQ5NDN9.3tCHCakxDu__40j6sKFVMNyul0AFfj_2gaeeduNEzjI; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImsxIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkwMzUxNDN9.Dj-nO0AlBX8f3zXTOEpFeluw82tykDEqLzBYo72CXhw; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     127.0.0.1:61400:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61401:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61401:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61400:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:61400:0 - "POST /api/zadania/12231/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:61644:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61644:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61644:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     192.168.0.101:60760:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     192.168.0.101:60760:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:60760:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     192.168.0.101:60760:0 - "POST /api/zadania/12242/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     192.168.0.101:60760:0 - "POST /api/zadania/12228/pdf/generuj HTTP/1.1" 200 OK
+INFO:     192.168.0.101:60760:0 - "POST /api/zadania/12253/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61754:0 - "POST /api/zadania/12230/pdf/generuj HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59804:0 - "POST /api/zadania/12222/pdf/generuj HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59804:0 - "GET /api/zadania/12227 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59263:0 - "GET /api/zadania/12227/pozycje HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59263:0 - "GET /api/protokoly/naglowek/5704 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59804:0 - "GET /api/protokoly/pozycje/5704 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59804:0 - "POST /api/protokoly/5704/pdf/generuj HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59804:0 - "GET /api/zadania/12227 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59263:0 - "GET /api/zadania/12227/pozycje HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59263:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+my_refresh_token length: 145
+access_token length: 141
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJrMSIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDU4Nzd9.l4Q-B7_73goxiV5V_Q6cL_GOxUNwrhs_2bhhgFbfsC0; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJrMSIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDU4Nzd9.l4Q-B7_73goxiV5V_Q6cL_GOxUNwrhs_2bhhgFbfsC0; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImsxIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkwMzYwNzd9.YNyXd-3zR3mbfE2hq2YlSlmfoTAqqngL5c3v7IlIDEg; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     192.168.0.101:59263:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59263:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59263:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59263:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     192.168.0.101:59263:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61889 - "GET /storage/ HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61889 - "GET /storage/ HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61907 - "GET /storage/ HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61926:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62242:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:62242:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62242:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:62242:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+my_refresh_token length: 149
+access_token length: 145
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDcxNzh9.c_20c8JrINgNXN5P82e7oamxBFqMx96LdY-u291Mqjw; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDcxNzh9.c_20c8JrINgNXN5P82e7oamxBFqMx96LdY-u291Mqjw; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QzIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkwMzczNzh9.-t8qFyUBTN6ydc8yEQzBKj6L9oc9MLSL68FujeVWJmA; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     127.0.0.1:62242:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62242:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62242:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62242:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62490:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62490:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62489:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:62489:0 - "POST /api/zadania/12223/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:62489:0 - "POST /api/zadania/12218/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:62506:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62506:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62512:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62512:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62511:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:62516:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62516:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62515:0 - "POST /api/zadania/12227/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     192.168.0.101:62906:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     192.168.0.101:62906:0 - "POST /api/auth/login HTTP/1.1" 401 Unauthorized
+my_refresh_token length: 149
+access_token length: 145
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDczOTR9.BJLynAivpXmwOZNG_UiM3uYHXCKY0Ex0HP7YNFGeQZc; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDczOTR9.BJLynAivpXmwOZNG_UiM3uYHXCKY0Ex0HP7YNFGeQZc; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QzIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkwMzc1OTR9.FzJwlmtCOaPNqF19N4D2l421QZC36V8vWpGD-Gn8u4o; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     192.168.0.101:62906:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     192.168.0.101:62906:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     192.168.0.101:62906:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:62906:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:62689:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62689:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62688:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62900:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62900:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62900:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+my_refresh_token length: 149
+access_token length: 145
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDg1NjR9.5y6WWGCGRR-4UQSCTKker-X2k4IxT_tLCAe9mwvoZOg; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDg1NjR9.5y6WWGCGRR-4UQSCTKker-X2k4IxT_tLCAe9mwvoZOg; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QzIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkwMzg3NjR9.QDBIG5QM5kuXZTUKlQ5BcMag0PtYKKIZG8yuGUKtfrQ; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     127.0.0.1:62900:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62900:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62900:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62900:0 - "POST /api/zadania/12229/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:62900:0 - "POST /api/zadania/12228/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:62900:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     192.168.0.101:62695:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:63100:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63099:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63099:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63099:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:63099:0 - "POST /api/zadania/12231/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:63138:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63138:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63138:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:63138:0 - "POST /api/zadania/12229/pdf/generuj HTTP/1.1" 500 Internal Server Error
+my_refresh_token length: 149
+access_token length: 145
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDk1OTF9.uu9OTbjsfFvkSPyn1OwsQmGy5qBurTs7qBJNuwD55EI; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NDk1OTF9.uu9OTbjsfFvkSPyn1OwsQmGy5qBurTs7qBJNuwD55EI; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QzIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkwMzk3OTF9.TTy_407yluffEe7qOXY0CbJdmSNZbWDXtXZIEiTieFk; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     127.0.0.1:63312:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63312:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63312:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63312:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:63312:0 - "POST /api/zadania/12231/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:63752:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63752:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63752:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63752:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63751:0 - "POST /api/auth/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63794:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63794:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63793:0 - "POST /api/auth/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63828:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63828:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+my_refresh_token length: 149
+access_token length: 145
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NTAzNDR9.pM8pUBGyF1G_h_j5EYeQ_wUaCDWDTl2ySt0vXcY2Lb4; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NTAzNDR9.pM8pUBGyF1G_h_j5EYeQ_wUaCDWDTl2ySt0vXcY2Lb4; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QzIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkwNDA1NDR9.97Vk7e0b0gLE_kAjHmM57lhCVh1ahyn8fza1vo1mJwo; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     127.0.0.1:63827:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63828:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63828:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63827:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:63882:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63882:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63881:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:63987:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63987:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63987:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64019:0 - "POST /api/zadania/12230/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64103:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64103:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64102:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64102:0 - "POST /api/zadania/12229/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64166:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64166:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64165:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64183:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64183:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64182:0 - "POST /api/zadania/12218/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64213:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64213:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64212:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64231:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64231:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64230:0 - "POST /api/zadania/12229/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64263:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64263:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64262:0 - "POST /api/zadania/12229/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64305:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64305:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64304:0 - "POST /api/zadania/12231/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64333:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64343:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64343:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64342:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64354:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64354:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64353:0 - "POST /api/zadania/12229/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64367:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64367:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64366:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64393:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64393:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "POST /api/zadania/12242/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64392:0 - "POST /api/zadania/12228/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "GET /api/zadania?page=2&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "POST /api/zadania/12236/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64392:0 - "POST /api/zadania/12207/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "POST /api/zadania/12157/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64393:0 - "GET /api/zadania/12236/opisy-prac HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "GET /api/zadania/12236 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "PATCH /api/zadania/patch/12236 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64393:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64393:0 - "GET /api/zadania/12222/pozycje HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "GET /api/zadania/12222 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "GET /api/protokoly/naglowek/5697 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64393:0 - "GET /api/protokoly/pozycje/5697 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "PATCH /api/protokoly/pozycje/patch/182273 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "PATCH /api/protokoly/pozycje/patch/182273 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "PATCH /api/protokoly/pozycje/patch/182274 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "POST /api/protokoly/5697/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64392:0 - "GET /api/zadania/12222/pozycje HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64393:0 - "GET /api/zadania/12222 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64393:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64653:0 - "POST /api/zadania/12242/pdf/generuj HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:64653:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64656:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:64656:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+my_refresh_token length: 149
+access_token length: 145
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NTMyODh9.JnjJD6bfIHVy34hbrOKqBeG5sP81KEQZ8ay6_vVu5bk; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NTMyODh9.JnjJD6bfIHVy34hbrOKqBeG5sP81KEQZ8ay6_vVu5bk; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QzIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkwNDM0ODh9.dVKUFJGItfOH-_G13i3nEDoflS6MpNkdcpP4zTaXwu4; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     127.0.0.1:64653:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64656:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64656:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64656:0 - "POST /api/zadania/12242/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64702:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64702:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64701:0 - "POST /api/zadania/12242/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64701:0 - "GET /api/zadania?page=3&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64701:0 - "POST /api/zadania/12174/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64701:0 - "GET /api/zadania/12234 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64702:0 - "GET /api/zadania/12234/opisy-prac HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64701:0 - "POST /api/zadania/12234/opisy-prac HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64701:0 - "PATCH /api/zadania/patch/12234 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64701:0 - "PATCH /api/zadania/patch/12234 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64702:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64701:0 - "GET /api/zadania?page=2&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64701:0 - "POST /api/zadania/11776/pdf/generuj HTTP/1.1" 500 Internal Server Error
+B£¥D RENDEROWANIA ZADANIA: 'ZadanieNagl' object has no attribute 'ZNAG_NrWew'
+INFO:     127.0.0.1:64701:0 - "POST /api/zadania/12247/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64850:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64850:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64849:0 - "POST /api/zadania/12242/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64849:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64849:0 - "POST /api/zadania/12221/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64884:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64884:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+B£¥D RENDEROWANIA ZADANIA: 'ZadanieNagl' object has no attribute 'ZNAG_NrWew'
+INFO:     127.0.0.1:64883:0 - "POST /api/zadania/12229/pdf/generuj HTTP/1.1" 500 Internal Server Error
+B£¥D RENDEROWANIA ZADANIA: 'ZadanieNagl' object has no attribute 'ZNAG_NrWew'
+INFO:     127.0.0.1:64883:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+B£¥D RENDEROWANIA ZADANIA: 'ZadanieNagl' object has no attribute 'ZNAG_NrWew'
+INFO:     127.0.0.1:64883:0 - "POST /api/zadania/12222/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64903:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64903:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+B£¥D RENDEROWANIA ZADANIA: 'ZadanieNagl' object has no attribute 'ZNAG_NrWew'
+INFO:     127.0.0.1:64902:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+B£¥D RENDEROWANIA ZADANIA: 'ZadanieNagl' object has no attribute 'ZNAG_NrWew'
+INFO:     127.0.0.1:64902:0 - "POST /api/zadania/12251/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:64920:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64919:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+B£¥D RENDEROWANIA ZADANIA: 'ZadanieNagl' object has no attribute 'ZNAG_NrWew'
+INFO:     127.0.0.1:64919:0 - "POST /api/zadania/12231/pdf/generuj HTTP/1.1" 500 Internal Server Error
+B£¥D RENDEROWANIA ZADANIA: 'ZadanieNagl' object has no attribute 'ZNAG_NrWew'
+INFO:     127.0.0.1:64919:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:65316:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65315:0 - "POST /api/auth/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:65328:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+my_refresh_token length: 149
+access_token length: 145
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NTQ3Nzh9.2dirLL5WQGRe3r74_oKKuMktgtVWkC-pd79ETlbsdAQ; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NTQ3Nzh9.2dirLL5WQGRe3r74_oKKuMktgtVWkC-pd79ETlbsdAQ; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QzIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkwNDQ5Nzh9.fd33hF-0CENTcmHxr33Cgz9Mcvr-1ttPB1a55vVnmiM; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     127.0.0.1:65327:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65328:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65328:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+B£¥D RENDEROWANIA ZADANIA: 'ZadanieNagl' object has no attribute 'ZNAG_NrWew'
+INFO:     127.0.0.1:65327:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:49572:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+my_refresh_token length: 149
+access_token length: 145
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NTYyNDN9.nbEI2OV528mRwdRanbSGrTDSxX4J78dMEe0OqY4abmA; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY0NTYyNDN9.nbEI2OV528mRwdRanbSGrTDSxX4J78dMEe0OqY4abmA; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QzIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkwNDY0NDN9.i2WGNb7BN5y6jaXNH4bXvf39sR6oJnaCXwfWNP4G-vU; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     127.0.0.1:49571:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49572:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49572:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49571:0 - "POST /api/zadania/12232/pdf/generuj HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49571:0 - "POST /api/zadania/12228/pdf/generuj HTTP/1.1" 200 OK
+INFO:     192.168.0.101:60940:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     192.168.0.101:60940:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+INFO:     192.168.0.101:60940:0 - "GET /api/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     192.168.0.101:60940:0 - "POST /api/refresh HTTP/1.1" 404 Not Found
+my_refresh_token length: 149
+access_token length: 145
+Response headers BEFORE: MutableHeaders({})
+Response headers AFTER access_token: MutableHeaders({'set-cookie': 'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY1ODA5MjJ9.cYrusg8USbN9K7dWr8ID_m9JKrU2RvenBdx16ujnfXo; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'})
+Response headers AFTER refresh_token: MutableHeaders(raw=[(b'set-cookie', b'access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MyIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjY1ODA5MjJ9.cYrusg8USbN9K7dWr8ID_m9JKrU2RvenBdx16ujnfXo; HttpOnly; Max-Age=1800; Path=/; SameSite=lax'), (b'set-cookie', b'refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QzIiwidHlwZSI6InJlZnJlc2giLCJleHAiOjE3NjkxNzExMjJ9.SAi1E1xQc_T0YOYZ7pSMWtgzuVJ-m-BQ7uVmloy2KXQ; HttpOnly; Max-Age=2592000; Path=/; SameSite=lax')])
+Type of response: <class 'starlette.responses.Response'>
+INFO:     192.168.0.101:60940:0 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     192.168.0.101:60940:0 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     192.168.0.101:60940:0 - "GET /api/zadania?page=1&page_size=25 HTTP/1.1" 200 OK
+INFO:     192.168.0.101:50546:0 - "GET /api/zadania/12228/pozycje HTTP/1.1" 200 OK
+INFO:     192.168.0.101:60940:0 - "GET /api/zadania/12228 HTTP/1.1" 200 OK

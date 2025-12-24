@@ -1,0 +1,87 @@
+główny widok
+-> dla serwisanta możliwość wpisania numeru zadania (search bar lub wchodzenie od razu w zlecenie ?) [OK]
+
+-> logowanie [OK]
+-> jwt [OK]
+-> rejestracja przez koordynatora [OK]
+-> ochrona podstron przed niezalogowanym użytkownikiem [OK]
+-> zmiana backendu, żeby pobierał odpowiednie rzeczy w zależności od roli [OK]
+->popup logowania[OK]
+-> ładniejsze ładowanie[OK]
+
+zadania/xxxx
+-> widok w formacie tabelki (nagłówki z bazy) - tabelka jeden ciemniejszy jaśniejszy[OK]
+
+zadania/xxxx
+-> do przeglądu ma być zaznaczone, jak odznaczam to ucieka -> widok dla operatora/serwisanta [OK?]
+-> dla koordynatora -> widzi wszystko i wyszarzone są odznaczone[OK?]
+do przegląduy domyślnie wszystko, odznacza sobie tylko koordynator, usuń z widoku serwisanta [OK]
+
+widok główny(zadania):
+-> podpis [OK]
+-> uwagi [OK]
+-> wypełnienie godzin -> pole tekstowe [OK]
+
+Zdjęcia:
+-> rozdzielić baze na zdjęcia do pozycji i do protokołu (2 tabele z relacjami)[OK]-> jeden do wielu[OK]
+-> podgląd dodanych zdjęć, żeby można było wywalić[OK]
+
+-> Spróbować ORM na pozycje protokołu [OK]
+
+
+protokół
+-> zmiana checkbox Zdjęcie na aparat [OK]
+-> zapisywanie do bazy przy zmianach wszystkiego do id_poz [OK]
+-> generacja protokołu (html) -> musi zawierać podpis -> fixnąć [OK]
+
+
+
+fix na pole radio [OK]
+
+podpis dla protokołu [OK]
+
+
+
+
+Pytania: 
+-> co ma być w USER (ZadaniePozycjePage) login? -> do protokołu ma być wpisanych 2 ostatnich co to robili -> rejestr operacji?
+
+
+
+->toast rejestracji
+
+
+
+
+Baza:
+zadanie nagl -> dodać pdf path
+
+
+
+PDF zadania:
+Obserwacje serwisanta -> uwagi 
+
+Godziny wywalam i daje plain text
+
+dla pozycji -> do przeglądu -> ptaszek w innym wypadku krzyżyk
+
+dane dla klienta - sprawdzić czemu nie ciągnie
+
+TypPrzeglądu -> x przy odpowiednim
+
+
+
+
+
+refresh token [może 3 dni?] [OK]
+
+dodanie przycisku do rejestracji usera dla kierownika [OK]
+
+panel zarządzania userami [OK]
+
+
+poprawki w pozycjach protokołu dla lepszego user experience [OK]
+
+zabezpieczenie endpointów
+
+zdjęcie do zadania
