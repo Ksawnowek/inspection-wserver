@@ -120,13 +120,14 @@ def podpisz(
 def generuj_pdf(
         pnagl_id: int,
         pdf_service: PDFService = Depends(get_pdf_service),
+        protokoly_service: ProtokolyService = Depends(get_protokoly_service),
         body: dict | None = Body(None),
         user: Uzytkownik = Depends(any_logged_in_user)
 ):
     serwisanci = (body or {}).get("serwisanci") or []
     try:
         out_path = pdf_service.generuj_pdf_protokol(
-            pnagl_id
+            pnagl_id, protokoly_service
         )
     except Exception as e:
         raise HTTPException(500, detail="Błąd podczas generowania pliku PDF") from e

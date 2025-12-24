@@ -9,7 +9,7 @@ from app.utils.pdf_generator import render_zadanie_pdf, render_protokol_pdf, ren
 
 
 class PDFService:
-    def __init__(self, zadania_service: ZadaniaService, protokoly_service: ProtokolyService, pdf_dir: Path):
+    def __init__(self, zadania_service: ZadaniaService, protokoly_service: ProtokolyService | None, pdf_dir: Path):
         self._zadania_service = zadania_service
         self._protokoly_service = protokoly_service
         self._pdf_dir = pdf_dir
@@ -67,9 +67,9 @@ class PDFService:
 
         return out_path
 
-    def generuj_pdf_protokol(self, pnagl_id: int) -> Path:
+    def generuj_pdf_protokol(self, pnagl_id: int, protokoly_service: ProtokolyService) -> Path:
         # Pobieranie danych
-        pnagl = self._protokoly_service.get_protokol_nagl_by_id(pnagl_id)
+        pnagl = protokoly_service.get_protokol_nagl_by_id(pnagl_id)
         if not pnagl:
             raise HTTPException(404, "Protokol nie istnieje")
 
@@ -80,7 +80,7 @@ class PDFService:
             # Ale jeśli chcemy, by serwis wiedział, że nie ma danych - jest OK
             raise HTTPException(404, "Zadanie nie istnieje")
 
-        protokol_grupy = self._protokoly_service.get_protokol_pozycje(pnagl_id)
+        protokol_grupy = protokoly_service.get_protokol_pozycje(pnagl_id)
 
         # Generowanie ścieżki
         out_path = self._pdf_dir / f"protokol_{pnagl_id}.pdf"

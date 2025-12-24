@@ -51,13 +51,13 @@ def get_auth_service(
 def get_file_service() -> FileService:
     return FileService()
 
-def get_pdf_service() -> PdfService:
+def get_old_pdf_service() -> PdfService:
     return PdfService()
 
 def get_protokoly_service(
     repo: ProtokolyRepo = Depends(get_protokoly_repo),
     file_service: FileService = Depends(get_file_service),
-    pdf_service: PdfService = Depends(get_pdf_service)
+    pdf_service: PdfService = Depends(get_old_pdf_service)
 ) -> ProtokolyService:
     return ProtokolyService(repo, file_service, pdf_service)
 
@@ -74,10 +74,10 @@ def get_zdjecia_service(
     return ZdjeciaService(repo)
 
 def get_pdf_service(
-        zadania_service: ZadaniaService = Depends(get_zadania_service),
-        protokoly_service: ProtokolyService = Depends(get_protokoly_service)
+        zadania_service: ZadaniaService = Depends(get_zadania_service)
 ):
-    return PDFService(zadania_service, protokoly_service, PDF_DIR)
+    # Protokoly_service będzie przekazywany bezpośrednio w endpointach gdzie potrzebny
+    return PDFService(zadania_service, None, PDF_DIR)
 
 def get_user_service(
         repo: UserRepo = Depends(get_user_repo),

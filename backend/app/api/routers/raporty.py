@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import FileResponse
-from app.dependencies import get_pdf_service, any_logged_in_user
+from app.dependencies import get_pdf_service, get_protokoly_service, any_logged_in_user
 from app.services.PDF_service import PDFService
+from app.services.protokoly_service import ProtokolyService
 from app.models.models import Uzytkownik
 
 router = APIRouter(prefix="/api/raporty", tags=["raporty"])
@@ -65,11 +66,12 @@ async def generuj_raport_prac_roznych(
 async def generuj_raport_konserwacji(
     pnagl_id: int,
     pdf_service: PDFService = Depends(get_pdf_service),
+    protokoly_service: ProtokolyService = Depends(get_protokoly_service),
     current_user: Uzytkownik = Depends(any_logged_in_user)
 ):
     """Generuje raport PDF dla protokołu konserwacji."""
     try:
-        pdf_path = pdf_service.generuj_pdf_protokol(pnagl_id)
+        pdf_path = pdf_service.generuj_pdf_protokol(pnagl_id, protokoly_service)
 
         if not pdf_path.exists():
             raise HTTPException(status_code=500, detail="Nie udało się wygenerować PDF")
