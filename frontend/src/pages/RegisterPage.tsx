@@ -157,7 +157,7 @@ export default function RegisterPage() {
                     onChange={handleChange}
                   >
                     <option value={101}>Serwisant</option>
-                    <option value={100}>Kierownik</option>
+                    <option value={100}>Koordynator</option>
                   </Form.Select>
                 </Form.Group>
 
@@ -176,5 +176,6 @@ export default function RegisterPage() {
         </Col>
       </Row>
     </Container>
+    </>
   );
 }
