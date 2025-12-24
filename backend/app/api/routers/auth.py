@@ -116,6 +116,9 @@ async def me(current_user: Annotated[Uzytkownik, Depends(get_current_user_from_c
         "surname": current_user.UZT_Nazwisko,
         "role": current_user.Role_.ROL_Opis
     }
+    # Debug: loguj co zwracamy
+    print(f"DEBUG /auth/me: user={current_user.UZT_Login}, role='{current_user.Role_.ROL_Opis}', role_id={current_user.UZT_ROL_Id}")
+    print(f"DEBUG /auth/me: response={response}")
     return {"status": "success", "message": response}
 
 
