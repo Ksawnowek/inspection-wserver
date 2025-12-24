@@ -170,8 +170,12 @@ def generuj_pdf(
             serwisanci=serwisanci
         )
     except Exception as e:
-        # Obsługa innych błędów generowania
-        raise HTTPException(500, detail="Błąd podczas generowania pliku PDF") from e
+        # Loguj szczegółowy błąd
+        import traceback
+        error_details = traceback.format_exc()
+        print(f"ERROR generowania PDF dla zadania {znag_id}:")
+        print(error_details)
+        raise HTTPException(500, detail=f"Błąd podczas generowania pliku PDF: {str(e)}") from e
 
     return FileResponse(
         str(out_path),
