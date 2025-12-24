@@ -136,14 +136,19 @@ export function UserEditModal({ show, onHide, user, onSave }: UserEditModalProps
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formLogin">
+          <Form.Group className="mb-3" controlId="formPassword">
             <Form.Label>Nowe hasło</Form.Label>
             <Form.Control
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
+              minLength={8}
+              placeholder="Pozostaw puste, aby nie zmieniać"
             />
+            <Form.Text className="text-muted">
+              Hasło musi zawierać minimum 8 znaków. Pozostaw puste, jeśli nie chcesz zmieniać hasła.
+            </Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formRolaId">

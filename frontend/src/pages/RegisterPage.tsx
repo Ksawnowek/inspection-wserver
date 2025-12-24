@@ -145,7 +145,11 @@ export default function RegisterPage() {
                     value={formData.pwd}
                     onChange={handleChange}
                     required
+                    minLength={8}
                   />
+                  <Form.Text className="text-muted">
+                    Hasło musi zawierać minimum 8 znaków. Zalecane jest użycie liter, cyfr i znaków specjalnych.
+                  </Form.Text>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="role">

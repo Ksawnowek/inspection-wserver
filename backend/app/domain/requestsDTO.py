@@ -10,7 +10,7 @@ class RegisterRequest(BaseModel):
     login: str
     name: str
     surname: str
-    pwd: str
+    pwd: str = Field(..., min_length=8, description="Hasło musi zawierać minimum 8 znaków")
     role: int
 
 class ZadanieUpdateDTO(BaseModel):
