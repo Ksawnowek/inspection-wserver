@@ -1,6 +1,8 @@
 // components/RaportGenerator.tsx
 import React, { useState } from 'react';
-import axios from 'axios';
+import { api } from '../api/client';
+import { Button } from 'react-bootstrap';
+import toast from 'react-hot-toast';
 
 interface RaportGeneratorProps {
   zadanieId: number;
@@ -8,10 +10,10 @@ interface RaportGeneratorProps {
   protokolId?: number;
 }
 
-export const RaportGenerator: React.FC<RaportGeneratorProps> = ({ 
-  zadanieId, 
-  kategoria, 
-  protokolId 
+export const RaportGenerator: React.FC<RaportGeneratorProps> = ({
+  zadanieId,
+  kategoria,
+  protokolId
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -19,9 +21,9 @@ export const RaportGenerator: React.FC<RaportGeneratorProps> = ({
     setLoading(true);
     try {
       const id = type === 'konserwacja' ? protokolId : zadanieId;
-      
-      const response = await axios.post(
-        `/api/raporty/generuj/${type}/${id}`,
+
+      const response = await api.post(
+        `/raporty/generuj/${type}/${id}`,
         {},
         { responseType: 'blob' }
       );
@@ -34,10 +36,11 @@ export const RaportGenerator: React.FC<RaportGeneratorProps> = ({
       document.body.appendChild(link);
       link.click();
       link.remove();
-      
-    } catch (error) {
+
+      toast.success('Raport wygenerowany pomyślnie!');
+    } catch (error: any) {
       console.error('Błąd generowania raportu:', error);
-      alert('Błąd generowania raportu');
+      toast.error(`Błąd generowania raportu: ${error?.response?.data?.detail || error.message}`);
     } finally {
       setLoading(false);
     }
@@ -85,21 +88,20 @@ export const RaportGenerator: React.FC<RaportGeneratorProps> = ({
 
   return (
     <div className="raport-generator">
-      <h3>Dostępne raporty</h3>
       {availableReports.length === 0 ? (
         <p>Brak dostępnych raportów dla tego zadania</p>
       ) : (
-        <div className="report-buttons">
+        <div className="d-flex gap-2 flex-wrap">
           {availableReports.map(report => (
-            <button
+            <Button
               key={report.type}
+              variant="success"
               onClick={() => generateReport(report.type)}
               disabled={loading}
-              className="report-btn"
             >
-              <span className="icon">{report.icon}</span>
-              {report.name}
-            </button>
+              <span className="me-2">{report.icon}</span>
+              {loading ? 'Generowanie...' : report.name}
+            </Button>
           ))}
         </div>
       )}

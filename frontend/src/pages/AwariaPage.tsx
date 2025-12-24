@@ -6,6 +6,7 @@ import Spinner from "../components/Spinner";
 import SignatureDialog from "../components/SignatureDialog";
 import TopBar from "../components/TopBar";
 import BackButton from "../components/BackButton";
+import { RaportGenerator } from "../components/RaportGenerator";
 import { Form, Button, Row, Col, Card, ListGroup } from 'react-bootstrap';
 import toast from 'react-hot-toast';
 
@@ -516,6 +517,19 @@ export default function AwariaPage() {
                   </div>
                 </Card.Body>
               </Card>
+
+              {/* Generowanie raportu PDF */}
+              {isPodpisany && (
+                <Card className="mb-3 mt-4">
+                  <Card.Body>
+                    <h6 className="mb-3">Generowanie raportu PDF</h6>
+                    <RaportGenerator
+                      zadanieId={Number(znagId)}
+                      kategoria={isAwaria ? 'AWARIA' : 'PRACE_ROZNE'}
+                    />
+                  </Card.Body>
+                </Card>
+              )}
 
               {/* Przyciski akcji */}
               {!isPodpisany && (
