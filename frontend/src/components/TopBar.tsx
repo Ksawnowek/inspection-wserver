@@ -37,10 +37,10 @@ const TopBar: React.FC<TopBarProps> = ({ title }) => {
           <Navbar.Text className="me-3">
             {user.name} {user.surname}
           </Navbar.Text>
-          {user.role === 'Kierownik' && 
+          {user.role === 'Koordynator' &&
             <Button
-              className="me-3" 
-              variant="outline-light" 
+              className="me-3"
+              variant="outline-light"
               onClick={(e) => {
                     e.stopPropagation();
                     navigate(`/register`);
@@ -50,10 +50,10 @@ const TopBar: React.FC<TopBarProps> = ({ title }) => {
               Dodaj użytkownika
             </Button>
     }
-    {user.role === 'Kierownik' &&
+    {user.role === 'Koordynator' &&
             <Button
-              className="me-3"  
-              variant="outline-light" 
+              className="me-3"
+              variant="outline-light"
               onClick={(e) => {
                     e.stopPropagation();
                     navigate(`/manage-users`);

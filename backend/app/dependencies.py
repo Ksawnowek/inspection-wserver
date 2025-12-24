@@ -111,7 +111,7 @@ async def get_current_user_from_cookie(
 
 class Role(str, enum.Enum):
     SERWISANT = "Serwisant"
-    KIEROWNIK = "Kierownik"
+    KOORDYNATOR = "Koordynator"
 
 
 def require_role(allowed_roles: List[Role]):
@@ -130,5 +130,5 @@ def require_role(allowed_roles: List[Role]):
         return current_user
     return role_checker
 
-kierownik_only = require_role([Role.KIEROWNIK])
+kierownik_only = require_role([Role.KOORDYNATOR])
 any_logged_in_user = get_current_user_from_cookie

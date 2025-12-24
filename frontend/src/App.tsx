@@ -22,8 +22,8 @@ export default function App() {
           <Route path="/awaria/:znagId" element={<AwariaPage />} />
           <Route path="/protokol/:pnaglId" element={<ProtokolPage />} />
 
-          {/* Strony tylko dla Kierownika */}
-          <Route element={<RoleProtectedRoute allowedRoles={['Kierownik']} />}>
+          {/* Strony tylko dla Koordynatora */}
+          <Route element={<RoleProtectedRoute allowedRoles={['Koordynator']} />}>
             <Route path="register" element={<RegisterPage />} />
             <Route path="manage-users" element={<ManageUsersPage />} />
           </Route>

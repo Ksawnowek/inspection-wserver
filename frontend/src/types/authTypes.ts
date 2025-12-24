@@ -2,7 +2,7 @@ export interface User {
   login: string;
   name: string;
   surname: string;
-  role: 'Serwisant' | 'Kierownik';
+  role: 'Serwisant' | 'Koordynator';
 }
 
 
