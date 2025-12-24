@@ -13,4 +13,9 @@ class TrimmedString(TypeDecorator):
     cache_ok = True
 
     def process_result_value(self, value, dialect):
-        return value.rstrip() if value is not None else None
+        if value is None:
+            return None
+        # Jeśli wartość nie jest stringiem, skonwertuj ją najpierw
+        if not isinstance(value, str):
+            value = str(value)
+        return value.rstrip()
