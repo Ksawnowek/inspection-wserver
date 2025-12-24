@@ -67,8 +67,21 @@ export function UserEditModal({ show, onHide, user, onSave }: UserEditModalProps
 
     setIsSaving(true);
     try {
+      // Przygotuj payload - nie wysyłaj pustych pól
+      const payload: Partial<UserUpdatePayload> = {
+        UZT_Imie: formData.UZT_Imie,
+        UZT_Nazwisko: formData.UZT_Nazwisko,
+        UZT_Login: formData.UZT_Login,
+        UZT_ROL_Id: formData.UZT_ROL_Id,
+      };
+
+      // Dodaj hasło tylko jeśli nie jest puste
+      if (formData.password && formData.password.trim().length > 0) {
+        payload.password = formData.password;
+      }
+
       await toast.promise(
-        onSave(user.UZT_Id, formData), // Zakładam, że 'user' ma UZT_Id!
+        onSave(user.UZT_Id, payload as UserUpdatePayload),
         {
           loading: 'Zapisywanie...',
           success: 'Zapisano pomyślnie!',
@@ -142,7 +155,7 @@ export function UserEditModal({ show, onHide, user, onSave }: UserEditModalProps
                 aria-label="Wybierz rolę"
             >
                 <option value={0} disabled>Wybierz z listy...</option>
-                <option value={100}>Kierownik</option>
+                <option value={100}>Koordynator</option>
                 <option value={101}>Serwisant</option>
             </Form.Select>
             </Form.Group>

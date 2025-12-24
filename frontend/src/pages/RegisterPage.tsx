@@ -2,6 +2,8 @@ import { useState, ChangeEvent, FormEvent } from "react"; // Dodano typy
 import { tryRegister } from "../api/auth";
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import toast from 'react-hot-toast';
+import BackButton from "../components/BackButton";
+import TopBar from "../components/TopBar";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -81,15 +83,15 @@ export default function RegisterPage() {
   };
 
   return (
-    // Używamy Container fluid, aby wypełnić całe tło i wyśrodkować zawartość
-    <Container fluid className="min-vh-100 d-flex justify-content-center align-items-center" style={{ backgroundColor: '#f4f7f6' }}>
-      <Row className="w-100">
-        {/* Ograniczamy szerokość formularza i centrujemy go */}
-        <Col md={6} lg={4} className="mx-auto">
-          {/* Komponent Card dla ładnego tła i cienia */}
-          <Card className="shadow-lg border-0">
-            <Card.Body className="p-4 p-md-5">
-              <h4 className="text-center mb-4">Dodaj użytkownika</h4>
+    <>
+      <TopBar title="Dodaj użytkownika" />
+      <Container className="mt-5 pt-5">
+        <BackButton />
+        <Row className="justify-content-center mt-3">
+          <Col md={8} lg={6}>
+            <Card className="shadow-sm">
+              <Card.Body className="p-4">
+                <h4 className="text-center mb-4">Dodaj nowego użytkownika</h4>
               
               {/* Komponent Form z react-bootstrap */}
               <Form onSubmit={handleSubmit}>
