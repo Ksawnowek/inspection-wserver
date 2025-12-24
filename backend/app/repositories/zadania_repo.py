@@ -278,12 +278,21 @@ class ZadaniaRepo:
         """Pobiera materiały użyte w zadaniu (dla awarii i prac różnych) używając funkcji fun_ZadanieInnePoz."""
         from sqlalchemy import text
 
-        # Wywołanie funkcji SQL fun_ZadanieInnePoz która zwraca materiały posortowane z Lp
-        stmt = text("""
-            SELECT Lp, ZMAT_Kod, ZMAT_Opis, ZMAT_Ilosc
-            FROM dbo.fun_ZadanieInnePoz(:znag_id)
-            ORDER BY Lp
-        """)
+        # Pobierz materiały bezpośrednio z tabeli ZadanieInneMaterial
+        from app.models.models import ZadanieInneMaterial
 
-        result = self.session.execute(stmt, {"znag_id": znag_id})
-        return [dict(row._mapping) for row in result]
+        materialy = self.session.query(ZadanieInneMaterial).filter(
+            ZadanieInneMaterial.ZMAT_ZNAGL_Id == znag_id
+        ).all()
+
+        # Konwertuj na słowniki z numeracją Lp
+        result = []
+        for idx, material in enumerate(materialy, start=1):
+            result.append({
+                'Lp': idx,
+                'ZMAT_Kod': material.ZMAT_Kod or '',
+                'ZMAT_Opis': material.ZMAT_Opis or '',
+                'ZMAT_Ilosc': material.ZMAT_Ilosc or ''
+            })
+
+        return result
