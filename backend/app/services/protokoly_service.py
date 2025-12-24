@@ -68,19 +68,19 @@ class ProtokolyService:
     #         # Tu można dodać logowanie błędu
     #         raise SaveError(f"Błąd zapisu zdjęcia: {e}")
 
-    def zapisz_podpis(self, pnagl_id: int, podpis_klienta: str, kto: str):
+    def zapisz_podpis(self, pnagl_id: int, podpis_klienta: str, kto: str, user_id: int, user_name: str):
         try:
-            self.repo.podpisz(pnagl_id, podpis_klienta, kto)
+            self.repo.podpisz(pnagl_id, podpis_klienta, kto, user_id, user_name)
             return {"ok": True}
         except Exception as e:
             raise SaveError(f"Błąd zapisu podpisu: {e}")
 
-    def zapisz_podpis_dla_wszystkich_protokolow_zadania(self, znag_id: int, podpis_klienta: str, kto: str):
+    def zapisz_podpis_dla_wszystkich_protokolow_zadania(self, znag_id: int, podpis_klienta: str, kto: str, user_id: int, user_name: str):
         """Podpisuje wszystkie protokoły powiązane z danym zadaniem."""
         try:
             protokol_ids = self.repo.get_all_protokol_ids_for_zadanie(znag_id)
             for pnagl_id in protokol_ids:
-                self.repo.podpisz(pnagl_id, podpis_klienta, kto)
+                self.repo.podpisz(pnagl_id, podpis_klienta, kto, user_id, user_name)
             return {"ok": True, "signed_count": len(protokol_ids)}
         except Exception as e:
             raise SaveError(f"Błąd zapisu podpisów dla wszystkich protokołów: {e}")

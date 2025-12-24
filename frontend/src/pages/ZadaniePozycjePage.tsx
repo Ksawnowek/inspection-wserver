@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getZadanie, getZadaniePozycje, setDoPrzegladu, patchZadanieMultiple, podpiszZadanie, podpiszWszystkieProtokoly, downloadZadaniePdf } from "../api/zadania";
+import { getZadanie, getZadaniePozycje, setDoPrzegladu, patchZadanieMultiple, podpiszZadanie, podpiszWszystkieProtokoly, downloadZadaniePdf, odswiezZadanie } from "../api/zadania";
 import { Zadanie, ZadaniePozycja } from "../types";
 import { Button, Form, Row, Col, Card } from 'react-bootstrap';
+import { ArrowClockwise } from 'react-bootstrap-icons';
 import Spinner from "../components/Spinner";
 import DoPrzegladuButton from "../components/DoPrzegladuButton";
 import SignatureDialog from "../components/SignatureDialog";
@@ -227,13 +228,40 @@ export default function ZadaniePozycjePage() {
     }
   }
 
+  const handleOdswiez = async () => {
+    if (!znagId) return;
+
+    try {
+      await toast.promise(
+        odswiezZadanie(Number(znagId)),
+        {
+          loading: 'Oznaczanie do aktualizacji...',
+          success: 'Zadanie oznaczone do aktualizacji!',
+          error: (err) => `Błąd: ${err.message || 'Nie udało się oznaczyć'}`,
+        }
+      );
+    } catch (error) {
+      console.error("Błąd odświeżania:", error);
+    }
+  };
+
   if (loading) return <Spinner />;
 
   return (
     <>
       <TopBar title={"Zadanie #" + znagId}/>
       <div className="container" style={{ marginTop: '70px' }}>
-        <BackButton/>
+        <div className="d-flex gap-2 align-items-center">
+          <BackButton/>
+          <Button
+            variant="outline-primary"
+            size="sm"
+            onClick={handleOdswiez}
+            title="Oznacz zadanie do aktualizacji"
+          >
+            <ArrowClockwise /> Odśwież
+          </Button>
+        </div>
 
         {/* Formularz edycji zadania */}
         <Card className="mt-3 mb-4">

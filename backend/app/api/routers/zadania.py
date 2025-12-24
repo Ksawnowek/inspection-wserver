@@ -78,6 +78,23 @@ def patch_zadania(
     except RuntimeError as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
+@router.post("/{znag_id}/odswiez")
+def odswiez_zadanie(
+        znag_id: int,
+        service: ZadaniaService = Depends(get_zadania_service),
+        user: Uzytkownik = Depends(any_logged_in_user)
+):
+    """Ustawia bit ZNAG_DoAktualizacji na 1 dla zadania."""
+    try:
+        from app.domain.requestsDTO import ZadanieUpdateDTO
+        update_dto = ZadanieUpdateDTO(ZNAG_DoAktualizacji=True)
+        updated_zadanie = service.patch_zadanie(znag_id, update_dto)
+        return {"ok": True, "message": "Zadanie oznaczone do aktualizacji"}
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except RuntimeError as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
 @router.post("/{znag_id}/podpis-wszystkie-protokoly")
 def podpisz_wszystkie_protokoly(
         znag_id: int,
@@ -87,10 +104,13 @@ def podpisz_wszystkie_protokoly(
 ):
     """Podpisuje wszystkie protokoły powiązane z danym zadaniem."""
     try:
+        user_full_name = f"{user.UZT_Imie} {user.UZT_Nazwisko}"
         result = protokoly_service.zapisz_podpis_dla_wszystkich_protokolow_zadania(
             znag_id,
             podpis_dto.Podpis,
-            podpis_dto.Klient
+            podpis_dto.Klient,
+            user.UZT_Id,
+            user_full_name
         )
         return result
     except SaveError as e:

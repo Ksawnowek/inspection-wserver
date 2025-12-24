@@ -93,6 +93,7 @@ class ZadanieNagl(Base):
     ZNAG_Tonaz: Mapped[Optional[str]] = mapped_column(TrimmedString(50, 'SQL_Latin1_General_CP1_CI_AS'))
     ZNAG_AwariaNumer: Mapped[Optional[str]] = mapped_column(TrimmedString(50, 'SQL_Latin1_General_CP1_CI_AS'))
     ZNAG_OkrGwar: Mapped[Optional[bool]] = mapped_column(Boolean)
+    ZNAG_DoAktualizacji: Mapped[Optional[bool]] = mapped_column(Boolean, server_default=text('((0))'))
 
     ZadaniePoz: Mapped[list['ZadaniePoz']] = relationship('ZadaniePoz', back_populates='ZadanieNagl_')
 
@@ -269,6 +270,8 @@ class ProtokolNagl(Base):
     PNAGL_Tytul: Mapped[str] = mapped_column(TrimmedString(255, 'SQL_Latin1_General_CP1_CI_AS'), nullable=False)
     PNAGL_Aktywny: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default=text('((1))'))
     PNAGL_UZTOstatni: Mapped[str] = mapped_column(TrimmedString(50, 'SQL_Latin1_General_CP1_CI_AS'), nullable=False, server_default=text("(N'System')"))
+    PNAGL_UZT_Id_Ostatni: Mapped[Optional[int]] = mapped_column(SmallInteger)
+    PNAGL_UzytkownikPodpisujacy: Mapped[Optional[str]] = mapped_column(TrimmedString(100, 'SQL_Latin1_General_CP1_CI_AS'))
     PNAGL_TS: Mapped[datetime.datetime] = mapped_column(DATETIME2, nullable=False, server_default=text('(getdate())'))
     PNAGL_Klient: Mapped[Optional[str]] = mapped_column(TrimmedString(120, 'SQL_Latin1_General_CP1_CI_AS'))
     PNAGL_Miejscowosc: Mapped[Optional[str]] = mapped_column(TrimmedString(120, 'SQL_Latin1_General_CP1_CI_AS'))

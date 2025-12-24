@@ -59,13 +59,15 @@ class ProtokolyRepo:
 
 
 
-    def podpisz(self, pnagl_id: int, podpis_klienta: str, zaakceptowal: str):
-        stmt = text("EXEC dbo.sp_PNAGL_Podpisz :pnagl_id, :podpis, :akcept")
+    def podpisz(self, pnagl_id: int, podpis_klienta: str, zaakceptowal: str, user_id: int, user_name: str):
+        stmt = text("EXEC dbo.sp_PNAGL_Podpisz :pnagl_id, :podpis, :akcept, :user_id, :user_name")
 
         params = {
             "pnagl_id": pnagl_id,
             "podpis": podpis_klienta,
-            "akcept": zaakceptowal
+            "akcept": zaakceptowal,
+            "user_id": user_id,
+            "user_name": user_name
         }
 
         self.session.execute(stmt, params)

@@ -111,7 +111,8 @@ def podpisz(
     user: Uzytkownik = Depends(any_logged_in_user)
 ):
     try:
-        return service.zapisz_podpis(pnagl_id, podpis_dto.Podpis, podpis_dto.Klient)
+        user_full_name = f"{user.UZT_Imie} {user.UZT_Nazwisko}"
+        return service.zapisz_podpis(pnagl_id, podpis_dto.Podpis, podpis_dto.Klient, user.UZT_Id, user_full_name)
     except SaveError as e:
         raise HTTPException(status_code=400, detail=str(e))
 

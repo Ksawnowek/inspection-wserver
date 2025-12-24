@@ -157,3 +157,9 @@ export async function updateOpisPrac(zopId: number, opisPrac: string): Promise<O
 export async function deleteOpisPrac(zopId: number): Promise<void> {
   await api.delete(`/zadania/opisy-prac/${zopId}`);
 }
+
+/** Odśwież zadanie - ustawia bit ZNAG_DoAktualizacji na 1 */
+export async function odswiezZadanie(znagId: number): Promise<{ ok: boolean; message: string }> {
+  const { data } = await api.post(`/zadania/${znagId}/odswiez`);
+  return data;
+}

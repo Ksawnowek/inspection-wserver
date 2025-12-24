@@ -1,0 +1,88 @@
+# Migracje Bazy Danych
+
+## Przegląd
+
+Ten katalog zawiera skrypty SQL do aktualizacji struktury bazy danych i procedur składowanych.
+
+## Kolejność wykonywania
+
+Migracje powinny być wykonywane w kolejności numerycznej:
+
+1. `000_add_missing_columns.sql` - Dodaje brakujące kolumny do tabel
+2. `001_update_sp_PNAGL_Podpisz.sql` - Aktualizuje procedurę składowaną podpisywania protokołów
+
+## Jak zastosować migracje
+
+### SQL Server Management Studio (SSMS)
+
+1. Otwórz SQL Server Management Studio
+2. Połącz się z bazą danych
+3. Otwórz plik migracji (File -> Open -> File)
+4. **WAŻNE**: W pliku `000_add_missing_columns.sql` zamień `[YourDatabaseName]` na nazwę swojej bazy danych
+5. Wykonaj skrypt (F5 lub Execute)
+6. Sprawdź komunikaty w oknie Messages, aby upewnić się, że migracja przebiegła pomyślnie
+
+### sqlcmd (wiersz poleceń)
+
+```bash
+# Uruchom migrację dodającą kolumny (najpierw edytuj plik i zmień nazwę bazy!)
+sqlcmd -S your_server -d your_database -i 000_add_missing_columns.sql
+
+# Uruchom migrację aktualizującą procedurę
+sqlcmd -S your_server -d your_database -i 001_update_sp_PNAGL_Podpisz.sql
+```
+
+## Zmiany wprowadzone przez migracje
+
+### 000_add_missing_columns.sql
+
+Dodaje następujące kolumny (jeśli nie istnieją):
+
+- **ProtokolNagl.PNAGL_UZT_Id_Ostatni** (SMALLINT) - ID użytkownika, który ostatnio modyfikował/podpisał protokół
+- **ProtokolNagl.PNAGL_UzytkownikPodpisujacy** (NVARCHAR(100)) - Pełne imię i nazwisko użytkownika zbierającego podpis
+- **ZadanieNagl.ZNAG_DoAktualizacji** (BIT) - Flaga wskazująca, że zadanie wymaga aktualizacji (domyślnie 0)
+
+### 001_update_sp_PNAGL_Podpisz.sql
+
+Aktualizuje procedurę składowaną `sp_PNAGL_Podpisz`:
+
+- Dodaje parametry `@user_id` i `@user_name`
+- Ustawia nowe pola podczas podpisywania protokołu:
+  - `PNAGL_UZT_Id_Ostatni` - ID użytkownika
+  - `PNAGL_UzytkownikPodpisujacy` - Imię i nazwisko użytkownika
+  - `PNAGL_UZTOstatni` - Imię i nazwisko użytkownika (dla zgodności)
+  - `PNAGL_TS` - Timestamp aktualizacji
+
+## Weryfikacja
+
+Po zastosowaniu migracji zweryfikuj zmiany:
+
+```sql
+-- Sprawdź czy kolumny zostały dodane
+SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'ProtokolNagl'
+AND COLUMN_NAME IN ('PNAGL_UZT_Id_Ostatni', 'PNAGL_UzytkownikPodpisujacy');
+
+SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'ZadanieNagl'
+AND COLUMN_NAME = 'ZNAG_DoAktualizacji';
+
+-- Sprawdź czy procedura została zaktualizowana
+EXEC sp_helptext 'sp_PNAGL_Podpisz';
+```
+
+## Wycofanie zmian (Rollback)
+
+W razie potrzeby wycofania zmian:
+
+```sql
+-- Usuń dodane kolumny
+ALTER TABLE ProtokolNagl DROP COLUMN PNAGL_UZT_Id_Ostatni;
+ALTER TABLE ProtokolNagl DROP COLUMN PNAGL_UzytkownikPodpisujacy;
+ALTER TABLE ZadanieNagl DROP COLUMN ZNAG_DoAktualizacji;
+
+-- Przywróć starą wersję procedury (bez nowych parametrów)
+-- UWAGA: To usunie nową wersję procedury!
+```
