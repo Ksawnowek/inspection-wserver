@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/ProtectedRoute"
+import RoleProtectedRoute from "./components/RoleProtectedRoute"
 import ManageUsersPage from "./pages/ManageUsersPage.tsx"
 
 export default function App() {
@@ -20,8 +21,13 @@ export default function App() {
           <Route path="/zadania/:znagId" element={<ZadaniePozycjePage />} />
           <Route path="/awaria/:znagId" element={<AwariaPage />} />
           <Route path="/protokol/:pnaglId" element={<ProtokolPage />} />
-          <Route path="register" element={<RegisterPage />} />
-          <Route path="manage-users" element={<ManageUsersPage />} />
+
+          {/* Strony tylko dla Kierownika */}
+          <Route element={<RoleProtectedRoute allowedRoles={['Kierownik']} />}>
+            <Route path="register" element={<RegisterPage />} />
+            <Route path="manage-users" element={<ManageUsersPage />} />
+          </Route>
+
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
