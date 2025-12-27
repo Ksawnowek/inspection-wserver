@@ -6,23 +6,29 @@ from pathlib import Path
 
 from fastapi import HTTPException
 
-from app.core.paths import STORAGE_DIR
 from app.repositories.zdjecia_repo import ZdjeciaRepo
+from app.services.config_service import ConfigService
 
 
 class ZdjeciaService:
-    def __init__(self, repo: ZdjeciaRepo):
+    def __init__(self, repo: ZdjeciaRepo, config_service: ConfigService):
         self.repo = repo
-        self.storage_dir = Path(STORAGE_DIR)
-        self.photo_subdir_name = os.getenv("PHOTO_SUBDIR", "photos")
-        self.photo_dir = self.storage_dir / self.photo_subdir_name
-        self.photo_dir.mkdir(parents=True, exist_ok=True)
+        self.config_service = config_service
+
+    def _get_photo_dir(self) -> Path:
+        """Pobiera ścieżkę do katalogu ze zdjęciami z konfiguracji"""
+        sciezka = self.config_service.get_zdjecia_sciezka()
+        photo_dir = Path(sciezka)
+        photo_dir.mkdir(parents=True, exist_ok=True)
+        return photo_dir
 
     async def add_pozycja_zdjecie(self, ppoz_id, file):
+        photo_dir = self._get_photo_dir()
+
         file_ext = os.path.splitext(file.filename)[1]
         safe_filename = f"{uuid.uuid4()}{file_ext}"
-        #TODO zmiana zhardcodeowanej wartości
-        file_path = self.photo_dir / safe_filename
+        file_path = photo_dir / safe_filename
+
         try:
             async with aiofiles.open(file_path, "wb") as out_file:
                 content = await file.read()
@@ -31,7 +37,8 @@ class ZdjeciaService:
             print(f"BŁĄD REPOZYTORIUM: Nie udało się zapisać pliku {file_path}: {e}")
             raise HTTPException(status_code=500, detail="Błąd zapisu pliku na serwerze")
 
-        file_url = f"/storage/{self.photo_subdir_name}/{safe_filename}"
+        # Zapisz pełną ścieżkę do bazy danych
+        file_url = str(file_path)
 
         zdjecie = self.repo.dodaj_zdjecie(ppoz_id, file_url)
 
@@ -44,8 +51,7 @@ class ZdjeciaService:
             raise HTTPException(status_code=404, detail="Nie znaleziono zdjęcia o podanym ID")
 
         try:
-            file_name = Path(zdjecie.ZDJP_Sciezka).name
-            file_path_to_delete = self.photo_dir / file_name
+            file_path_to_delete = Path(zdjecie.ZDJP_Sciezka)
         except Exception as e:
             print(f"BŁĄD: Nie można ustalić ścieżki pliku dla {zdjecie.ZDJP_Sciezka}: {e}")
             raise HTTPException(status_code=500, detail="Błąd przetwarzania ścieżki pliku")
@@ -61,3 +67,4 @@ class ZdjeciaService:
         self.repo.delete_zdjecie(zdjecie)
 
         return True
+

@@ -74,9 +74,10 @@ def get_zadania_service(
 
 
 def get_zdjecia_service(
-        repo: ZdjeciaRepo = Depends(get_zdjecia_repo)
+        repo: ZdjeciaRepo = Depends(get_zdjecia_repo),
+        config_service: ConfigService = Depends(get_config_service)
 )-> ZdjeciaService:
-    return ZdjeciaService(repo)
+    return ZdjeciaService(repo, config_service)
 
 def get_pdf_service(
         zadania_service: ZadaniaService = Depends(get_zadania_service)
