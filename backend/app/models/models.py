@@ -87,7 +87,6 @@ class ZadanieNagl(Base):
     ZNAG_KlientDzial: Mapped[Optional[str]] = mapped_column(TrimmedString(25, 'SQL_Latin1_General_CP1_CI_AS'))
     ZNAG_KlientDataZatw: Mapped[Optional[datetime.datetime]] = mapped_column(DATETIME2)
     ZNAG_KlientPodpis: Mapped[Optional[str]] = mapped_column(UnicodeText(collation='SQL_Latin1_General_CP1_CI_AS'))
-    ZNAG_DataPodpisu: Mapped[Optional[datetime.datetime]] = mapped_column(DATETIME2)
     ZNAG_PodpisDoProtokolow: Mapped[Optional[bool]] = mapped_column(Boolean, server_default=text('((0))'))
     ZNAG_Uwagi: Mapped[Optional[str]] = mapped_column(TrimmedString(250, 'SQL_Latin1_General_CP1_CI_AS'))
     ZNAG_UwagiGodziny: Mapped[Optional[str]] = mapped_column(TrimmedString(150, 'SQL_Latin1_General_CP1_CI_AS'))
@@ -96,6 +95,9 @@ class ZadanieNagl(Base):
     ZNAG_AwariaNumer: Mapped[Optional[str]] = mapped_column(TrimmedString(50, 'SQL_Latin1_General_CP1_CI_AS'))
     ZNAG_OkrGwar: Mapped[Optional[bool]] = mapped_column(Boolean)
     ZNAG_DoAktualizacji: Mapped[Optional[bool]] = mapped_column(Boolean, server_default=text('((0))'))
+    ZNAG_UZT_Id_Ostatni: Mapped[Optional[int]] = mapped_column(SmallInteger)
+    ZNAG_TS_Ostatni: Mapped[Optional[datetime.datetime]] = mapped_column(DATETIME2)
+    ZNAG_UzytkownikPodpisujacy: Mapped[Optional[str]] = mapped_column(TrimmedString(100, 'SQL_Latin1_General_CP1_CI_AS'))
 
     ZadaniePoz: Mapped[list['ZadaniePoz']] = relationship('ZadaniePoz', back_populates='ZadanieNagl_')
 

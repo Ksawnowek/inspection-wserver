@@ -108,10 +108,11 @@ def podpisz_wszystkie_protokoly(
         from datetime import datetime
 
         # Ustaw podpis na zadaniu i bit że dotyczy protokołów
+        # ZNAG_TS_Ostatni - timestamp zebrania podpisu
         update_dto = ZadanieUpdateDTO(
             ZNAG_KlientPodpis=podpis_dto.Podpis,
-            ZNAG_DataPodpisu=datetime.now(),
-            ZNAG_PodpisDoProtokolow=True
+            ZNAG_PodpisDoProtokolow=True,
+            ZNAG_TS_Ostatni=datetime.now()
         )
         service.patch_zadanie(znag_id, update_dto)
 

@@ -41,8 +41,9 @@ Dodaje następujące kolumny (jeśli nie istnieją):
 - **ProtokolNagl.PNAGL_UZT_Id_Ostatni** (SMALLINT) - ID użytkownika, który ostatnio modyfikował/podpisał protokół
 - **ProtokolNagl.PNAGL_UzytkownikPodpisujacy** (NVARCHAR(100)) - Pełne imię i nazwisko użytkownika zbierającego podpis
 - **ZadanieNagl.ZNAG_DoAktualizacji** (BIT) - Flaga wskazująca, że zadanie wymaga aktualizacji (domyślnie 0)
-- **ZadanieNagl.ZNAG_DataPodpisu** (DATETIME2) - Data i godzina zebrania podpisu klienta na zadaniu
 - **ZadanieNagl.ZNAG_PodpisDoProtokolow** (BIT) - Flaga wskazująca, że podpis z zadania ma być użyty dla wszystkich protokołów (domyślnie 0)
+
+**Uwaga**: Data podpisu jest przechowywana w istniejącym polu **ZNAG_TS_Ostatni** (timestamp ostatniej modyfikacji zadania).
 
 ### 001_update_sp_PNAGL_Podpisz.sql
 
@@ -69,7 +70,7 @@ AND COLUMN_NAME IN ('PNAGL_UZT_Id_Ostatni', 'PNAGL_UzytkownikPodpisujacy');
 SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'ZadanieNagl'
-AND COLUMN_NAME IN ('ZNAG_DoAktualizacji', 'ZNAG_DataPodpisu', 'ZNAG_PodpisDoProtokolow');
+AND COLUMN_NAME IN ('ZNAG_DoAktualizacji', 'ZNAG_PodpisDoProtokolow', 'ZNAG_TS_Ostatni');
 
 -- Sprawdź czy procedura została zaktualizowana
 EXEC sp_helptext 'sp_PNAGL_Podpisz';
@@ -84,7 +85,6 @@ W razie potrzeby wycofania zmian:
 ALTER TABLE ProtokolNagl DROP COLUMN PNAGL_UZT_Id_Ostatni;
 ALTER TABLE ProtokolNagl DROP COLUMN PNAGL_UzytkownikPodpisujacy;
 ALTER TABLE ZadanieNagl DROP COLUMN ZNAG_DoAktualizacji;
-ALTER TABLE ZadanieNagl DROP COLUMN ZNAG_DataPodpisu;
 ALTER TABLE ZadanieNagl DROP COLUMN ZNAG_PodpisDoProtokolow;
 
 -- Przywróć starą wersję procedury (bez nowych parametrów)

@@ -257,7 +257,7 @@
                 {# Pobierz podpis z zadania #}
                 <div style="display: flex; justify-content: space-between;">
                     <div>
-                        Data podpisu: {{ naglowek_zadanie.ZNAG_DataPodpisu.strftime('%d/%m/%Y %H:%M') if naglowek_zadanie.ZNAG_DataPodpisu else (naglowek_zadanie.ZNAG_KlientDataZatw.strftime('%d/%m/%Y') if naglowek_zadanie.ZNAG_KlientDataZatw else '____/____/____') }}
+                        Data podpisu: {{ naglowek_zadanie.ZNAG_TS_Ostatni.strftime('%d/%m/%Y %H:%M') if naglowek_zadanie.ZNAG_TS_Ostatni else (naglowek_zadanie.ZNAG_KlientDataZatw.strftime('%d/%m/%Y') if naglowek_zadanie.ZNAG_KlientDataZatw else '____/____/____') }}
                     </div>
                     <div>
                         Zaakceptował: {{ naglowek_zadanie.ZNAG_KlientNazwisko or '_____________________' }}

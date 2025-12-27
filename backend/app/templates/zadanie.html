@@ -292,7 +292,7 @@
                     <strong>Nazwisko:</strong> {{ naglowek.ZNAG_KlientNazwisko or '____________________________' }}
                 </div>
                 <div class="col-6">
-                    <strong>Data podpisu:</strong> {{ naglowek.ZNAG_DataPodpisu.strftime('%d-%m-%Y %H:%M') if naglowek.ZNAG_DataPodpisu else (naglowek.ZNAG_KlientDataZatw.strftime('%d-%m-%Y') if naglowek.ZNAG_KlientDataZatw else '____________________________') }}
+                    <strong>Data podpisu:</strong> {{ naglowek.ZNAG_TS_Ostatni.strftime('%d-%m-%Y %H:%M') if naglowek.ZNAG_TS_Ostatni else (naglowek.ZNAG_KlientDataZatw.strftime('%d-%m-%Y') if naglowek.ZNAG_KlientDataZatw else '____________________________') }}
                 </div>
             </div>
             <div class="row mt-3">
