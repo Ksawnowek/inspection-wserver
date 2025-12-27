@@ -11,6 +11,7 @@ from app.api.routers.zdjecia import router as zdjecia_router
 from app.api.routers.users import router as users_router
 from app.api.routers.auth import router as auth_router
 from app.api.routers.raporty import router as raporty_router
+from app.api.routers.config import router as config_router
 from app.core.paths import PDF_DIR, SIG_DIR, STORAGE_DIR  # sam import utworzy katalogi
 from fastapi.security import OAuth2PasswordBearer
 
@@ -38,4 +39,5 @@ app.include_router(auth_router)
 app.include_router(zdjecia_router)
 app.include_router(users_router)
 app.include_router(raporty_router)
+app.include_router(config_router)
 

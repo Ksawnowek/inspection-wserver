@@ -346,3 +346,18 @@ class ZdjeciaProtokolPoz(Base):
     ZDJP_Sciezka: Mapped[str] = mapped_column(TrimmedString(255, 'SQL_Latin1_General_CP1_CI_AS'), nullable=False)
 
     ProtokolPoz_: Mapped['ProtokolPoz'] = relationship('ProtokolPoz', back_populates='ZdjeciaProtokolPoz')
+
+
+class Config(Base):
+    """Tabela konfiguracji aplikacji (klucz-wartość)"""
+    __tablename__ = 'Config'
+    __table_args__ = (
+        PrimaryKeyConstraint('CONF_Id', name='PK_Config'),
+    )
+
+    CONF_Id: Mapped[int] = mapped_column(Integer, Identity(start=1, increment=1), primary_key=True)
+    CONF_Klucz: Mapped[str] = mapped_column(TrimmedString(100, 'SQL_Latin1_General_CP1_CI_AS'), nullable=False, unique=True)
+    CONF_Wartosc: Mapped[Optional[str]] = mapped_column(TrimmedString(500, 'SQL_Latin1_General_CP1_CI_AS'))
+    CONF_Opis: Mapped[Optional[str]] = mapped_column(TrimmedString(255, 'SQL_Latin1_General_CP1_CI_AS'))
+    CONF_TS: Mapped[datetime.datetime] = mapped_column(DATETIME2, nullable=False, server_default=text('(getdate())'))
+

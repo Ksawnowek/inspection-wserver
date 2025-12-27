@@ -7,7 +7,9 @@ from app.models.models import Uzytkownik
 from app.repositories.users_repo import UserRepo
 from app.repositories.zadania_repo import ZadaniaRepo
 from app.repositories.zdjecia_repo import ZdjeciaRepo
+from app.repositories.config_repo import ConfigRepo
 from app.services.auth_service import AuthService
+from app.services.config_service import ConfigService
 from app.services.user_service import UserService
 from app.services.zadania_service import ZadaniaService
 from app.services.zdjecia_service import ZdjeciaService
@@ -38,6 +40,9 @@ def get_zdjecia_repo(
     session: Session = Depends(get_session)
 ) -> ZdjeciaRepo:
     return ZdjeciaRepo(session)
+
+def get_config_repo(session: Session = Depends(get_session)) -> ConfigRepo:
+    return ConfigRepo(session)
 
 """
 ZALEŻNOŚCI SERWISÓW
@@ -84,6 +89,11 @@ def get_user_service(
         auth_service: AuthService = Depends(get_auth_service),
 ):
     return UserService(repo, auth_service)
+
+def get_config_service(
+        repo: ConfigRepo = Depends(get_config_repo)
+) -> ConfigService:
+    return ConfigService(repo)
 
 """
 ZALEŻNOŚCI DO ZABEZPIECZEŃ ENDPOINTÓW
