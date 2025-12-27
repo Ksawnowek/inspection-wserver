@@ -73,6 +73,11 @@ def get_zadania_service(
     return ZadaniaService(repo, session)
 
 
+def get_config_service(
+        repo: ConfigRepo = Depends(get_config_repo)
+) -> ConfigService:
+    return ConfigService(repo)
+
 def get_zdjecia_service(
         repo: ZdjeciaRepo = Depends(get_zdjecia_repo),
         config_service: ConfigService = Depends(get_config_service)
@@ -90,11 +95,6 @@ def get_user_service(
         auth_service: AuthService = Depends(get_auth_service),
 ):
     return UserService(repo, auth_service)
-
-def get_config_service(
-        repo: ConfigRepo = Depends(get_config_repo)
-) -> ConfigService:
-    return ConfigService(repo)
 
 """
 ZALEŻNOŚCI DO ZABEZPIECZEŃ ENDPOINTÓW
