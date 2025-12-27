@@ -99,21 +99,29 @@ def odswiez_zadanie(
 def podpisz_wszystkie_protokoly(
         znag_id: int,
         podpis_dto: ProtokolPodpisDTO,
-        protokoly_service: ProtokolyService = Depends(get_protokoly_service),
+        service: ZadaniaService = Depends(get_zadania_service),
         user: Uzytkownik = Depends(any_logged_in_user)
 ):
-    """Podpisuje wszystkie protokoły powiązane z danym zadaniem."""
+    """Ustawia podpis i bit ZNAG_PodpisDoProtokolow=1 dla zadania (podpis dla wszystkich protokołów)."""
     try:
-        user_full_name = f"{user.UZT_Imie} {user.UZT_Nazwisko}"
-        result = protokoly_service.zapisz_podpis_dla_wszystkich_protokolow_zadania(
-            znag_id,
-            podpis_dto.Podpis,
-            podpis_dto.Klient,
-            user.UZT_Id,
-            user_full_name
+        from app.domain.requestsDTO import ZadanieUpdateDTO
+        from datetime import datetime
+
+        # Ustaw podpis na zadaniu i bit że dotyczy protokołów
+        update_dto = ZadanieUpdateDTO(
+            ZNAG_KlientPodpis=podpis_dto.Podpis,
+            ZNAG_DataPodpisu=datetime.now(),
+            ZNAG_PodpisDoProtokolow=True
         )
-        return result
-    except SaveError as e:
+        service.patch_zadanie(znag_id, update_dto)
+
+        # Policz ile protokołów będzie objętych tym podpisem
+        from app.dependencies import get_protokoly_service as get_prot_svc
+        protokoly_service = get_prot_svc()
+        protokol_ids = protokoly_service.repo.get_all_protokol_ids_for_zadanie(znag_id)
+
+        return {"ok": True, "signed_count": len(protokol_ids), "message": "Podpis ustawiony dla wszystkich protokołów"}
+    except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("/{znag_id}")

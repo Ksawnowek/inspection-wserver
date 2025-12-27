@@ -253,19 +253,38 @@
 
         <!-- Sekcja podpisów -->
         <div class="signature-section">
-            <div style="display: flex; justify-content: space-between;">
-                <div>
-                    Data realizacji: {{ naglowek_protokol.PNAGL_DataAkceptacji.strftime('%d/%m/%Y') if naglowek_protokol.PNAGL_DataAkceptacji else '____/____/____' }}
+            {% if naglowek_zadanie and naglowek_zadanie.ZNAG_PodpisDoProtokolow %}
+                {# Pobierz podpis z zadania #}
+                <div style="display: flex; justify-content: space-between;">
+                    <div>
+                        Data podpisu: {{ naglowek_zadanie.ZNAG_DataPodpisu.strftime('%d/%m/%Y %H:%M') if naglowek_zadanie.ZNAG_DataPodpisu else (naglowek_zadanie.ZNAG_KlientDataZatw.strftime('%d/%m/%Y') if naglowek_zadanie.ZNAG_KlientDataZatw else '____/____/____') }}
+                    </div>
+                    <div>
+                        Zaakceptował: {{ naglowek_zadanie.ZNAG_KlientNazwisko or '_____________________' }}
+                    </div>
                 </div>
-                <div>
-                    Zaakceptował: {{ naglowek_protokol.PNAGL_Zaakceptowal or '_____________________' }}
+                {% if naglowek_zadanie.ZNAG_KlientPodpis %}
+                <div style="margin-top: 10px; text-align: right;">
+                    <div><strong>Podpis klienta:</strong></div>
+                    <img src="{{ naglowek_zadanie.ZNAG_KlientPodpis }}" style="max-width: 200px; max-height: 60px; display: inline-block;" alt="Podpis">
                 </div>
-            </div>
-            {% if naglowek_protokol.PNAGL_PodpisKlienta %}
-            <div style="margin-top: 10px; text-align: right;">
-                <div><strong>Podpis klienta:</strong></div>
-                <img src="{{ naglowek_protokol.PNAGL_PodpisKlienta }}" style="max-width: 200px; max-height: 60px; display: inline-block;" alt="Podpis">
-            </div>
+                {% endif %}
+            {% else %}
+                {# Pobierz podpis z protokołu (stare zachowanie) #}
+                <div style="display: flex; justify-content: space-between;">
+                    <div>
+                        Data realizacji: {{ naglowek_protokol.PNAGL_DataAkceptacji.strftime('%d/%m/%Y') if naglowek_protokol.PNAGL_DataAkceptacji else '____/____/____' }}
+                    </div>
+                    <div>
+                        Zaakceptował: {{ naglowek_protokol.PNAGL_Zaakceptowal or '_____________________' }}
+                    </div>
+                </div>
+                {% if naglowek_protokol.PNAGL_PodpisKlienta %}
+                <div style="margin-top: 10px; text-align: right;">
+                    <div><strong>Podpis klienta:</strong></div>
+                    <img src="{{ naglowek_protokol.PNAGL_PodpisKlienta }}" style="max-width: 200px; max-height: 60px; display: inline-block;" alt="Podpis">
+                </div>
+                {% endif %}
             {% endif %}
         </div>
 

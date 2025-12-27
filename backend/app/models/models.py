@@ -87,6 +87,8 @@ class ZadanieNagl(Base):
     ZNAG_KlientDzial: Mapped[Optional[str]] = mapped_column(TrimmedString(25, 'SQL_Latin1_General_CP1_CI_AS'))
     ZNAG_KlientDataZatw: Mapped[Optional[datetime.datetime]] = mapped_column(DATETIME2)
     ZNAG_KlientPodpis: Mapped[Optional[str]] = mapped_column(UnicodeText(collation='SQL_Latin1_General_CP1_CI_AS'))
+    ZNAG_DataPodpisu: Mapped[Optional[datetime.datetime]] = mapped_column(DATETIME2)
+    ZNAG_PodpisDoProtokolow: Mapped[Optional[bool]] = mapped_column(Boolean, server_default=text('((0))'))
     ZNAG_Uwagi: Mapped[Optional[str]] = mapped_column(TrimmedString(250, 'SQL_Latin1_General_CP1_CI_AS'))
     ZNAG_UwagiGodziny: Mapped[Optional[str]] = mapped_column(TrimmedString(150, 'SQL_Latin1_General_CP1_CI_AS'))
     ZNAG_Urzadzenie: Mapped[Optional[str]] = mapped_column(TrimmedString(100, 'SQL_Latin1_General_CP1_CI_AS'))

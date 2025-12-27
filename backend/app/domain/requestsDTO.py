@@ -17,6 +17,8 @@ class ZadanieUpdateDTO(BaseModel):
     ZNAG_Uwagi: Optional[str] = None
     ZNAG_UwagiGodziny: Optional[str] = None
     ZNAG_KlientPodpis: Optional[str] = None
+    ZNAG_DataPodpisu: Optional[datetime] = None
+    ZNAG_PodpisDoProtokolow: Optional[bool] = None
     ZNAG_GodzSwieta: Optional[str] = None
     ZNAG_GodzSobNoc: Optional[str] = None
     ZNAG_DoAktualizacji: Optional[bool] = None
