@@ -57,15 +57,15 @@ class ZadaniaService:
         update_data = dto_data.model_dump(exclude_unset=True)
         for key, value in update_data.items():
             setattr(zadanie, key, value)
-        return zadanie
-        # try:
-        #     self.session.commit()
-        #     self.session.refresh(zadanie)
-        #     return zadanie
-        # except Exception as e:
-        #     self.session.rollback()
-        #     print(f"Błąd podczas patch_zadanie: {e}")
-        #     raise RuntimeError("Błąd serwera podczas zapisu danych.")
+
+        try:
+            self.session.commit()
+            self.session.refresh(zadanie)
+            return zadanie
+        except Exception as e:
+            self.session.rollback()
+            print(f"Błąd podczas patch_zadanie: {e}")
+            raise RuntimeError("Błąd serwera podczas zapisu danych.")
 
     def zapisz_podpis(self, znag_id, podpis_klienta):
         pass

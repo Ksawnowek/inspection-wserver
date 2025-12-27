@@ -19,6 +19,8 @@ class ZadanieUpdateDTO(BaseModel):
     ZNAG_KlientPodpis: Optional[str] = None
     ZNAG_PodpisDoProtokolow: Optional[bool] = None
     ZNAG_TS_Ostatni: Optional[datetime] = None
+    ZNAG_UZT_Id_Ostatni: Optional[int] = None
+    ZNAG_UzytkownikPodpisujacy: Optional[str] = None
     ZNAG_GodzSwieta: Optional[str] = None
     ZNAG_GodzSobNoc: Optional[str] = None
     ZNAG_DoAktualizacji: Optional[bool] = None
