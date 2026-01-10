@@ -5,12 +5,12 @@
 USE [YourDatabaseName] -- Zmień na nazwę swojej bazy danych
 GO
 
--- Dodanie pola PNAGL_Dopuszczenie
+-- Dodanie pola PNAGL_Dopuszczenie (BIT - 0=NIE, 1=TAK)
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[ProtokolNagl]') AND name = 'PNAGL_Dopuszczenie')
 BEGIN
     ALTER TABLE [dbo].[ProtokolNagl]
-    ADD PNAGL_Dopuszczenie NVARCHAR(200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL;
-    PRINT 'Dodano pole PNAGL_Dopuszczenie do tabeli ProtokolNagl';
+    ADD PNAGL_Dopuszczenie BIT NULL;
+    PRINT 'Dodano pole PNAGL_Dopuszczenie (BIT) do tabeli ProtokolNagl';
 END
 ELSE
 BEGIN

@@ -26,7 +26,7 @@ export default function ProtokolPage() {
   const [generatingPdf, setGeneratingPdf] = useState(false);
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [uwagiValue, setUwagiValue] = useState<string>('');
-  const [dopuszczenieValue, setDopuszczenieValue] = useState<string>('');
+  const [dopuszczenieValue, setDopuszczenieValue] = useState<boolean>(false);
   const [klientNazwiskoValue, setKlientNazwiskoValue] = useState<string>('');
   const [klientDzialValue, setKlientDzialValue] = useState<string>('');
   const [klientDataZatwValue, setKlientDataZatwValue] = useState<string>('');
@@ -56,7 +56,7 @@ export default function ProtokolPage() {
     getProtokolNaglowek(Number(pnaglId)).then((nagl) => {
       setNaglowekData(nagl);
       setUwagiValue(nagl.PNAGL_Uwagi || '');
-      setDopuszczenieValue(nagl.PNAGL_Dopuszczenie || '');
+      setDopuszczenieValue(nagl.PNAGL_Dopuszczenie || false);
       setKlientNazwiskoValue(nagl.PNAGL_KlientNazwisko || '');
       setKlientDzialValue(nagl.PNAGL_KlientDzial || '');
       if (nagl.PNAGL_KlientDataZatw) {
@@ -109,11 +109,10 @@ export default function ProtokolPage() {
     }
   }, [uwagiValue, naglowekData?.PNAGL_Uwagi, patchNagl]);
 
-  const handleDopuszczenieBlur = useCallback(() => {
-    if (dopuszczenieValue !== (naglowekData?.PNAGL_Dopuszczenie || '')) {
-      patchNagl({ PNAGL_Dopuszczenie: dopuszczenieValue });
-    }
-  }, [dopuszczenieValue, naglowekData?.PNAGL_Dopuszczenie, patchNagl]);
+  const handleDopuszczenieChange = useCallback((value: boolean) => {
+    setDopuszczenieValue(value);
+    patchNagl({ PNAGL_Dopuszczenie: value });
+  }, [patchNagl]);
 
   const handleKlientNazwiskoBlur = useCallback(() => {
     if (klientNazwiskoValue !== (naglowekData?.PNAGL_KlientNazwisko || '')) {
@@ -338,41 +337,74 @@ export default function ProtokolPage() {
             <div><b>Miejscowość:</b> {naglowekData.PNAGL_Miejscowosc}</div>
             <div><b>Nr urządzenia:</b> {naglowekData.PNAGL_NrUrzadzenia}</div>
           </div>
-          <div style={{ marginBottom:12 }}>
-            <label htmlFor="pnagl-uwagi" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
-              Uwagi do protokołu:
-            </label>
-            <textarea
-              id="pnagl-uwagi"
-              className="form-control"
-              value={uwagiValue}
-              onChange={(e) => setUwagiValue(e.target.value)}
-              onBlur={handleUwagiBlur}
-              rows={6}
-              placeholder="Wpisz uwagi do protokołu..."
-              disabled={isPodpisany}
-            />
-          </div>
 
           <div style={{ marginBottom:12 }}>
-            <label htmlFor="pnagl-dopuszczenie" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
-              Dopuszczenie urządzenia do eksploatacji:
+            <label htmlFor="pnagl-dopuszczenie" style={{ display: 'block', fontWeight: 'bold', marginBottom: 8 }}>
+              Urządzenie nadaje się do dalszej eksploatacji:
             </label>
-            <input
-              id="pnagl-dopuszczenie"
-              type="text"
-              className="form-control"
-              value={dopuszczenieValue}
-              onChange={(e) => setDopuszczenieValue(e.target.value)}
-              onBlur={handleDopuszczenieBlur}
-              placeholder="np. Dopuszczone, Niedopuszczone, Warunkowo dopuszczone..."
-              disabled={isPodpisany}
-            />
+            <div style={{ display: 'flex', gap: 16 }}>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="dopuszczenie"
+                  id="dopuszczenie-nie"
+                  checked={!dopuszczenieValue}
+                  onChange={() => handleDopuszczenieChange(false)}
+                  disabled={isPodpisany}
+                />
+                <label className="form-check-label" htmlFor="dopuszczenie-nie">
+                  NIE
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="dopuszczenie"
+                  id="dopuszczenie-tak"
+                  checked={dopuszczenieValue === true}
+                  onChange={() => handleDopuszczenieChange(true)}
+                  disabled={isPodpisany}
+                />
+                <label className="form-check-label" htmlFor="dopuszczenie-tak">
+                  TAK
+                </label>
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
 
-          {/* Dane osoby podpisującej ze strony klienta */}
-          <h6 style={{ marginTop: 20, marginBottom: 12, fontWeight: 'bold' }}>Dane osoby podpisującej (klient):</h6>
-          <div className="row g-3">
+      {/* Uwagi do protokołu - pełna szerokość */}
+      <div style={{ marginBottom:12 }}>
+        <label htmlFor="pnagl-uwagi" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
+          Uwagi do protokołu:
+        </label>
+        <textarea
+          id="pnagl-uwagi"
+          className="form-control"
+          value={uwagiValue}
+          onChange={(e) => setUwagiValue(e.target.value)}
+          onBlur={handleUwagiBlur}
+          rows={6}
+          placeholder="Wpisz uwagi do protokołu..."
+          disabled={isPodpisany}
+        />
+      </div>
+
+      <div className="w-100 d-flex justify-content-between">
+        <div style={{ width: '100%' }}>
+          {/* Dane osoby podpisującej ze strony klienta - w ramce */}
+          <div style={{
+            padding: 16,
+            border: '2px solid #dee2e6',
+            borderRadius: 8,
+            backgroundColor: '#f8f9fa',
+            marginBottom: 16
+          }}>
+            <h6 style={{ marginBottom: 16, fontWeight: 'bold' }}>Dane osoby podpisującej (klient):</h6>
+            <div className="row g-3">
             <div className="col-md-4">
               <label htmlFor="klient-nazwisko" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
                 Nazwisko:
@@ -417,15 +449,16 @@ export default function ProtokolPage() {
                 disabled={isPodpisany}
               />
             </div>
+            </div>
           </div>
 
-          {/* Podpis klienta */}
+          {/* Podpis klienta - poza ramką */}
           {isPodpisany && naglowekData.PNAGL_PodpisKlienta && (
             <div style={{ marginBottom:12 }}>
               <label style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
                 Podpis klienta:
               </label>
-              <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: 4, backgroundColor: '#f8f9fa', display: 'inline-block' }}>
+              <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: 4, backgroundColor: '#fff', display: 'inline-block' }}>
                 <img
                   src={naglowekData.PNAGL_PodpisKlienta}
                   alt="Podpis klienta"

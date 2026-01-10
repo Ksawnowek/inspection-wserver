@@ -284,7 +284,7 @@ class ProtokolNagl(Base):
     PNAGL_NrUrzadzenia: Mapped[Optional[str]] = mapped_column(TrimmedString(20, 'SQL_Latin1_General_CP1_CI_AS'))
     PNAGL_ModelWciagnika: Mapped[Optional[str]] = mapped_column(TrimmedString(60, 'SQL_Latin1_General_CP1_CI_AS'))
     PNAGL_Uwagi: Mapped[Optional[str]] = mapped_column(TrimmedString(512, 'SQL_Latin1_General_CP1_CI_AS'))
-    PNAGL_Dopuszczenie: Mapped[Optional[str]] = mapped_column(TrimmedString(200, 'SQL_Latin1_General_CP1_CI_AS'))
+    PNAGL_Dopuszczenie: Mapped[Optional[bool]] = mapped_column(Boolean)
     PNAGL_KlientNazwisko: Mapped[Optional[str]] = mapped_column(TrimmedString(100, 'SQL_Latin1_General_CP1_CI_AS'))
     PNAGL_KlientDzial: Mapped[Optional[str]] = mapped_column(TrimmedString(100, 'SQL_Latin1_General_CP1_CI_AS'))
     PNAGL_KlientDataZatw: Mapped[Optional[datetime.datetime]] = mapped_column(DATETIME2)
