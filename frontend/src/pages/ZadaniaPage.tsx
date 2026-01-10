@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { getZadania, generateZadaniePdf, patchZadanie, patchZadanieMultiple, podpiszZadanie, podpiszWszystkieProtokoly } from "../api/zadania";
 import { Zadanie } from "../types";
 import Spinner from "../components/Spinner";
@@ -14,15 +15,21 @@ import toast from 'react-hot-toast';
 type ModalType = 'edit-uwagi' | 'edit-godziny' | 'podpis' | 'edit-details' | null;
 
 export default function ZadaniaPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Odczytaj parametry z URL przy pierwszym renderowaniu
+  const initialSearch = searchParams.get('search') || '';
+  const initialPage = parseInt(searchParams.get('page') || '1', 10);
+
   const [rows, setRows] = useState<Zadanie[]>([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<number | null>(null);
-  const [searchPhrase, setSearchPhrase] = useState('');
-  const [searchQuery, setSearchQuery] = useState(''); // Faktyczne zapytanie wysyłane do API
+  const [searchPhrase, setSearchPhrase] = useState(initialSearch);
+  const [searchQuery, setSearchQuery] = useState(initialSearch); // Faktyczne zapytanie wysyłane do API
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [selectedZadanie, setSelectedZadanie] = useState<Zadanie | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(0);
   const [total, setTotal] = useState(0);
   const pageSize = 25;
@@ -94,6 +101,14 @@ export default function ZadaniaPage() {
       )
     );
   }
+
+  // Aktualizuj URL gdy zmienią się filtry
+  useEffect(() => {
+    const params: Record<string, string> = {};
+    if (searchQuery) params.search = searchQuery;
+    if (currentPage > 1) params.page = currentPage.toString();
+    setSearchParams(params, { replace: true });
+  }, [searchQuery, currentPage, setSearchParams]);
 
   useEffect(() => {
     setLoading(true);
@@ -182,6 +197,7 @@ export default function ZadaniaPage() {
               setSearchPhrase('');
               setSearchQuery('');
               setCurrentPage(1);
+              setSearchParams({}, { replace: true }); // Wyczyść URL
             }}
           >
             Wyczyść

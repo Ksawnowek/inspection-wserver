@@ -69,12 +69,12 @@ export default function ZadaniePozycjePage() {
 
         if (data.vZNAG_DataWykonania) {
           const date = new Date(data.vZNAG_DataWykonania);
-          setDataWykonania(formatDateTimeLocal(date));
+          setDataWykonania(formatDateLocal(date));
         }
 
         if (data.vZNAG_KlientDataZatw) {
           const date = new Date(data.vZNAG_KlientDataZatw);
-          setKlientDataZatw(formatDateTimeLocal(date));
+          setKlientDataZatw(formatDateLocal(date));
         }
       })
       .catch(err => console.error("Błąd pobierania zadania:", err));
@@ -92,13 +92,11 @@ export default function ZadaniePozycjePage() {
       .finally(() => setLoading(false));
   }, [znagId, isSerwisant]);
 
-  const formatDateTimeLocal = (date: Date): string => {
+  const formatDateLocal = (date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+    return `${year}-${month}-${day}`;
   };
 
   const handleSave = async () => {
@@ -118,13 +116,17 @@ export default function ZadaniePozycjePage() {
       };
 
       if (dataWykonania) {
-        updateData.ZNAG_DataWykonania = new Date(dataWykonania).toISOString();
+        // Ustaw godzinę na 12:00 lokalnego czasu, aby uniknąć problemów z UTC
+        const date = new Date(dataWykonania + 'T12:00:00');
+        updateData.ZNAG_DataWykonania = date.toISOString();
       }
 
       if (klientNazwisko) updateData.ZNAG_KlientNazwisko = klientNazwisko;
       if (klientDzial) updateData.ZNAG_KlientDzial = klientDzial;
       if (klientDataZatw) {
-        updateData.ZNAG_KlientDataZatw = new Date(klientDataZatw).toISOString();
+        // Ustaw godzinę na 12:00 lokalnego czasu, aby uniknąć problemów z UTC
+        const date = new Date(klientDataZatw + 'T12:00:00');
+        updateData.ZNAG_KlientDataZatw = date.toISOString();
       }
 
       await toast.promise(
@@ -266,7 +268,7 @@ export default function ZadaniePozycjePage() {
         {/* Formularz edycji zadania */}
         <Card className="mt-3 mb-4">
           <Card.Header>
-            <h5 className="mb-0">Edycja zgłoszenia</h5>
+            <h5 className="mb-0">Zadanie konserwacji #{znagId}</h5>
             {zadanie && (
               <small className="text-muted">
                 {zadanie.vZNAG_KlientNazwa} - {zadanie.vZNAG_KlientMiasto}
@@ -287,71 +289,6 @@ export default function ZadaniePozycjePage() {
                   disabled={isPodpisany}
                 />
               </Form.Group>
-
-              {/* Opis prac / Zgłoszenie */}
-              <Form.Group className="mb-3">
-                <Form.Label><strong>Opis prac / Zgłoszenie</strong></Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={opisPrac}
-                  onChange={(e) => setOpisPrac(e.target.value)}
-                  placeholder="Wprowadź opis prac..."
-                  disabled={isPodpisany}
-                />
-              </Form.Group>
-
-              {/* Data realizacji przeglądu */}
-              <h6 className="mt-4 mb-3">Data realizacji przeglądu</h6>
-              <Form.Group className="mb-3">
-                <Form.Label>Data wykonania</Form.Label>
-                <Form.Control
-                  type="datetime-local"
-                  value={dataWykonania}
-                  onChange={(e) => setDataWykonania(e.target.value)}
-                  disabled={isPodpisany}
-                />
-              </Form.Group>
-
-              {/* Dane klienta */}
-              <h6 className="mt-4 mb-3">Dane klienta</h6>
-              <Row>
-                <Col md={4}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Nazwisko</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={klientNazwisko}
-                      onChange={(e) => setKlientNazwisko(e.target.value)}
-                      placeholder="Nazwisko klienta"
-                      disabled={isPodpisany}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Dział</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={klientDzial}
-                      onChange={(e) => setKlientDzial(e.target.value)}
-                      placeholder="Dział klienta"
-                      disabled={isPodpisany}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Data zatwierdzenia</Form.Label>
-                    <Form.Control
-                      type="datetime-local"
-                      value={klientDataZatw}
-                      onChange={(e) => setKlientDataZatw(e.target.value)}
-                      disabled={isPodpisany}
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
 
               {/* Przyciski akcji */}
               {!isPodpisany && (
@@ -489,24 +426,80 @@ export default function ZadaniePozycjePage() {
             <h5 className="mb-0">Podpis klienta</h5>
           </Card.Header>
           <Card.Body>
-            <div className="d-flex align-items-center justify-content-between">
-              <div>
-                <strong>Status podpisu:</strong> {zadanie?.vZNAG_KlientPodpis ? "Złożony" : "Brak podpisu"}
-              </div>
-              {!isPodpisany && (
-                <Button
-                  variant="primary"
-                  onClick={() => setShowSignatureDialog(true)}
-                >
-                  Złóż podpis
-                </Button>
-              )}
-              {isPodpisany && zadanie?.vZNAG_KlientPodpis && (
-                <div style={{ maxWidth: '200px', border: '1px solid #ccc', padding: '5px' }}>
-                  <img src={zadanie.vZNAG_KlientPodpis} alt="Podpis klienta" style={{ width: '100%' }} />
+            <Form>
+              {/* Data realizacji przeglądu */}
+              <h6 className="mt-2 mb-3">Data realizacji przeglądu</h6>
+              <Form.Group className="mb-3">
+                <Form.Label>Data wykonania</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={dataWykonania}
+                  onChange={(e) => setDataWykonania(e.target.value)}
+                  disabled={isPodpisany}
+                />
+              </Form.Group>
+
+              {/* Dane klienta */}
+              <h6 className="mt-4 mb-3">Dane klienta</h6>
+              <Row>
+                <Col md={4}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Nazwisko</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={klientNazwisko}
+                      onChange={(e) => setKlientNazwisko(e.target.value)}
+                      placeholder="Nazwisko klienta"
+                      disabled={isPodpisany}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Dział</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={klientDzial}
+                      onChange={(e) => setKlientDzial(e.target.value)}
+                      placeholder="Dział klienta"
+                      disabled={isPodpisany}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Data zatwierdzenia</Form.Label>
+                    <Form.Control
+                      type="date"
+                      value={klientDataZatw}
+                      onChange={(e) => setKlientDataZatw(e.target.value)}
+                      disabled={isPodpisany}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              {/* Podpis */}
+              <h6 className="mt-4 mb-3">Podpis</h6>
+              <div className="d-flex align-items-center justify-content-between">
+                <div>
+                  <strong>Status podpisu:</strong> {zadanie?.vZNAG_KlientPodpis ? "Złożony" : "Brak podpisu"}
                 </div>
-              )}
-            </div>
+                {!isPodpisany && (
+                  <Button
+                    variant="primary"
+                    onClick={() => setShowSignatureDialog(true)}
+                  >
+                    Złóż podpis
+                  </Button>
+                )}
+                {isPodpisany && zadanie?.vZNAG_KlientPodpis && (
+                  <div style={{ maxWidth: '200px', border: '1px solid #ccc', padding: '5px' }}>
+                    <img src={zadanie.vZNAG_KlientPodpis} alt="Podpis klienta" style={{ width: '100%' }} />
+                  </div>
+                )}
+              </div>
+            </Form>
           </Card.Body>
         </Card>
 

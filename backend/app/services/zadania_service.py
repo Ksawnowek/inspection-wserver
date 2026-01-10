@@ -50,13 +50,25 @@ class ZadaniaService:
     def get_pozycje(self, znag_id: int) -> List[Dict[str, Any]]:
         return self.repo.pozycje(znag_id)
 
-    def patch_zadanie(self, znag_id: int, dto_data: ZadanieUpdateDTO) -> ZadanieNagl:
+    def patch_zadanie(self, znag_id: int, dto_data: ZadanieUpdateDTO, user: Uzytkownik = None) -> ZadanieNagl:
+        from datetime import datetime
+
         zadanie = self.repo.get_zadanie_by_id(znag_id)
         if zadanie is None:
             return None
         update_data = dto_data.model_dump(exclude_unset=True)
         for key, value in update_data.items():
             setattr(zadanie, key, value)
+
+        # Automatycznie ustaw dane użytkownika przy każdej modyfikacji
+        # (tylko jeśli nie są już ustawione w DTO)
+        if user is not None:
+            if 'ZNAG_TS_Ostatni' not in update_data:
+                zadanie.ZNAG_TS_Ostatni = datetime.now()
+            if 'ZNAG_UZT_Id_Ostatni' not in update_data:
+                zadanie.ZNAG_UZT_Id_Ostatni = user.UZT_Id
+            if 'ZNAG_UzytkownikPodpisujacy' not in update_data:
+                zadanie.ZNAG_UzytkownikPodpisujacy = f"{user.UZT_Imie} {user.UZT_Nazwisko}"
 
         try:
             self.session.commit()

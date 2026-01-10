@@ -71,7 +71,7 @@ def patch_zadania(
         user: Uzytkownik = Depends(any_logged_in_user)
 ):
     try:
-        updated_zadanie = service.patch_zadanie(znag_id, update_dto)
+        updated_zadanie = service.patch_zadanie(znag_id, update_dto, user)
         return updated_zadanie
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
@@ -88,7 +88,7 @@ def odswiez_zadanie(
     try:
         from app.domain.requestsDTO import ZadanieUpdateDTO
         update_dto = ZadanieUpdateDTO(ZNAG_DoAktualizacji=True)
-        updated_zadanie = service.patch_zadanie(znag_id, update_dto)
+        updated_zadanie = service.patch_zadanie(znag_id, update_dto, user)
         return {"ok": True, "message": "Zadanie oznaczone do aktualizacji"}
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
@@ -120,7 +120,7 @@ def podpisz_wszystkie_protokoly(
             ZNAG_UZT_Id_Ostatni=user.UZT_Id,
             ZNAG_UzytkownikPodpisujacy=user_full_name
         )
-        service.patch_zadanie(znag_id, update_dto)
+        service.patch_zadanie(znag_id, update_dto, user)
 
         # Policz ile protokołów będzie objętych tym podpisem
         from app.dependencies import get_protokoly_service as get_prot_svc
