@@ -23,6 +23,12 @@ const MAP: Record<typeof OCENY[number], keyof ProtokolPozycja> = {
   NR: "PPOZ_OcenaNR",
   NA: "PPOZ_OcenaNA",
 };
+const TOOLTIPS: Record<typeof OCENY[number], string> = {
+  NP: "Nie dotyczy",
+  O: "OK (dopuszczone)",
+  NR: "Wymaga naprawy/wymiany",
+  NA: "Nie wypełniać",
+};
 
 
 
@@ -64,49 +70,52 @@ export default function ProtokolGroup({ group, items, onChange, onSyncZdjecia, d
             <div key={row.PPOZ_Id} className="protokol-row" style={{ padding: 8, borderBottom: "1px solid #f2f2f2" }}>
 
               <div>
-                <div style={{ fontWeight: 600 }}>{row.PPOZ_Operacja}</div>
+                <div style={{ fontWeight: 600, marginBottom: 8 }}>{row.PPOZ_Operacja}</div>
 
-                {/* --- ZMIANA 4: Cały blok <input> zastępujemy tym: --- */}
-                <ToggleButtonGroup
-                  type="radio"
-                  name={`ocena-${row.PPOZ_Id}`}
-                  value={obecnaOcena}
-                  onChange={(newOcena) => !disabled && handleRadioChange(row.PPOZ_Id, newOcena)}
-                  style={{ marginTop: 6 }}
-                  size="lg" // "sm" dobrze wygląda w listach, możesz dać "lg" dla super-dotyku
-                >
-                  {OCENY.map(o => (
-                    <ToggleButton
-                      key={o}
-                      id={`tbg-ocena-${row.PPOZ_Id}-${o}`}
-                      value={o}
-                      variant="outline-primary" // Styl, możesz zmienić na "outline-primary"
-                      disabled={disabled}
+                {/* Kontener flex dla przycisków oceny i zdjęć */}
+                <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', marginBottom: 12 }}>
+                  <div style={{ flex: '0 0 auto' }}>
+                    <ToggleButtonGroup
+                      type="radio"
+                      name={`ocena-${row.PPOZ_Id}`}
+                      value={obecnaOcena}
+                      onChange={(newOcena) => !disabled && handleRadioChange(row.PPOZ_Id, newOcena)}
+                      size="lg"
                     >
-                      {o}
-                    </ToggleButton>
-                  ))}
-                </ToggleButtonGroup>
-              <div style={{ marginTop: 12, marginBottom: 12 }}>
-                <UwagiInput
-                  ppozId={row.PPOZ_Id}
-                  initialValue={row.PPOZ_Uwagi}
-                  onChange={onChange}
-                  disabled={disabled}
-                />
-              </div>
-            </div>
+                      {OCENY.map(o => (
+                        <ToggleButton
+                          key={o}
+                          id={`tbg-ocena-${row.PPOZ_Id}-${o}`}
+                          value={o}
+                          variant="outline-primary"
+                          disabled={disabled}
+                          title={TOOLTIPS[o]}
+                        >
+                          {o}
+                        </ToggleButton>
+                      ))}
+                    </ToggleButtonGroup>
+                  </div>
 
-            <div style={{ marginTop: 12 }}>
-              <label style={{ display: "inline-flex", gap: 6, alignItems: "center" }}>
-                <PhotoManager
-                  ppozId={row.PPOZ_Id}
-                  initialZdjecia={row.ZdjeciaProtokolPoz}
-                  onSyncZdjecia={onSyncZdjecia}
-                  disabled={disabled}
-                />
-              </label>
-            </div>
+                  <div style={{ flex: '1 1 auto' }}>
+                    <PhotoManager
+                      ppozId={row.PPOZ_Id}
+                      initialZdjecia={row.ZdjeciaProtokolPoz}
+                      onSyncZdjecia={onSyncZdjecia}
+                      disabled={disabled}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ marginTop: 12, marginBottom: 12 }}>
+                  <UwagiInput
+                    ppozId={row.PPOZ_Id}
+                    initialValue={row.PPOZ_Uwagi}
+                    onChange={onChange}
+                    disabled={disabled}
+                  />
+                </div>
+              </div>
 
           </div>
           )

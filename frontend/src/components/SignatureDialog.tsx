@@ -159,16 +159,18 @@ export default function SignatureDialog({
             canvasProps={{ width: 380, height: 200, style: { border: "1px solid #ccc" } }}
           />
 
-          {/* Checkbox do zastosowania podpisu do wszystkich protokołów */}
-          <Form.Group className="mt-3 mb-2">
-            <Form.Check
-              type="checkbox"
-              id="apply-to-all-checkbox"
-              label="Zastosuj do wszystkich protokołów"
-              checked={applyToAll}
-              onChange={(e) => setApplyToAll(e.target.checked)}
-            />
-          </Form.Group>
+          {/* Checkbox do zastosowania podpisu do wszystkich protokołów - tylko gdy znagId jest podane */}
+          {znagId && (
+            <Form.Group className="mt-3 mb-2">
+              <Form.Check
+                type="checkbox"
+                id="apply-to-all-checkbox"
+                label="Zastosuj do wszystkich protokołów"
+                checked={applyToAll}
+                onChange={(e) => setApplyToAll(e.target.checked)}
+              />
+            </Form.Group>
+          )}
 
           <div style={{ display:"flex", gap:8, marginTop:8 }}>
             <Button

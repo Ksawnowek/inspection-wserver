@@ -26,6 +26,10 @@ export default function ProtokolPage() {
   const [generatingPdf, setGeneratingPdf] = useState(false);
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [uwagiValue, setUwagiValue] = useState<string>('');
+  const [dopuszczenieValue, setDopuszczenieValue] = useState<string>('');
+  const [klientNazwiskoValue, setKlientNazwiskoValue] = useState<string>('');
+  const [klientDzialValue, setKlientDzialValue] = useState<string>('');
+  const [klientDataZatwValue, setKlientDataZatwValue] = useState<string>('');
   const isPodpisany = naglowekData?.PNAGL_PodpisKlienta ? true : false;
   const [showValidationDialog, setShowValidationDialog] = useState(false);
   const [validationMessage, setValidationMessage] = useState<string>('');
@@ -52,6 +56,14 @@ export default function ProtokolPage() {
     getProtokolNaglowek(Number(pnaglId)).then((nagl) => {
       setNaglowekData(nagl);
       setUwagiValue(nagl.PNAGL_Uwagi || '');
+      setDopuszczenieValue(nagl.PNAGL_Dopuszczenie || '');
+      setKlientNazwiskoValue(nagl.PNAGL_KlientNazwisko || '');
+      setKlientDzialValue(nagl.PNAGL_KlientDzial || '');
+      if (nagl.PNAGL_KlientDataZatw) {
+        const date = new Date(nagl.PNAGL_KlientDataZatw);
+        const formatted = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        setKlientDataZatwValue(formatted);
+      }
     });
     getProtokolPoz(Number(pnaglId)).then(setData);
   }, [pnaglId]);
@@ -96,6 +108,31 @@ export default function ProtokolPage() {
       patchNagl({ PNAGL_Uwagi: uwagiValue });
     }
   }, [uwagiValue, naglowekData?.PNAGL_Uwagi, patchNagl]);
+
+  const handleDopuszczenieBlur = useCallback(() => {
+    if (dopuszczenieValue !== (naglowekData?.PNAGL_Dopuszczenie || '')) {
+      patchNagl({ PNAGL_Dopuszczenie: dopuszczenieValue });
+    }
+  }, [dopuszczenieValue, naglowekData?.PNAGL_Dopuszczenie, patchNagl]);
+
+  const handleKlientNazwiskoBlur = useCallback(() => {
+    if (klientNazwiskoValue !== (naglowekData?.PNAGL_KlientNazwisko || '')) {
+      patchNagl({ PNAGL_KlientNazwisko: klientNazwiskoValue });
+    }
+  }, [klientNazwiskoValue, naglowekData?.PNAGL_KlientNazwisko, patchNagl]);
+
+  const handleKlientDzialBlur = useCallback(() => {
+    if (klientDzialValue !== (naglowekData?.PNAGL_KlientDzial || '')) {
+      patchNagl({ PNAGL_KlientDzial: klientDzialValue });
+    }
+  }, [klientDzialValue, naglowekData?.PNAGL_KlientDzial, patchNagl]);
+
+  const handleKlientDataZatwBlur = useCallback(() => {
+    if (klientDataZatwValue) {
+      const isoDate = new Date(klientDataZatwValue + 'T12:00:00').toISOString();
+      patchNagl({ PNAGL_KlientDataZatw: isoDate });
+    }
+  }, [klientDataZatwValue, patchNagl]);
 
   /*
     Funkcja patchująca pozycje, wywoływana podczas każdej zmiany na pozycji
@@ -311,10 +348,75 @@ export default function ProtokolPage() {
               value={uwagiValue}
               onChange={(e) => setUwagiValue(e.target.value)}
               onBlur={handleUwagiBlur}
-              rows={3}
+              rows={6}
               placeholder="Wpisz uwagi do protokołu..."
               disabled={isPodpisany}
             />
+          </div>
+
+          <div style={{ marginBottom:12 }}>
+            <label htmlFor="pnagl-dopuszczenie" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
+              Dopuszczenie urządzenia do eksploatacji:
+            </label>
+            <input
+              id="pnagl-dopuszczenie"
+              type="text"
+              className="form-control"
+              value={dopuszczenieValue}
+              onChange={(e) => setDopuszczenieValue(e.target.value)}
+              onBlur={handleDopuszczenieBlur}
+              placeholder="np. Dopuszczone, Niedopuszczone, Warunkowo dopuszczone..."
+              disabled={isPodpisany}
+            />
+          </div>
+
+          {/* Dane osoby podpisującej ze strony klienta */}
+          <h6 style={{ marginTop: 20, marginBottom: 12, fontWeight: 'bold' }}>Dane osoby podpisującej (klient):</h6>
+          <div className="row g-3">
+            <div className="col-md-4">
+              <label htmlFor="klient-nazwisko" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
+                Nazwisko:
+              </label>
+              <input
+                id="klient-nazwisko"
+                type="text"
+                className="form-control"
+                value={klientNazwiskoValue}
+                onChange={(e) => setKlientNazwiskoValue(e.target.value)}
+                onBlur={handleKlientNazwiskoBlur}
+                placeholder="Nazwisko osoby podpisującej"
+                disabled={isPodpisany}
+              />
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="klient-dzial" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
+                Dział:
+              </label>
+              <input
+                id="klient-dzial"
+                type="text"
+                className="form-control"
+                value={klientDzialValue}
+                onChange={(e) => setKlientDzialValue(e.target.value)}
+                onBlur={handleKlientDzialBlur}
+                placeholder="Dział"
+                disabled={isPodpisany}
+              />
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="klient-data-zatw" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
+                Data zatwierdzenia:
+              </label>
+              <input
+                id="klient-data-zatw"
+                type="date"
+                className="form-control"
+                value={klientDataZatwValue}
+                onChange={(e) => setKlientDataZatwValue(e.target.value)}
+                onBlur={handleKlientDataZatwBlur}
+                disabled={isPodpisany}
+              />
+            </div>
           </div>
 
           {/* Podpis klienta */}
@@ -387,6 +489,23 @@ export default function ProtokolPage() {
           >
           {generatingPdf ? "Generuję…" : "Wydrukuj PDF"}
         </Button>
+      </div>
+
+      {/* Legenda kryteriów oceny */}
+      <div style={{
+        marginTop: 24,
+        padding: 16,
+        backgroundColor: '#f8f9fa',
+        borderRadius: 4,
+        border: '1px solid #dee2e6'
+      }}>
+        <h6 style={{ marginBottom: 12, fontWeight: 'bold' }}>Legenda kryteriów oceny:</h6>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 8 }}>
+          <div><strong>NP</strong> - Nie dotyczy</div>
+          <div><strong>O</strong> - OK (dopuszczone)</div>
+          <div><strong>NR</strong> - Wymaga naprawy/wymiany</div>
+          <div><strong>NA</strong> - Nie wypełniać</div>
+        </div>
       </div>
 
       <ValidationDialog
