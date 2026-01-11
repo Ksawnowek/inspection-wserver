@@ -29,7 +29,6 @@ export default function ProtokolPage() {
   const [dopuszczenieValue, setDopuszczenieValue] = useState<boolean>(false);
   const [klientNazwiskoValue, setKlientNazwiskoValue] = useState<string>('');
   const [klientDzialValue, setKlientDzialValue] = useState<string>('');
-  const [klientDataZatwValue, setKlientDataZatwValue] = useState<string>('');
   const isPodpisany = naglowekData?.PNAGL_PodpisKlienta ? true : false;
   const [showValidationDialog, setShowValidationDialog] = useState(false);
   const [validationMessage, setValidationMessage] = useState<string>('');
@@ -59,11 +58,6 @@ export default function ProtokolPage() {
       setDopuszczenieValue(nagl.PNAGL_Dopuszczenie || false);
       setKlientNazwiskoValue(nagl.PNAGL_KlientNazwisko || '');
       setKlientDzialValue(nagl.PNAGL_KlientDzial || '');
-      if (nagl.PNAGL_KlientDataZatw) {
-        const date = new Date(nagl.PNAGL_KlientDataZatw);
-        const formatted = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-        setKlientDataZatwValue(formatted);
-      }
     });
     getProtokolPoz(Number(pnaglId)).then(setData);
   }, [pnaglId]);
@@ -125,13 +119,6 @@ export default function ProtokolPage() {
       patchNagl({ PNAGL_KlientDzial: klientDzialValue });
     }
   }, [klientDzialValue, naglowekData?.PNAGL_KlientDzial, patchNagl]);
-
-  const handleKlientDataZatwBlur = useCallback(() => {
-    if (klientDataZatwValue) {
-      const isoDate = new Date(klientDataZatwValue + 'T12:00:00').toISOString();
-      patchNagl({ PNAGL_KlientDataZatw: isoDate });
-    }
-  }, [klientDataZatwValue, patchNagl]);
 
   /*
     Funkcja patchująca pozycje, wywoływana podczas każdej zmiany na pozycji
@@ -404,8 +391,9 @@ export default function ProtokolPage() {
             marginBottom: 16
           }}>
             <h6 style={{ marginBottom: 16, fontWeight: 'bold' }}>Dane osoby podpisującej (klient):</h6>
-            <div className="row g-3">
-            <div className="col-md-4">
+
+            {/* Nazwisko */}
+            <div style={{ marginBottom: 12 }}>
               <label htmlFor="klient-nazwisko" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
                 Nazwisko:
               </label>
@@ -420,7 +408,9 @@ export default function ProtokolPage() {
                 disabled={isPodpisany}
               />
             </div>
-            <div className="col-md-4">
+
+            {/* Dział */}
+            <div style={{ marginBottom: 12 }}>
               <label htmlFor="klient-dzial" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
                 Dział:
               </label>
@@ -435,38 +425,23 @@ export default function ProtokolPage() {
                 disabled={isPodpisany}
               />
             </div>
-            <div className="col-md-4">
-              <label htmlFor="klient-data-zatw" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
-                Data zatwierdzenia:
-              </label>
-              <input
-                id="klient-data-zatw"
-                type="date"
-                className="form-control"
-                value={klientDataZatwValue}
-                onChange={(e) => setKlientDataZatwValue(e.target.value)}
-                onBlur={handleKlientDataZatwBlur}
-                disabled={isPodpisany}
-              />
-            </div>
-            </div>
-          </div>
 
-          {/* Podpis klienta - poza ramką */}
-          {isPodpisany && naglowekData.PNAGL_PodpisKlienta && (
-            <div style={{ marginBottom:12 }}>
-              <label style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
-                Podpis klienta:
-              </label>
-              <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: 4, backgroundColor: '#fff', display: 'inline-block' }}>
-                <img
-                  src={naglowekData.PNAGL_PodpisKlienta}
-                  alt="Podpis klienta"
-                  style={{ maxWidth: '300px', height: 'auto' }}
-                />
+            {/* Podpis klienta - w ramce pod polami */}
+            {isPodpisany && naglowekData.PNAGL_PodpisKlienta && (
+              <div>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
+                  Podpis klienta:
+                </label>
+                <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: 4, backgroundColor: '#fff', display: 'inline-block' }}>
+                  <img
+                    src={naglowekData.PNAGL_PodpisKlienta}
+                    alt="Podpis klienta"
+                    style={{ maxWidth: '300px', height: 'auto' }}
+                  />
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
         <div style={{
           display: "flex",
