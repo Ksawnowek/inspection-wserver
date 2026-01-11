@@ -380,94 +380,83 @@ export default function ProtokolPage() {
         />
       </div>
 
-      <div className="w-100 d-flex justify-content-between">
-        <div style={{ width: '100%' }}>
-          {/* Dane osoby podpisującej ze strony klienta - w ramce */}
-          <div style={{
-            padding: 16,
-            border: '2px solid #dee2e6',
-            borderRadius: 8,
-            backgroundColor: '#f8f9fa',
-            marginBottom: 16
-          }}>
-            <h6 style={{ marginBottom: 16, fontWeight: 'bold' }}>Dane osoby podpisującej (klient):</h6>
+      {/* Dane osoby podpisującej ze strony klienta - w ramce */}
+      <div style={{
+        padding: 16,
+        border: '2px solid #dee2e6',
+        borderRadius: 8,
+        backgroundColor: '#f8f9fa',
+        marginBottom: 16
+      }}>
+        <h6 style={{ marginBottom: 16, fontWeight: 'bold' }}>Dane osoby podpisującej (klient):</h6>
 
-            {/* Nazwisko */}
-            <div style={{ marginBottom: 12 }}>
-              <label htmlFor="klient-nazwisko" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
-                Nazwisko:
-              </label>
-              <input
-                id="klient-nazwisko"
-                type="text"
-                className="form-control"
-                value={klientNazwiskoValue}
-                onChange={(e) => setKlientNazwiskoValue(e.target.value)}
-                onBlur={handleKlientNazwiskoBlur}
-                placeholder="Nazwisko osoby podpisującej"
-                disabled={isPodpisany}
-              />
-            </div>
-
-            {/* Dział */}
-            <div style={{ marginBottom: 12 }}>
-              <label htmlFor="klient-dzial" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
-                Dział:
-              </label>
-              <input
-                id="klient-dzial"
-                type="text"
-                className="form-control"
-                value={klientDzialValue}
-                onChange={(e) => setKlientDzialValue(e.target.value)}
-                onBlur={handleKlientDzialBlur}
-                placeholder="Dział"
-                disabled={isPodpisany}
-              />
-            </div>
-
-            {/* Podpis klienta - w ramce pod polami */}
-            {isPodpisany && naglowekData.PNAGL_PodpisKlienta && (
-              <div>
-                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
-                  Podpis klienta:
-                </label>
-                <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: 4, backgroundColor: '#fff', display: 'inline-block' }}>
-                  <img
-                    src={naglowekData.PNAGL_PodpisKlienta}
-                    alt="Podpis klienta"
-                    style={{ maxWidth: '300px', height: 'auto' }}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
+        {/* Nazwisko */}
+        <div style={{ marginBottom: 12 }}>
+          <label htmlFor="klient-nazwisko" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
+            Nazwisko:
+          </label>
+          <input
+            id="klient-nazwisko"
+            type="text"
+            className="form-control"
+            value={klientNazwiskoValue}
+            onChange={(e) => setKlientNazwiskoValue(e.target.value)}
+            onBlur={handleKlientNazwiskoBlur}
+            placeholder="Nazwisko osoby podpisującej"
+            disabled={isPodpisany}
+          />
         </div>
-        <div style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          height: "100%", 
-        }}>
-          <div>
 
+        {/* Dział */}
+        <div style={{ marginBottom: 12 }}>
+          <label htmlFor="klient-dzial" style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
+            Dział:
+          </label>
+          <input
+            id="klient-dzial"
+            type="text"
+            className="form-control"
+            value={klientDzialValue}
+            onChange={(e) => setKlientDzialValue(e.target.value)}
+            onBlur={handleKlientDzialBlur}
+            placeholder="Dział"
+            disabled={isPodpisany}
+          />
+        </div>
+
+        {/* Podpis klienta - w ramce pod polami */}
+        {isPodpisany && naglowekData.PNAGL_PodpisKlienta && (
+          <div style={{ marginBottom: 12 }}>
+            <label style={{ display: 'block', fontWeight: 'bold', marginBottom: 4 }}>
+              Podpis klienta:
+            </label>
+            <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: 4, backgroundColor: '#fff', display: 'inline-block' }}>
+              <img
+                src={naglowekData.PNAGL_PodpisKlienta}
+                alt="Podpis klienta"
+                style={{ maxWidth: '300px', height: 'auto' }}
+              />
+            </div>
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
-            {!isPodpisany && (
-              <Button
-                variant="primary"
-                onClick={() => handleShow('podpis')}
-              >
-                Podpis klienta
-              </Button>
-            )}
+        )}
+
+        {/* Przyciski */}
+        <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+          {!isPodpisany && (
             <Button
               variant="primary"
-              onClick={handlePdf} disabled={generatingPdf}
-              >
-              {generatingPdf ? "Generuję…" : "Wydrukuj PDF"}
+              onClick={() => handleShow('podpis')}
+            >
+              Podpis klienta
             </Button>
-          </div>
+          )}
+          <Button
+            variant="primary"
+            onClick={handlePdf}
+            disabled={generatingPdf}
+          >
+            {generatingPdf ? "Generuję…" : "Wydrukuj PDF"}
+          </Button>
         </div>
       </div>
 
@@ -481,23 +470,6 @@ export default function ProtokolPage() {
           disabled={isPodpisany}
         />
       ))}
-
-      <div style={{ display:"flex", gap:8 }}>
-        {!isPodpisany && (
-          <Button
-                variant="primary"
-                onClick={() => handleShow('podpis')}
-              >
-                Podpis klienta
-              </Button>
-        )}
-        <Button
-          variant="primary"
-          onClick={handlePdf} disabled={generatingPdf}
-          >
-          {generatingPdf ? "Generuję…" : "Wydrukuj PDF"}
-        </Button>
-      </div>
 
       {/* Legenda kryteriów oceny */}
       <div style={{
