@@ -51,9 +51,14 @@ def patch_pozycja(
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 @router.patch("/naglowek/{pnagl_id}")
-def patch_naglowek(pnagl_id: int, update_dto: ProtokolNaglUpdateDTO, service: ProtokolyService = Depends(get_protokoly_service)):
+def patch_naglowek(
+    pnagl_id: int,
+    update_dto: ProtokolNaglUpdateDTO,
+    service: ProtokolyService = Depends(get_protokoly_service),
+    user: Uzytkownik = Depends(any_logged_in_user)
+):
     try:
-        updated_nagl = service.patch_pnagl(pnagl_id, update_dto)
+        updated_nagl = service.patch_pnagl(pnagl_id, update_dto, user)
         return updated_nagl
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))

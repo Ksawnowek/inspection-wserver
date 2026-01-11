@@ -53,6 +53,10 @@ class ProtokolPodpisDTO(BaseModel):
 
 class ProtokolNaglUpdateDTO(BaseModel):
     PNAGL_Uwagi: Optional[str] = None
+    PNAGL_Dopuszczenie: Optional[bool] = None
+    PNAGL_KlientNazwisko: Optional[str] = None
+    PNAGL_KlientDzial: Optional[str] = None
+    PNAGL_KlientDataZatw: Optional[datetime] = None
 
 class UzytkownikUpdateDTO(BaseModel):
     UZT_Imie: Optional[str] = None

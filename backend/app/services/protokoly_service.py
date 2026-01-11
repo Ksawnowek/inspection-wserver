@@ -106,13 +106,25 @@ class ProtokolyService:
             setattr(ppoz, key, value)
         return ppoz
 
-    def patch_pnagl(self, pnagl_id: int, update_dto) -> ProtokolNagl:
+    def patch_pnagl(self, pnagl_id: int, update_dto, user=None) -> ProtokolNagl:
+        from datetime import datetime
+
         pnagl = self.repo.get_protokol_nagl_by_id(pnagl_id)
         if pnagl is None:
             raise ValueError(f"Protokół o id {pnagl_id} nie istnieje")
         update_data = update_dto.model_dump(exclude_unset=True)
         for key, value in update_data.items():
             setattr(pnagl, key, value)
+
+        # Automatycznie ustaw dane użytkownika przy każdej modyfikacji
+        if user is not None:
+            if 'PNAGL_UZT_Id_Ostatni' not in update_data:
+                pnagl.PNAGL_UZT_Id_Ostatni = user.UZT_Id
+            if 'PNAGL_UzytkownikPodpisujacy' not in update_data:
+                pnagl.PNAGL_UzytkownikPodpisujacy = f"{user.UZT_Imie} {user.UZT_Nazwisko}"
+            if 'PNAGL_UZTOstatni' not in update_data:
+                pnagl.PNAGL_UZTOstatni = f"{user.UZT_Imie} {user.UZT_Nazwisko}"
+
         self.repo.session.commit()
         self.repo.session.refresh(pnagl)
         return pnagl
