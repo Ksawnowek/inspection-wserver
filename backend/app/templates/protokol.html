@@ -234,54 +234,70 @@
             </div>
         </div>
 
-        <!-- Legenda -->
-        <div class="legend-box">
-            <div class="mb-2">
-                <strong>NP</strong> Nie dotyczy &nbsp;&nbsp; <strong>NR</strong> Wymaga Naprawy /Wymiany
+        <!-- Legenda i podpisy -->
+        <div style="display: flex; gap: 16px; margin-top: 8px; page-break-inside: avoid; break-inside: avoid;">
+            <!-- Lewa kolumna: Legenda -->
+            <div style="flex: 1; border: 1px solid #000; padding: 8px;">
+                <div style="margin-bottom: 8px;">
+                    <strong>NP</strong> Nie dotyczy
+                </div>
+                <div style="margin-bottom: 8px;">
+                    <strong>NR</strong> Wymaga Naprawy /Wymiany
+                </div>
+                <div style="margin-bottom: 8px;">
+                    <strong>D</strong> OK
+                </div>
+                <div>
+                    <strong>NA</strong> NIE WYPEŁNIAĆ
+                </div>
             </div>
-            <div class="mb-2">
-                <strong>D</strong> OK &nbsp;&nbsp; <strong>NA</strong> NIE WYPEŁNIAĆ
-            </div>
-            <div class="mt-3">
-                Podpis SERWISANTA: {{ naglowek_protokol.PNAGL_UZTOstatni or '_____________________' }}
-            </div>
-        </div>
 
-        <!-- Sekcja podpisów -->
-        <div class="signature-section">
-            {% if naglowek_zadanie and naglowek_zadanie.ZNAG_PodpisDoProtokolow %}
-                {# Pobierz podpis z zadania #}
-                <div style="display: flex; justify-content: space-between;">
-                    <div>
-                        Data podpisu: {{ naglowek_zadanie.ZNAG_TS_Ostatni.strftime('%d/%m/%Y %H:%M') if naglowek_zadanie.ZNAG_TS_Ostatni else (naglowek_zadanie.ZNAG_KlientDataZatw.strftime('%d/%m/%Y') if naglowek_zadanie.ZNAG_KlientDataZatw else '____/____/____') }}
+            <!-- Prawa kolumna: Podpisy -->
+            <div style="flex: 1; border: 1px solid #000; padding: 8px;">
+                <!-- Data realizacji -->
+                <div style="margin-bottom: 12px;">
+                    <strong>Data realizacji:</strong>
+                    {% if naglowek_zadanie and naglowek_zadanie.ZNAG_DataWykonania %}
+                        {{ naglowek_zadanie.ZNAG_DataWykonania.strftime('%d/%m/%Y') }}
+                    {% elif naglowek_protokol.PNAGL_DataAkceptacji %}
+                        {{ naglowek_protokol.PNAGL_DataAkceptacji.strftime('%d/%m/%Y') }}
+                    {% else %}
+                        ____/____/____
+                    {% endif %}
+                </div>
+
+                <!-- Podpis SERWISANTA -->
+                <div style="margin-bottom: 12px;">
+                    <div style="margin-bottom: 4px;"><strong>Podpis SERWISANTA:</strong></div>
+                    <div>{{ naglowek_protokol.PNAGL_UZTOstatni or naglowek_zadanie.ZNAG_UzytkownikPodpisujacy or '_____________________' }}</div>
+                </div>
+
+                <!-- Podpis KLIENTA -->
+                <div>
+                    <div style="margin-bottom: 4px;">
+                        <strong>Zaakceptował:</strong>
+                        {% if naglowek_zadanie and naglowek_zadanie.ZNAG_PodpisDoProtokolow %}
+                            {{ naglowek_zadanie.ZNAG_KlientNazwisko or '_____________________' }}
+                        {% else %}
+                            {{ naglowek_protokol.PNAGL_KlientNazwisko or naglowek_protokol.PNAGL_Zaakceptowal or '_____________________' }}
+                        {% endif %}
                     </div>
-                    <div>
-                        Zaakceptował: {{ naglowek_zadanie.ZNAG_KlientNazwisko or '_____________________' }}
+                    <div style="margin-top: 8px;">
+                        <strong>Podpis KLIENTA:</strong>
+                        {% if naglowek_zadanie and naglowek_zadanie.ZNAG_PodpisDoProtokolow and naglowek_zadanie.ZNAG_KlientPodpis %}
+                            <div style="margin-top: 4px;">
+                                <img src="{{ naglowek_zadanie.ZNAG_KlientPodpis }}" style="max-width: 150px; max-height: 50px;" alt="Podpis">
+                            </div>
+                        {% elif naglowek_protokol.PNAGL_PodpisKlienta %}
+                            <div style="margin-top: 4px;">
+                                <img src="{{ naglowek_protokol.PNAGL_PodpisKlienta }}" style="max-width: 150px; max-height: 50px;" alt="Podpis">
+                            </div>
+                        {% else %}
+                            <div style="border-bottom: 1px solid #000; width: 150px; height: 40px; margin-top: 4px;"></div>
+                        {% endif %}
                     </div>
                 </div>
-                {% if naglowek_zadanie.ZNAG_KlientPodpis %}
-                <div style="margin-top: 10px; text-align: right;">
-                    <div><strong>Podpis klienta:</strong></div>
-                    <img src="{{ naglowek_zadanie.ZNAG_KlientPodpis }}" style="max-width: 200px; max-height: 60px; display: inline-block;" alt="Podpis">
-                </div>
-                {% endif %}
-            {% else %}
-                {# Pobierz podpis z protokołu (stare zachowanie) #}
-                <div style="display: flex; justify-content: space-between;">
-                    <div>
-                        Data realizacji: {{ naglowek_protokol.PNAGL_DataAkceptacji.strftime('%d/%m/%Y') if naglowek_protokol.PNAGL_DataAkceptacji else '____/____/____' }}
-                    </div>
-                    <div>
-                        Zaakceptował: {{ naglowek_protokol.PNAGL_Zaakceptowal or '_____________________' }}
-                    </div>
-                </div>
-                {% if naglowek_protokol.PNAGL_PodpisKlienta %}
-                <div style="margin-top: 10px; text-align: right;">
-                    <div><strong>Podpis klienta:</strong></div>
-                    <img src="{{ naglowek_protokol.PNAGL_PodpisKlienta }}" style="max-width: 200px; max-height: 60px; display: inline-block;" alt="Podpis">
-                </div>
-                {% endif %}
-            {% endif %}
+            </div>
         </div>
 
         <!-- Numer formularza -->

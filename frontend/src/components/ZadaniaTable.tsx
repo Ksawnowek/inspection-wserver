@@ -54,24 +54,25 @@ const ZadaniaTable: React.FC<ZadaniaTableProps> = ({
 
   // Kategoryzacja zadań otwartych
   const getCategoryName = (kategoriaKod?: string | null): string => {
-    if (!kategoriaKod) return 'Konserwacja';
+    if (!kategoriaKod) return 'Konserwacje';
     // P = Przeglądy/Konserwacja, R = Awarie, T = Prace różne
     switch (kategoriaKod.toUpperCase()) {
-      case 'P': return 'Konserwacja (przeglądy)';
+      case 'P': return 'Konserwacje';
       case 'R': return 'Awarie';
       case 'T': return 'Prace różne';
-      default: return 'Konserwacja';
+      default: return 'Konserwacje';
     }
   };
 
-  const konserwacja = otwarte.filter(z => z.vZNAG_KategoriaKod?.toUpperCase() === 'P');
+  // Wszystkie konserwacje: zadania z kodem 'P' LUB bez kodu
+  const wszystkieKonserwacje = otwarte.filter(z => {
+    const kod = z.vZNAG_KategoriaKod?.toUpperCase();
+    return kod === 'P' || !kod || !['R', 'T'].includes(kod);
+  });
+
   const awarieIPraceRozne = otwarte.filter(z =>
     z.vZNAG_KategoriaKod?.toUpperCase() === 'R' || z.vZNAG_KategoriaKod?.toUpperCase() === 'T'
   );
-  const inne = otwarte.filter(z => {
-    const kod = z.vZNAG_KategoriaKod?.toUpperCase();
-    return !kod || !['P', 'R', 'T'].includes(kod);
-  });
 
   const renderTaskRow = (z: Zadanie, index: number, showDataWykonania: boolean = false) => {
     const rowClass = index % 2 !== 0 ? 'table-secondary' : '';
@@ -175,9 +176,8 @@ const ZadaniaTable: React.FC<ZadaniaTableProps> = ({
       {/* Zawartość zakładek */}
       {activeTab === 'otwarte' && (
         <div>
-          {renderCategorySection('Konserwacja (przeglądy)', konserwacja)}
+          {renderCategorySection('Konserwacje', wszystkieKonserwacje)}
           {renderCategorySection('Awarie i prace różne', awarieIPraceRozne)}
-          {inne.length > 0 && renderCategorySection('Konserwacja', inne)}
 
           {otwarte.length === 0 && (
             <div className="alert alert-info">
