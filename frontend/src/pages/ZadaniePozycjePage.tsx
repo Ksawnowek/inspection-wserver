@@ -281,7 +281,7 @@ export default function ZadaniePozycjePage() {
             onClick={handleOdswiez}
             title="Oznacz zadanie do aktualizacji"
           >
-            <ArrowClockwise /> Odśwież
+            <ArrowClockwise /> Do aktualizacji
           </Button>
         </div>
 
