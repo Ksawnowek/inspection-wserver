@@ -242,48 +242,50 @@
             <strong>NA</strong> NIE WYPEŁNIAĆ
         </div>
 
-        <!-- Sekcja podpisów -->
-        <div style="display: flex; gap: 16px; margin-top: 8px; page-break-inside: avoid; break-inside: avoid;">
-            <!-- Lewa kolumna: Data i Podpis SERWISANTA -->
-            <div style="flex: 1; border: 1px solid #000; padding: 8px;">
-                <div style="margin-bottom: 12px;">
-                    <strong>Data realizacji:</strong>
-                    {% if naglowek_zadanie and naglowek_zadanie.ZNAG_DataWykonania %}
-                        {{ naglowek_zadanie.ZNAG_DataWykonania.strftime('%d/%m/%Y') }}
-                    {% elif naglowek_protokol.PNAGL_DataAkceptacji %}
-                        {{ naglowek_protokol.PNAGL_DataAkceptacji.strftime('%d/%m/%Y') }}
-                    {% else %}
-                        ____/____/____
-                    {% endif %}
+        <!-- Sekcja podpisów - jeden blok na całą szerokość -->
+        <div style="border: 1px solid #000; padding: 8px; margin-top: 8px; page-break-inside: avoid; break-inside: avoid;">
+            <div style="display: flex; gap: 16px;">
+                <!-- Lewa strona: Data i Podpis SERWISANTA -->
+                <div style="flex: 1;">
+                    <div style="margin-bottom: 12px;">
+                        <strong>Data realizacji:</strong>
+                        {% if naglowek_zadanie and naglowek_zadanie.ZNAG_DataWykonania %}
+                            {{ naglowek_zadanie.ZNAG_DataWykonania.strftime('%d/%m/%Y') }}
+                        {% elif naglowek_protokol.PNAGL_DataAkceptacji %}
+                            {{ naglowek_protokol.PNAGL_DataAkceptacji.strftime('%d/%m/%Y') }}
+                        {% else %}
+                            ____/____/____
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <strong>Podpis SERWISANTA:</strong><br>
+                        {{ naglowek_protokol.PNAGL_UZTOstatni or naglowek_zadanie.ZNAG_UzytkownikPodpisujacy or '_____________________' }}
+                    </div>
                 </div>
 
-                <div>
-                    <strong>Podpis SERWISANTA:</strong><br>
-                    {{ naglowek_protokol.PNAGL_UZTOstatni or naglowek_zadanie.ZNAG_UzytkownikPodpisujacy or '_____________________' }}
-                </div>
-            </div>
-
-            <!-- Prawa kolumna: Podpis KLIENTA -->
-            <div style="flex: 1; border: 1px solid #000; padding: 8px;">
-                <div>
-                    <strong>Podpis KLIENTA:</strong><br>
-                    {% if naglowek_zadanie and naglowek_zadanie.ZNAG_PodpisDoProtokolow %}
-                        {{ naglowek_zadanie.ZNAG_KlientNazwisko or '_____________________' }}
+                <!-- Prawa strona: Podpis KLIENTA -->
+                <div style="flex: 1;">
+                    <div>
+                        <strong>Podpis KLIENTA:</strong><br>
+                        {% if naglowek_zadanie and naglowek_zadanie.ZNAG_PodpisDoProtokolow %}
+                            {{ naglowek_zadanie.ZNAG_KlientNazwisko or '_____________________' }}
+                        {% else %}
+                            {{ naglowek_protokol.PNAGL_KlientNazwisko or naglowek_protokol.PNAGL_Zaakceptowal or '_____________________' }}
+                        {% endif %}
+                    </div>
+                    {% if naglowek_zadanie and naglowek_zadanie.ZNAG_PodpisDoProtokolow and naglowek_zadanie.ZNAG_KlientPodpis %}
+                        <div style="margin-top: 8px;">
+                            <img src="{{ naglowek_zadanie.ZNAG_KlientPodpis }}" style="max-width: 150px; max-height: 50px;" alt="Podpis">
+                        </div>
+                    {% elif naglowek_protokol.PNAGL_PodpisKlienta %}
+                        <div style="margin-top: 8px;">
+                            <img src="{{ naglowek_protokol.PNAGL_PodpisKlienta }}" style="max-width: 150px; max-height: 50px;" alt="Podpis">
+                        </div>
                     {% else %}
-                        {{ naglowek_protokol.PNAGL_KlientNazwisko or naglowek_protokol.PNAGL_Zaakceptowal or '_____________________' }}
+                        <div style="border-bottom: 1px solid #000; width: 150px; height: 40px; margin-top: 8px;"></div>
                     {% endif %}
                 </div>
-                {% if naglowek_zadanie and naglowek_zadanie.ZNAG_PodpisDoProtokolow and naglowek_zadanie.ZNAG_KlientPodpis %}
-                    <div style="margin-top: 8px;">
-                        <img src="{{ naglowek_zadanie.ZNAG_KlientPodpis }}" style="max-width: 150px; max-height: 50px;" alt="Podpis">
-                    </div>
-                {% elif naglowek_protokol.PNAGL_PodpisKlienta %}
-                    <div style="margin-top: 8px;">
-                        <img src="{{ naglowek_protokol.PNAGL_PodpisKlienta }}" style="max-width: 150px; max-height: 50px;" alt="Podpis">
-                    </div>
-                {% else %}
-                    <div style="border-bottom: 1px solid #000; width: 150px; height: 40px; margin-top: 8px;"></div>
-                {% endif %}
             </div>
         </div>
 
