@@ -41,17 +41,36 @@ class AuthService:
 
 
     def register_user(self, login, imie, nazwisko, pwd, rola):
-        #TODO włączyć unique na loginie xD
+        from sqlalchemy.exc import IntegrityError
+
+        # 1. WALIDACJA: Sprawdź czy login już istnieje
+        existing_user = self.repo.get_by_login(login)
+        if existing_user:
+            raise ValueError(f"Użytkownik o loginie '{login}' już istnieje w systemie")
+
+        # 2. Hash hasła i utwórz użytkownika
         passwordHash = self.hash_pwd(pwd)
         user = Uzytkownik(
             UZT_Imie=imie,
             UZT_Nazwisko=nazwisko,
             UZT_Login=login,
             UZT_pwd=passwordHash,
-            UZT_ROL_Id=rola)
-        result = self.repo.add_user(user)
+            UZT_ROL_Id=rola
+        )
 
-        return result
+        # 3. Zapisz do bazy z obsługą błędów
+        try:
+            result = self.repo.add_user(user)
+            return result
+        except IntegrityError as e:
+            # Backup na wypadek race condition (dwóch użytkowników dodaje tego samego loginu jednocześnie)
+            error_msg = str(e.orig) if hasattr(e, 'orig') else str(e)
+
+            if 'UZT_Login' in error_msg or 'UNIQUE' in error_msg or 'unique constraint' in error_msg.lower():
+                raise ValueError(f"Użytkownik o loginie '{login}' już istnieje w systemie")
+            else:
+                # Inny błąd integrity (np. FK violation)
+                raise ValueError(f"Błąd podczas tworzenia użytkownika: Naruszenie integralności danych")
 
     def validate_and_decode_token(self, token):
         try:

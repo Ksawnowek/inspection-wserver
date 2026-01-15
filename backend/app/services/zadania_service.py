@@ -76,11 +76,57 @@ class ZadaniaService:
 
     def patch_zadanie(self, znag_id: int, dto_data: ZadanieUpdateDTO, user: Uzytkownik = None) -> ZadanieNagl:
         from datetime import datetime
+        from app.models.models import ProtokolNagl, ProtokolPoz
+        from sqlalchemy import select, and_, or_
 
         zadanie = self.repo.get_zadanie_by_id(znag_id)
         if zadanie is None:
             return None
         update_data = dto_data.model_dump(exclude_unset=True)
+
+        # WALIDACJA: Jeśli ustawiamy podpis klienta, sprawdź czy wszystkie protokoły są wypełnione
+        if 'ZNAG_KlientPodpis' in update_data and update_data['ZNAG_KlientPodpis']:
+            # Pobierz wszystkie aktywne protokoły dla tego zadania
+            stmt = select(ProtokolNagl).join(
+                ZadaniePoz,
+                ZadaniePoz.ZPOZ_Id == ProtokolNagl.PNAGL_ZPOZ_Id
+            ).where(
+                and_(
+                    ZadaniePoz.ZPOZ_ZNAG_Id == znag_id,
+                    ProtokolNagl.PNAGL_Aktywny == True
+                )
+            )
+            protokoly = self.session.scalars(stmt).all()
+
+            niekompletne_protokoly = []
+
+            for protokol in protokoly:
+                # Pobierz pozycje tego protokołu
+                poz_stmt = select(ProtokolPoz).where(ProtokolPoz.PPOZ_PNAGL_Id == protokol.PNAGL_Id)
+                pozycje = self.session.scalars(poz_stmt).all()
+
+                # Sprawdź czy wszystkie pozycje mają przynajmniej jedną ocenę
+                for pozycja in pozycje:
+                    ma_ocene = (
+                        pozycja.PPOZ_OcenaNP == True or
+                        pozycja.PPOZ_OcenaO == True or
+                        pozycja.PPOZ_OcenaNR == True or
+                        pozycja.PPOZ_OcenaNA == True
+                    )
+                    if not ma_ocene:
+                        # Ten protokół nie jest kompletny
+                        niekompletne_protokoly.append(protokol.PNAGL_NrUrzadzenia or f"ID:{protokol.PNAGL_Id}")
+                        break  # Nie sprawdzaj dalszych pozycji tego protokołu
+
+            if niekompletne_protokoly:
+                protokoly_str = ", ".join(niekompletne_protokoly)
+                raise ValueError(
+                    f"Blokada: Nie można podpisać zadania. "
+                    f"Następujące protokoły nie są w pełni wypełnione: {protokoly_str}. "
+                    f"Wszystkie pozycje w protokołach muszą mieć zaznaczoną ocenę."
+                )
+
+        # Zapisz dane
         for key, value in update_data.items():
             setattr(zadanie, key, value)
 

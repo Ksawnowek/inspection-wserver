@@ -77,17 +77,30 @@ async def handle_register(
         service: AuthService = Depends(get_auth_service),
         user: Uzytkownik = Depends(kierownik_only)
     ):
-    result = service.register_user(data.login, data.name, data.surname, data.pwd, data.role)
-    if result:
-        status = "success"
-        response = "Udało się!"
-    else:
-        status = "failed"
-        response = "Niepowodzenie operacji"
-    return {
-        "status": status,
-        "message": response
-    }
+    try:
+        result = service.register_user(data.login, data.name, data.surname, data.pwd, data.role)
+        if result:
+            return {
+                "status": "success",
+                "message": "Użytkownik został utworzony pomyślnie"
+            }
+        else:
+            return {
+                "status": "failed",
+                "message": "Niepowodzenie operacji"
+            }
+    except ValueError as e:
+        # Błędy walidacji (duplikat loginu, itp.) - zwróć jako failed z komunikatem
+        return {
+            "status": "failed",
+            "message": str(e)
+        }
+    except Exception as e:
+        # Nieoczekiwane błędy
+        return {
+            "status": "failed",
+            "message": "Wystąpił nieoczekiwany błąd podczas tworzenia użytkownika"
+        }
 
 @router.post("/logout")
 async def handle_logout(response: Response):
