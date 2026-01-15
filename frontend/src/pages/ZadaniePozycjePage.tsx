@@ -190,9 +190,28 @@ export default function ZadaniePozycjePage() {
     if (!znagId) return;
 
     try {
-      await podpiszZadanie(Number(znagId), dataUrl);
+      // Przygotuj dane do zapisu - podpis i dane klienta
+      const updateData: any = {
+        ZNAG_KlientPodpis: dataUrl
+      };
+
+      // Dodaj nazwisko, dział i datę zatwierdzenia jeśli są wypełnione
+      if (klientNazwisko) updateData.ZNAG_KlientNazwisko = klientNazwisko;
+      if (klientDzial) updateData.ZNAG_KlientDzial = klientDzial;
+      if (klientDataZatw) {
+        const date = new Date(klientDataZatw + 'T12:00:00');
+        updateData.ZNAG_KlientDataZatw = date.toISOString();
+      }
 
       // Jeśli checkbox "zastosuj do wszystkich protokołów" był zaznaczony
+      if (applyToAll) {
+        updateData.ZNAG_PodpisDoProtokolow = true;
+      }
+
+      // Zapisz wszystkie dane razem
+      await patchZadanieMultiple(Number(znagId), updateData);
+
+      // Jeśli checkbox był zaznaczony, podpisz wszystkie protokoły
       if (applyToAll) {
         const result = await podpiszWszystkieProtokoly(Number(znagId), dataUrl, "Klient");
         if (result.signed_count > 0) {
@@ -206,6 +225,7 @@ export default function ZadaniePozycjePage() {
       setShowSignatureDialog(false);
     } catch (error) {
       console.error("Błąd podpisu:", error);
+      throw error;
     }
   }
 

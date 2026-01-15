@@ -89,7 +89,21 @@ export default function AwariaPage() {
     if (!znagId) return;
 
     try {
-      await podpiszZadanie(Number(znagId), dataUrl);
+      // Przygotuj dane do zapisu - podpis i dane klienta
+      const updateData: any = {
+        ZNAG_KlientPodpis: dataUrl
+      };
+
+      // Dodaj nazwisko, dział i datę zatwierdzenia jeśli są wypełnione
+      if (klientNazwisko) updateData.ZNAG_KlientNazwisko = klientNazwisko;
+      if (klientDzial) updateData.ZNAG_KlientDzial = klientDzial;
+      if (klientDataZatw) {
+        const date = new Date(klientDataZatw);
+        updateData.ZNAG_KlientDataZatw = date.toISOString();
+      }
+
+      // Zapisz wszystkie dane razem
+      await patchZadanieMultiple(Number(znagId), updateData);
 
       // Odśwież zadanie
       const updatedZadanie = await getZadanie(Number(znagId));
