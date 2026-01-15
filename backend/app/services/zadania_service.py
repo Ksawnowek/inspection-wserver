@@ -20,6 +20,30 @@ class ZadaniaService:
             return self.repo.pozycje_zadania(znag_id)
 
     def set_do_przegladu(self, zpoz_id: int, wartosc: bool, uzytkownik: str | None) -> bool:
+        from app.models.models import ProtokolNagl, ProtokolPoz
+        from sqlalchemy import select, and_
+
+        # Sprawdź czy istnieje wypełniony protokół dla tego ZPOZ
+        stmt = select(ProtokolPoz).join(
+            ProtokolNagl,
+            ProtokolNagl.PNAGL_Id == ProtokolPoz.PPOZ_PNAGL_Id
+        ).where(
+            and_(
+                ProtokolNagl.PNAGL_ZPOZ_Id == zpoz_id,
+                ProtokolNagl.PNAGL_Aktywny == True,
+                # Sprawdź czy jest przynajmniej jedna pozycja z wypełnioną oceną
+                (ProtokolPoz.PPOZ_OcenaNP == True) |
+                (ProtokolPoz.PPOZ_OcenaO == True) |
+                (ProtokolPoz.PPOZ_OcenaNR == True) |
+                (ProtokolPoz.PPOZ_OcenaNA == True)
+            )
+        )
+
+        wypelnione_pozycje = self.session.scalars(stmt).first()
+
+        if wypelnione_pozycje:
+            raise ValueError("Nie można zmienić statusu 'Do przeglądu' - protokół został już wypełniony")
+
         return self.repo.ustaw_do_przegladu(zpoz_id, wartosc, uzytkownik)
 
     def get_lista_zadan(self,

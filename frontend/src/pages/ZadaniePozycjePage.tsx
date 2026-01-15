@@ -552,6 +552,7 @@ export default function ZadaniePozycjePage() {
                     <DoPrzegladuButton
                       isDoPrzegladu={r.ZPOZ_UrzadzenieDoPrzegladu === true}
                       onChange={(v) => toggle(r, v)}
+                      disabled={isPodpisany}
                     />
                   </td>
                 )}
