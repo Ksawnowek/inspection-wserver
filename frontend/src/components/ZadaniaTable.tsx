@@ -100,7 +100,7 @@ const ZadaniaTable: React.FC<ZadaniaTableProps> = ({
         <td>{z.vZNAG_KlientNazwa}</td>
         <td>{z.vZNAG_KlientMiasto ?? z.vZNAG_Miejscowosc ?? "-"}</td>
         <td>{fmtDate(z.vZNAG_DataPlanowana)}</td>
-        {showDataWykonania && <td>{fmtDate(z.vZNAG_DataWykonania)}</td>}
+        <td>{fmtDate(z.vZNAG_DataWykonania)}</td>
         <td>
           {showOpenButton && (
             <Button
@@ -145,7 +145,8 @@ const ZadaniaTable: React.FC<ZadaniaTableProps> = ({
               <th>Typ</th>
               <th>Klient</th>
               <th>Miejscowość</th>
-              <th>Plan</th>
+              <th>Data planowana</th>
+              <th>Data wykonania</th>
               <th colSpan={2}>Akcje</th>
             </tr>
           </thead>
@@ -201,8 +202,8 @@ const ZadaniaTable: React.FC<ZadaniaTableProps> = ({
                   <th>Typ</th>
                   <th>Klient</th>
                   <th>Miejscowość</th>
-                  <th>Plan</th>
-                  <th>Data przeglądu</th>
+                  <th>Data planowana</th>
+                  <th>Data wykonania</th>
                   <th colSpan={2}>Akcje</th>
                 </tr>
               </thead>
