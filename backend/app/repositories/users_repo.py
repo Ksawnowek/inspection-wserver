@@ -30,9 +30,11 @@ class UserRepo:
 
     """
     Funkcja zwracająca listę użytkowników z wyczyszczonym polem hasła
+    Ukrywa użytkownika admin (UZT_Id = 104) z widoku
     """
     def get_all_users(self):
         return (self.session.query(Uzytkownik)
+                .filter(Uzytkownik.UZT_Id != 104)
                 .options(selectinload(Uzytkownik.Role_))
                 .options(defer(Uzytkownik.UZT_pwd))
                 .all())
