@@ -27,6 +27,7 @@ class UserRepo:
 
     def add_user(self, user: Uzytkownik):
         self.session.add(user)
+        return True
 
     """
     Funkcja zwracająca listę użytkowników z wyczyszczonym polem hasła
