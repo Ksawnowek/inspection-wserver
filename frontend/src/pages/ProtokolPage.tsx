@@ -142,30 +142,45 @@ export default function ProtokolPage() {
       return newData;
     });
 
+    // Sprawdź czy to jest tylko zapis uwagi (bez zmian ocen)
+    const isOnlyUwagiUpdate = 'PPOZ_Uwagi' in partial && Object.keys(partial).length === 1;
+
     try {
-      await toast.promise( 
-        patchProtokolPoz(Number(ppozId), partial),
-        {
-          loading: 'Zapisywanie danych', 
-          success: 'Dane zapisano pomyślnie!',
-          error: (err) => `Błąd: ${err.message || 'Nie udało zapisać się zmian do bazy danych!'}`, 
-        }
-    );
+      if (isOnlyUwagiUpdate) {
+        // Dla uwag: zapis bez toasta (silent save)
+        await patchProtokolPoz(Number(ppozId), partial);
+      } else {
+        // Dla ocen: zapis z komunikatem
+        await toast.promise(
+          patchProtokolPoz(Number(ppozId), partial),
+          {
+            loading: 'Zapisywanie oceny...',
+            success: 'Ocena zapisana pomyślnie!',
+            error: (err) => `Błąd: ${err.message || 'Nie udało się zapisać zmian!'}`,
+          }
+        );
+      }
     } catch (error) {
       console.error("Błąd zapisu automatycznego:", error);
+
+      // Wyświetl błąd dla silent save (uwag)
+      if (isOnlyUwagiUpdate) {
+        toast.error('Nie udało się zapisać uwagi');
+      }
+
       //przywrócenie do starego stanu, w razie błędu
       if (originalItem) {
         setData(prev => {
           if (!prev) return prev;
           const newData = { ...prev };
-          
+
           for (const groupName in newData) {
             const items = newData[groupName];
             const itemIndex = items.findIndex(item => item.PPOZ_Id === ppozId);
-            
+
             if (itemIndex > -1) {
               const newItems = [...items];
-              newItems[itemIndex] = originalItem; 
+              newItems[itemIndex] = originalItem;
               newData[groupName] = newItems;
               break;
             }
