@@ -92,12 +92,19 @@ function PhotoManager({ ppozId, initialZdjecia, onSyncZdjecia, disabled = false 
       <div className='align-items-center' style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {initialZdjecia && initialZdjecia.map(zdjecie => (
           <div key={zdjecie.ZDJP_Id} style={{ position: 'relative' }}>
-            <img src={"http://localhost:8080" + zdjecie.ZDJP_Sciezka} alt="miniaturka" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4 }} />
+            <img
+              src={zdjecie.ZDJP_Sciezka}
+              alt="miniaturka"
+              style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4, cursor: 'pointer' }}
+              onClick={() => window.open(zdjecie.ZDJP_Sciezka, '_blank')}
+              title="Kliknij aby otworzyć w pełnym rozmiarze"
+            />
             {!disabled && (
               <Button
                 variant="danger"
+                size="sm"
                 onClick={() => handleDelete(zdjecie.ZDJP_Id)}
-                style={{ position: 'absolute', top: 2, right: 2, cursor: 'pointer'}}
+                style={{ position: 'absolute', top: 2, right: 2, cursor: 'pointer', padding: '2px 6px'}}
               >
                 X
               </Button>

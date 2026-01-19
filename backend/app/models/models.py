@@ -351,6 +351,32 @@ class ZdjeciaProtokolPoz(Base):
 
     ProtokolPoz_: Mapped['ProtokolPoz'] = relationship('ProtokolPoz', back_populates='ZdjeciaProtokolPoz')
 
+    def _normalize_path(self) -> str:
+        """Konwertuje starą pełną ścieżkę systemową na relatywny URL"""
+        import os
+        from pathlib import Path
+
+        path_str = self.ZDJP_Sciezka
+
+        # Jeśli już jest relatywną ścieżką URL (zaczyna się od /), zwróć bez zmian
+        if path_str.startswith('/'):
+            return path_str
+
+        # Jeśli to pełna ścieżka systemowa (Windows: C:\ lub Linux: /), konwertuj
+        try:
+            path = Path(path_str)
+            # Znajdź 'storage' w ścieżce i zwróć od tego momentu
+            parts = path.parts
+            if 'storage' in parts:
+                storage_idx = parts.index('storage')
+                relative_parts = parts[storage_idx:]
+                return '/' + '/'.join(relative_parts)
+        except:
+            pass
+
+        # Fallback - zwróć oryginalną wartość
+        return path_str
+
 
 class Config(Base):
     """Tabela konfiguracji aplikacji (klucz-wartość)"""
