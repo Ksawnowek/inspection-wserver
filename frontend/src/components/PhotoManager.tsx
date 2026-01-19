@@ -1,14 +1,40 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { dodajZdjecieDoPozycji, usunZdjecieZPozycji } from '../api/zdjecia'; 
+import { dodajZdjecieDoPozycji, usunZdjecieZPozycji } from '../api/zdjecia';
 import Spinner from './Spinner'; // Mały spinner
 import { ZdjecieProtokolPoz } from '../types';
 import { CameraFill } from 'react-bootstrap-icons';
 
-// Typ dla zdjęcia (dla przykładu)
-interface Zdjecie {
-  id: number;
-  url: string; // URL do miniaturki
+/**
+ * Konwertuje ścieżkę pliku na URL do zdjęcia
+ * Obsługuje różne formaty ścieżki:
+ * - Pełna ścieżka systemowa: /home/user/.../storage/photos/uuid.jpg -> /storage/photos/uuid.jpg
+ * - Ścieżka względna: /storage/photos/uuid.jpg -> /storage/photos/uuid.jpg
+ * - Tylko nazwa pliku: uuid.jpg -> /storage/photos/uuid.jpg
+ */
+function getPhotoUrl(sciezka: string): string {
+  if (!sciezka) return '';
+
+  // Jeśli ścieżka zawiera '/storage/', wyciągnij część od '/storage/'
+  const storageIndex = sciezka.indexOf('/storage/');
+  if (storageIndex !== -1) {
+    return sciezka.substring(storageIndex);
+  }
+
+  // Jeśli ścieżka zawiera '/photos/', wyciągnij część od '/photos/' i dodaj '/storage'
+  const photosIndex = sciezka.indexOf('/photos/');
+  if (photosIndex !== -1) {
+    return '/storage' + sciezka.substring(photosIndex);
+  }
+
+  // Jeśli ścieżka zaczyna się od '/storage', użyj jej bezpośrednio
+  if (sciezka.startsWith('/storage')) {
+    return sciezka;
+  }
+
+  // Jeśli to tylko nazwa pliku, skonstruuj pełną ścieżkę
+  const filename = sciezka.split('/').pop() || sciezka;
+  return `/storage/photos/${filename}`;
 }
 
 // Propsy dla komponentu
@@ -92,7 +118,7 @@ function PhotoManager({ ppozId, initialZdjecia, onSyncZdjecia, disabled = false 
       <div className='align-items-center' style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {initialZdjecia && initialZdjecia.map(zdjecie => (
           <div key={zdjecie.ZDJP_Id} style={{ position: 'relative' }}>
-            <img src={"http://localhost:8080" + zdjecie.ZDJP_Sciezka} alt="miniaturka" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4 }} />
+            <img src={getPhotoUrl(zdjecie.ZDJP_Sciezka)} alt="miniaturka" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4, cursor: 'pointer' }} onClick={() => window.open(getPhotoUrl(zdjecie.ZDJP_Sciezka), '_blank')} />
             {!disabled && (
               <Button
                 variant="danger"
