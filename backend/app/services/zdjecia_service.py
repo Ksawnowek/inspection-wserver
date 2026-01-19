@@ -50,6 +50,39 @@ class ZdjeciaService:
 
         return zdjecie
 
+    def get_zdjecie_file_path(self, zdjp_id: int) -> Path:
+        """Pobiera fizyczną ścieżkę do pliku zdjęcia"""
+        zdjecie = self.repo.get_pozycja_zdjecie_by_id(zdjp_id)
+
+        if zdjecie is None:
+            raise HTTPException(status_code=404, detail="Nie znaleziono zdjęcia o podanym ID")
+
+        path_str = zdjecie.ZDJP_Sciezka
+
+        # Konwertuj URL lub pełną ścieżkę na fizyczną ścieżkę do pliku
+        if path_str.startswith('/'):
+            if path_str.startswith('/storage/'):
+                # /storage/photos/abc.jpg -> STORAGE_DIR/photos/abc.jpg
+                relative_to_storage = path_str.lstrip('/').split('/', 1)[1]
+                from app.core.paths import STORAGE_DIR
+                file_path = STORAGE_DIR / relative_to_storage
+            elif path_str.startswith('/Protokoly/'):
+                # /Protokoly/abc.jpg -> C:\Zdjecia\Protokoly\abc.jpg
+                filename = path_str.split('/')[-1]
+                OLD_PHOTO_DIR = Path(os.getenv("OLD_PHOTO_DIR", r"C:\Zdjecia\Protokoly"))
+                file_path = OLD_PHOTO_DIR / filename
+            else:
+                raise HTTPException(status_code=400, detail=f"Nieznany format URL: {path_str}")
+        else:
+            # Stara pełna ścieżka systemowa
+            file_path = Path(path_str)
+
+        # Sprawdź czy plik istnieje
+        if not file_path.exists():
+            raise HTTPException(status_code=404, detail=f"Plik nie istnieje: {file_path}")
+
+        return file_path
+
     def delete_pozycja_zdjecie(self, zdjp_id: int):
         zdjecie = self.repo.get_pozycja_zdjecie_by_id(zdjp_id)
 

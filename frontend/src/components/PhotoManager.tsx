@@ -90,27 +90,32 @@ function PhotoManager({ ppozId, initialZdjecia, onSyncZdjecia, disabled = false 
       
       {/* Lista miniaturek */}
       <div className='align-items-center' style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-        {initialZdjecia && initialZdjecia.map(zdjecie => (
-          <div key={zdjecie.ZDJP_Id} style={{ position: 'relative' }}>
-            <img
-              src={zdjecie.ZDJP_Sciezka}
-              alt="miniaturka"
-              style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4, cursor: 'pointer' }}
-              onClick={() => window.open(zdjecie.ZDJP_Sciezka, '_blank')}
-              title="Kliknij aby otworzyć w pełnym rozmiarze"
-            />
-            {!disabled && (
-              <Button
-                variant="danger"
-                size="sm"
-                onClick={() => handleDelete(zdjecie.ZDJP_Id)}
-                style={{ position: 'absolute', top: 2, right: 2, cursor: 'pointer', padding: '2px 6px'}}
-              >
-                X
-              </Button>
-            )}
-          </div>
-        ))}
+        {initialZdjecia && initialZdjecia.map(zdjecie => {
+          // Zdjęcia są teraz serwowane przez API backend
+          const imageUrl = `/api/zdjecia/view/${zdjecie.ZDJP_Id}`;
+
+          return (
+            <div key={zdjecie.ZDJP_Id} style={{ position: 'relative' }}>
+              <img
+                src={imageUrl}
+                alt="miniaturka"
+                style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4, cursor: 'pointer' }}
+                onClick={() => window.open(imageUrl, '_blank')}
+                title="Kliknij aby otworzyć w pełnym rozmiarze"
+              />
+              {!disabled && (
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => handleDelete(zdjecie.ZDJP_Id)}
+                  style={{ position: 'absolute', top: 2, right: 2, cursor: 'pointer', padding: '2px 6px'}}
+                >
+                  X
+                </Button>
+              )}
+            </div>
+          );
+        })}
 
         {/* Przycisk dodawania lub spinner */}
         {loading ? (
