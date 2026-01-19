@@ -1,4 +1,5 @@
 from fastapi import APIRouter, UploadFile, File, Depends, HTTPException, Response, status
+from fastapi.responses import FileResponse
 
 from app.dependencies import get_zdjecia_service, any_logged_in_user
 from app.models.models import Uzytkownik
@@ -16,6 +17,17 @@ async def post_pozycja_zdjecie(
     if not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="Dozwolone są tylko pliki obrazów")
     return await service.add_pozycja_zdjecie(ppoz_id, file)
+
+
+@router.get("/view/{zdjp_id}")
+def get_zdjecie_file(
+        zdjp_id: int,
+        service: ZdjeciaService = Depends(get_zdjecia_service),
+        user: Uzytkownik = Depends(any_logged_in_user)
+    ):
+    """Zwraca plik zdjęcia (streamowanie przez API)"""
+    file_path = service.get_zdjecie_file_path(zdjp_id)
+    return FileResponse(file_path)
 
 
 @router.delete("/pozycja/{zdjp_id}")
