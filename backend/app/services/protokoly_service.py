@@ -26,6 +26,12 @@ class ProtokolyService:
         nag = self.repo.get_naglowek_pozycje_by_id(pnagl_id)
         if not nag:
             raise ProtokolNotFound(pnagl_id)
+
+        # Normalizuj ścieżki zdjęć dla wszystkich pozycji (konwersja starych pełnych ścieżek na URL)
+        for pozycja in nag.ProtokolPoz:
+            for zdjecie in pozycja.ZdjeciaProtokolPoz:
+                zdjecie.ZDJP_Sciezka = zdjecie._normalize_path()
+
         result = self._mapPozToGrupa(nag.ProtokolPoz)
         return result
 

@@ -57,8 +57,20 @@ class ZdjeciaService:
         if zdjecie is None:
             raise HTTPException(status_code=404, detail="Nie znaleziono zdjęcia o podanym ID")
 
+        # Konwertuj ścieżkę z URL lub pełnej ścieżki systemowej na fizyczną ścieżkę do pliku
         try:
-            file_path_to_delete = Path(zdjecie.ZDJP_Sciezka)
+            path_str = zdjecie.ZDJP_Sciezka
+
+            # Jeśli to URL (zaczyna się od /), konwertuj na ścieżkę systemową
+            if path_str.startswith('/'):
+                # /storage/photos/abc.jpg -> STORAGE_DIR/photos/abc.jpg
+                relative_to_storage = path_str.lstrip('/').split('/', 1)[1]  # photos/abc.jpg
+                photo_dir = self._get_photo_dir()
+                file_path_to_delete = photo_dir / relative_to_storage
+            else:
+                # Stara pełna ścieżka systemowa
+                file_path_to_delete = Path(path_str)
+
         except Exception as e:
             print(f"BŁĄD: Nie można ustalić ścieżki pliku dla {zdjecie.ZDJP_Sciezka}: {e}")
             raise HTTPException(status_code=500, detail="Błąd przetwarzania ścieżki pliku")
