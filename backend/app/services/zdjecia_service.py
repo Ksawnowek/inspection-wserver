@@ -16,11 +16,10 @@ class ZdjeciaService:
         self.config_service = config_service
 
     def _get_photo_dir(self) -> Path:
-        """Pobiera ścieżkę do katalogu ze zdjęciami z konfiguracji"""
-        sciezka = self.config_service.get_zdjecia_sciezka()
-        photo_dir = Path(sciezka)
-        photo_dir.mkdir(parents=True, exist_ok=True)
-        return photo_dir
+        """Pobiera ścieżkę do katalogu ze zdjęciami"""
+        from app.core.paths import PHOTO_DIR
+        PHOTO_DIR.mkdir(parents=True, exist_ok=True)
+        return PHOTO_DIR
 
     async def add_pozycja_zdjecie(self, ppoz_id, file):
         photo_dir = self._get_photo_dir()
@@ -63,10 +62,19 @@ class ZdjeciaService:
 
             # Jeśli to URL (zaczyna się od /), konwertuj na ścieżkę systemową
             if path_str.startswith('/'):
-                # /storage/photos/abc.jpg -> STORAGE_DIR/photos/abc.jpg
-                relative_to_storage = path_str.lstrip('/').split('/', 1)[1]  # photos/abc.jpg
-                photo_dir = self._get_photo_dir()
-                file_path_to_delete = photo_dir / relative_to_storage
+                if path_str.startswith('/storage/'):
+                    # /storage/photos/abc.jpg -> STORAGE_DIR/photos/abc.jpg
+                    relative_to_storage = path_str.lstrip('/').split('/', 1)[1]  # photos/abc.jpg
+                    from app.core.paths import STORAGE_DIR
+                    file_path_to_delete = STORAGE_DIR / relative_to_storage
+                elif path_str.startswith('/Protokoly/'):
+                    # /Protokoly/abc.jpg -> C:\Zdjecia\Protokoly\abc.jpg (stary katalog)
+                    import os
+                    filename = path_str.split('/')[-1]
+                    OLD_PHOTO_DIR = Path(os.getenv("OLD_PHOTO_DIR", r"C:\Zdjecia\Protokoly"))
+                    file_path_to_delete = OLD_PHOTO_DIR / filename
+                else:
+                    raise ValueError(f"Nieznany format URL: {path_str}")
             else:
                 # Stara pełna ścieżka systemowa
                 file_path_to_delete = Path(path_str)

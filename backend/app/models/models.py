@@ -365,12 +365,19 @@ class ZdjeciaProtokolPoz(Base):
         # Jeśli to pełna ścieżka systemowa (Windows: C:\ lub Linux: /), konwertuj
         try:
             path = Path(path_str)
-            # Znajdź 'storage' w ścieżce i zwróć od tego momentu
             parts = path.parts
+
+            # Znajdź 'storage' w ścieżce i zwróć od tego momentu
             if 'storage' in parts:
                 storage_idx = parts.index('storage')
                 relative_parts = parts[storage_idx:]
                 return '/' + '/'.join(relative_parts)
+
+            # Stare zdjęcia z C:\Zdjecia\Protokoly -> /Protokoly/{filename}
+            if 'Protokoly' in parts or 'Zdjecia' in parts:
+                filename = path.name
+                return f'/Protokoly/{filename}'
+
         except:
             pass
 
