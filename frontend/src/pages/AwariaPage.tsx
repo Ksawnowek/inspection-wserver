@@ -62,27 +62,25 @@ export default function AwariaPage() {
         setKlientNazwisko(data.vZNAG_KlientNazwisko || "");
         setKlientDzial(data.vZNAG_KlientDzial || "");
 
-        // Formatuj datę dla input type="datetime-local"
+        // Formatuj datę dla input type="date"
         if (data.vZNAG_DataWykonania) {
           const date = new Date(data.vZNAG_DataWykonania);
-          setDataWykonania(formatDateTimeLocal(date));
+          setDataWykonania(formatDate(date));
         }
 
         if (data.vZNAG_KlientDataZatw) {
           const date = new Date(data.vZNAG_KlientDataZatw);
-          setKlientDataZatw(formatDateTimeLocal(date));
+          setKlientDataZatw(formatDate(date));
         }
       })
       .finally(() => setLoading(false));
   }, [znagId]);
 
-  const formatDateTimeLocal = (date: Date): string => {
+  const formatDate = (date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+    return `${year}-${month}-${day}`;
   };
 
   async function handleSign(dataUrl: string, applyToAll: boolean = false) {
@@ -257,7 +255,7 @@ export default function AwariaPage() {
         <div className="card mt-3">
           <div className="card-header">
             <h5 className="mb-0">
-              {title} - {zadanie.vZNAG_KlientNazwa}
+              {isAwaria ? title : `${title} #{znagId}`} - {zadanie.vZNAG_KlientNazwa}
             </h5>
             <small className="text-muted">
               {zadanie.vZNAG_KlientMiasto || zadanie.vZNAG_Miejscowosc}
@@ -460,7 +458,7 @@ export default function AwariaPage() {
               <Form.Group className="mb-3">
                 <Form.Label>Data wykonania</Form.Label>
                 <Form.Control
-                  type="datetime-local"
+                  type="date"
                   value={dataWykonania}
                   onChange={(e) => setDataWykonania(e.target.value)}
                   disabled={isPodpisany}
@@ -498,7 +496,7 @@ export default function AwariaPage() {
                   <Form.Group className="mb-3">
                     <Form.Label>Data zatwierdzenia</Form.Label>
                     <Form.Control
-                      type="datetime-local"
+                      type="date"
                       value={klientDataZatw}
                       onChange={(e) => setKlientDataZatw(e.target.value)}
                       disabled={isPodpisany}
