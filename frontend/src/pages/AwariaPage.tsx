@@ -292,7 +292,7 @@ export default function AwariaPage() {
                         <div className="flex-grow-1">
                           <strong>{idx + 1}.</strong> {opis.ZOP_OpisPrac}
                         </div>
-                        {!isPodpisany && (
+                        {!isPodpisany && isAwaria && (
                           <div className="d-flex gap-1">
                             <Button
                               size="sm"
@@ -316,7 +316,8 @@ export default function AwariaPage() {
                 ))}
               </ListGroup>
 
-              {!isPodpisany && (
+              {/* Pole dodawania opis prac - tylko dla Awarii, ukryte dla Prace różne */}
+              {!isPodpisany && isAwaria && (
                 <div className="d-flex gap-2 mb-4">
                   <Form.Control
                     as="textarea"
