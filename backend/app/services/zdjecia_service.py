@@ -37,10 +37,17 @@ class ZdjeciaService:
             print(f"BŁĄD REPOZYTORIUM: Nie udało się zapisać pliku {file_path}: {e}")
             raise HTTPException(status_code=500, detail="Błąd zapisu pliku na serwerze")
 
-        # Zapisz pełną ścieżkę do bazy danych
-        file_url = str(file_path)
+        # Zapisz relatywny URL do bazy danych (zamiast pełnej ścieżki systemowej)
+        # Konwertuj np. C:\storage\photos\abc.jpg -> /storage/photos/abc.jpg
+        relative_path = file_path.relative_to(photo_dir.parent)
+        file_url = "/" + str(relative_path).replace("\\", "/")
 
         zdjecie = self.repo.dodaj_zdjecie(ppoz_id, file_url)
+        self.repo.session.commit()
+        self.repo.session.refresh(zdjecie)
+
+        # Upewnij się że ścieżka jest znormalizowana przy zwracaniu
+        zdjecie.ZDJP_Sciezka = zdjecie._normalize_path()
 
         return zdjecie
 
