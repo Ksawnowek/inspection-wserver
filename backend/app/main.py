@@ -19,7 +19,14 @@ ALLOWED = os.getenv("ALLOWED_ORIGINS", "http://localhost:8080,http://localhost:5
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 app = FastAPI(title="GHSerwis API")
 
+# Nowe zdjęcia w katalogu storage
 app.mount("/storage", StaticFiles(directory=STORAGE_DIR), name="storage")
+
+# Stare zdjęcia z poprzedniego katalogu (jeśli istnieje)
+from pathlib import Path
+OLD_PHOTO_DIR = Path(os.getenv("OLD_PHOTO_DIR", r"C:\Zdjecia\Protokoly"))
+if OLD_PHOTO_DIR.exists():
+    app.mount("/Protokoly", StaticFiles(directory=OLD_PHOTO_DIR), name="protokoly")
 
 app.add_middleware(
     CORSMiddleware,
