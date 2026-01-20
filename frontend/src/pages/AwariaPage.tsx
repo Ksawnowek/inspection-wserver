@@ -108,9 +108,11 @@ export default function AwariaPage() {
       setZadanie(updatedZadanie);
       setShowSignatureDialog(false);
       toast.success('Podpis zapisany pomyślnie!');
-    } catch (error) {
+    } catch (error: any) {
       console.error("Błąd podpisu:", error);
-      toast.error('Błąd zapisu podpisu');
+      // Wyświetl komunikat błędu z backendu (np. blokada przy niewypełnionych protokołach)
+      const errorMessage = error.response?.data?.detail || error.message || 'Wystąpił błąd podczas zapisywania podpisu';
+      toast.error(errorMessage, { duration: 6000 });
     }
   }
 
@@ -255,7 +257,7 @@ export default function AwariaPage() {
         <div className="card mt-3">
           <div className="card-header">
             <h5 className="mb-0">
-              {isAwaria ? title : `${title} #{znagId}`} - {zadanie.vZNAG_KlientNazwa}
+              {title} #{znagId} - {zadanie.vZNAG_KlientNazwa}
             </h5>
             <small className="text-muted">
               {zadanie.vZNAG_KlientMiasto || zadanie.vZNAG_Miejscowosc}
@@ -292,7 +294,7 @@ export default function AwariaPage() {
                         <div className="flex-grow-1">
                           <strong>{idx + 1}.</strong> {opis.ZOP_OpisPrac}
                         </div>
-                        {!isPodpisany && isAwaria && (
+                        {!isPodpisany && (
                           <div className="d-flex gap-1">
                             <Button
                               size="sm"

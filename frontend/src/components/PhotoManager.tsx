@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { dodajZdjecieDoPozycji, usunZdjecieZPozycji } from '../api/zdjecia'; 
+import { dodajZdjecieDoPozycji, usunZdjecieZPozycji } from '../api/zdjecia';
 import Spinner from './Spinner'; // Mały spinner
 import { ZdjecieProtokolPoz } from '../types';
 import { CameraFill } from 'react-bootstrap-icons';
 
-// Typ dla zdjęcia (dla przykładu)
-interface Zdjecie {
-  id: number;
-  url: string; // URL do miniaturki
+/**
+ * Generuje URL do zdjęcia na podstawie ID
+ * Używa endpointu API który serwuje plik bezpośrednio z dysku
+ */
+function getPhotoUrl(zdjecieId: number): string {
+  return `/api/zdjecia/file/${zdjecieId}`;
 }
 
 // Propsy dla komponentu
@@ -92,7 +94,7 @@ function PhotoManager({ ppozId, initialZdjecia, onSyncZdjecia, disabled = false 
       <div className='align-items-center' style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {initialZdjecia && initialZdjecia.map(zdjecie => (
           <div key={zdjecie.ZDJP_Id} style={{ position: 'relative' }}>
-            <img src={"http://localhost:8080" + zdjecie.ZDJP_Sciezka} alt="miniaturka" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4 }} />
+            <img src={getPhotoUrl(zdjecie.ZDJP_Id)} alt="miniaturka" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4, cursor: 'pointer' }} onClick={() => window.open(getPhotoUrl(zdjecie.ZDJP_Id), '_blank')} />
             {!disabled && (
               <Button
                 variant="danger"

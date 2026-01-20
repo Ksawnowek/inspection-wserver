@@ -32,14 +32,14 @@ export default function LoginPage() {
 
     try {
       await toast.promise(
-        login(formData.login, formData.password), 
+        login(formData.login, formData.password),
         {
-          loading: 'Logowanie...', 
+          loading: 'Logowanie...',
           success: 'Zalogowano pomyślnie!',
-          error: (err) => `Błąd: ${err.message || 'Nieprawidłowy login lub hasło'}`, 
+          error: (err) => err.response?.data?.detail || err.message || 'Nieprawidłowy login lub hasło',
         }
       );
-      
+
       // Sukces!
       // <-- KROK 3: Użyj navigate zamiast window.location.href
       setTimeout(() => {
@@ -48,7 +48,8 @@ export default function LoginPage() {
 
     } catch (error: any) {
       // Błąd zostanie złapany, jeśli toast.promise go "przepuści" (re-throw)
-      setError(error.message || "Nieprawidłowy login lub hasło");
+      const errorMessage = error.response?.data?.detail || error.message || "Nieprawidłowy login lub hasło";
+      setError(errorMessage);
       console.error("Wystąpił błąd logowania:", error);
     }
     finally{
