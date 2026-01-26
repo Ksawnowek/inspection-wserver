@@ -25,7 +25,7 @@ router = APIRouter(prefix="/api/auth", tags=["authentication"])
 async def handle_login(data: LoginRequest, response: Response, service: AuthService = Depends(get_auth_service)):
     access_token = service.auth_user(data.login, data.pwd)
     if access_token is None:
-        raise HTTPException(status_code=401, detail="Incorrect username or password")
+        raise HTTPException(status_code=401, detail="Nieprawidłowy login lub hasło")
 
     my_refresh_token = service.create_refresh_token(data.login)
 

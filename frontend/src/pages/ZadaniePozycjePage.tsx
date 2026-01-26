@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getZadanie, getZadaniePozycje, setDoPrzegladu, patchZadanieMultiple, podpiszZadanie, podpiszWszystkieProtokoly, downloadZadaniePdf, odswiezZadanie } from "../api/zadania";
+import { getZadanie, getZadaniePozycje, setDoPrzegladu, patchZadanieMultiple, podpiszZadanie, podpiszWszystkieProtokoly, downloadZadaniePdf } from "../api/zadania";
 import { Zadanie, ZadaniePozycja } from "../types";
 import { Button, Form, Row, Col, Card } from 'react-bootstrap';
-import { ArrowClockwise } from 'react-bootstrap-icons';
 import Spinner from "../components/Spinner";
 import DoPrzegladuButton from "../components/DoPrzegladuButton";
 import SignatureDialog from "../components/SignatureDialog";
@@ -42,7 +41,7 @@ export default function ZadaniePozycjePage() {
   // Modal podpisu
   const [showSignatureDialog, setShowSignatureDialog] = useState(false);
 
-  const showDoPrzegladu = user.role === "Koordynator";
+  const showDoPrzegladu = user.role === "Kierownik";
   const isSerwisant = user.role === "Serwisant";
   const isPodpisany = zadanie?.vZNAG_KlientPodpis ? true : false;
 
@@ -69,12 +68,12 @@ export default function ZadaniePozycjePage() {
 
         if (data.vZNAG_DataWykonania) {
           const date = new Date(data.vZNAG_DataWykonania);
-          setDataWykonania(formatDateLocal(date));
+          setDataWykonania(formatDateTimeLocal(date));
         }
 
         if (data.vZNAG_KlientDataZatw) {
           const date = new Date(data.vZNAG_KlientDataZatw);
-          setKlientDataZatw(formatDateLocal(date));
+          setKlientDataZatw(formatDateTimeLocal(date));
         }
       })
       .catch(err => console.error("Błąd pobierania zadania:", err));
@@ -92,11 +91,13 @@ export default function ZadaniePozycjePage() {
       .finally(() => setLoading(false));
   }, [znagId, isSerwisant]);
 
-  const formatDateLocal = (date: Date): string => {
+  const formatDateTimeLocal = (date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
 
   const handleSave = async () => {
@@ -116,17 +117,13 @@ export default function ZadaniePozycjePage() {
       };
 
       if (dataWykonania) {
-        // Ustaw godzinę na 12:00 lokalnego czasu, aby uniknąć problemów z UTC
-        const date = new Date(dataWykonania + 'T12:00:00');
-        updateData.ZNAG_DataWykonania = date.toISOString();
+        updateData.ZNAG_DataWykonania = new Date(dataWykonania).toISOString();
       }
 
       if (klientNazwisko) updateData.ZNAG_KlientNazwisko = klientNazwisko;
       if (klientDzial) updateData.ZNAG_KlientDzial = klientDzial;
       if (klientDataZatw) {
-        // Ustaw godzinę na 12:00 lokalnego czasu, aby uniknąć problemów z UTC
-        const date = new Date(klientDataZatw + 'T12:00:00');
-        updateData.ZNAG_KlientDataZatw = date.toISOString();
+        updateData.ZNAG_KlientDataZatw = new Date(klientDataZatw).toISOString();
       }
 
       await toast.promise(
@@ -190,28 +187,9 @@ export default function ZadaniePozycjePage() {
     if (!znagId) return;
 
     try {
-      // Przygotuj dane do zapisu - podpis i dane klienta
-      const updateData: any = {
-        ZNAG_KlientPodpis: dataUrl
-      };
-
-      // Dodaj nazwisko, dział i datę zatwierdzenia jeśli są wypełnione
-      if (klientNazwisko) updateData.ZNAG_KlientNazwisko = klientNazwisko;
-      if (klientDzial) updateData.ZNAG_KlientDzial = klientDzial;
-      if (klientDataZatw) {
-        const date = new Date(klientDataZatw + 'T12:00:00');
-        updateData.ZNAG_KlientDataZatw = date.toISOString();
-      }
+      await podpiszZadanie(Number(znagId), dataUrl);
 
       // Jeśli checkbox "zastosuj do wszystkich protokołów" był zaznaczony
-      if (applyToAll) {
-        updateData.ZNAG_PodpisDoProtokolow = true;
-      }
-
-      // Zapisz wszystkie dane razem
-      await patchZadanieMultiple(Number(znagId), updateData);
-
-      // Jeśli checkbox był zaznaczony, podpisz wszystkie protokoły
       if (applyToAll) {
         const result = await podpiszWszystkieProtokoly(Number(znagId), dataUrl, "Klient");
         if (result.signed_count > 0) {
@@ -225,7 +203,6 @@ export default function ZadaniePozycjePage() {
       setShowSignatureDialog(false);
     } catch (error) {
       console.error("Błąd podpisu:", error);
-      throw error;
     }
   }
 
@@ -250,45 +227,18 @@ export default function ZadaniePozycjePage() {
     }
   }
 
-  const handleOdswiez = async () => {
-    if (!znagId) return;
-
-    try {
-      await toast.promise(
-        odswiezZadanie(Number(znagId)),
-        {
-          loading: 'Oznaczanie do aktualizacji...',
-          success: 'Zadanie oznaczone do aktualizacji!',
-          error: (err) => `Błąd: ${err.message || 'Nie udało się oznaczyć'}`,
-        }
-      );
-    } catch (error) {
-      console.error("Błąd odświeżania:", error);
-    }
-  };
-
   if (loading) return <Spinner />;
 
   return (
     <>
       <TopBar title={"Zadanie #" + znagId}/>
       <div className="container" style={{ marginTop: '70px' }}>
-        <div className="d-flex gap-2 align-items-center">
-          <BackButton/>
-          <Button
-            variant="outline-primary"
-            size="sm"
-            onClick={handleOdswiez}
-            title="Oznacz zadanie do aktualizacji"
-          >
-            <ArrowClockwise /> Do aktualizacji
-          </Button>
-        </div>
+        <BackButton/>
 
         {/* Formularz edycji zadania */}
         <Card className="mt-3 mb-4">
           <Card.Header>
-            <h5 className="mb-0">Zadanie konserwacji #{znagId}</h5>
+            <h5 className="mb-0">Edycja zgłoszenia</h5>
             {zadanie && (
               <small className="text-muted">
                 {zadanie.vZNAG_KlientNazwa} - {zadanie.vZNAG_KlientMiasto}
@@ -309,6 +259,71 @@ export default function ZadaniePozycjePage() {
                   disabled={isPodpisany}
                 />
               </Form.Group>
+
+              {/* Opis prac / Zgłoszenie */}
+              <Form.Group className="mb-3">
+                <Form.Label><strong>Opis prac / Zgłoszenie</strong></Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  value={opisPrac}
+                  onChange={(e) => setOpisPrac(e.target.value)}
+                  placeholder="Wprowadź opis prac..."
+                  disabled={isPodpisany}
+                />
+              </Form.Group>
+
+              {/* Data realizacji przeglądu */}
+              <h6 className="mt-4 mb-3">Data realizacji przeglądu</h6>
+              <Form.Group className="mb-3">
+                <Form.Label>Data wykonania</Form.Label>
+                <Form.Control
+                  type="datetime-local"
+                  value={dataWykonania}
+                  onChange={(e) => setDataWykonania(e.target.value)}
+                  disabled={isPodpisany}
+                />
+              </Form.Group>
+
+              {/* Dane klienta */}
+              <h6 className="mt-4 mb-3">Dane klienta</h6>
+              <Row>
+                <Col md={4}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Nazwisko</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={klientNazwisko}
+                      onChange={(e) => setKlientNazwisko(e.target.value)}
+                      placeholder="Nazwisko klienta"
+                      disabled={isPodpisany}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Dział</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={klientDzial}
+                      onChange={(e) => setKlientDzial(e.target.value)}
+                      placeholder="Dział klienta"
+                      disabled={isPodpisany}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Data zatwierdzenia</Form.Label>
+                    <Form.Control
+                      type="datetime-local"
+                      value={klientDataZatw}
+                      onChange={(e) => setKlientDataZatw(e.target.value)}
+                      disabled={isPodpisany}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
 
               {/* Przyciski akcji */}
               {!isPodpisany && (
@@ -446,80 +461,24 @@ export default function ZadaniePozycjePage() {
             <h5 className="mb-0">Podpis klienta</h5>
           </Card.Header>
           <Card.Body>
-            <Form>
-              {/* Data realizacji przeglądu */}
-              <h6 className="mt-2 mb-3">Data realizacji przeglądu</h6>
-              <Form.Group className="mb-3">
-                <Form.Label>Data wykonania</Form.Label>
-                <Form.Control
-                  type="date"
-                  value={dataWykonania}
-                  onChange={(e) => setDataWykonania(e.target.value)}
-                  disabled={isPodpisany}
-                />
-              </Form.Group>
-
-              {/* Dane klienta */}
-              <h6 className="mt-4 mb-3">Dane klienta</h6>
-              <Row>
-                <Col md={4}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Nazwisko</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={klientNazwisko}
-                      onChange={(e) => setKlientNazwisko(e.target.value)}
-                      placeholder="Nazwisko klienta"
-                      disabled={isPodpisany}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Dział</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={klientDzial}
-                      onChange={(e) => setKlientDzial(e.target.value)}
-                      placeholder="Dział klienta"
-                      disabled={isPodpisany}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Data zatwierdzenia</Form.Label>
-                    <Form.Control
-                      type="date"
-                      value={klientDataZatw}
-                      onChange={(e) => setKlientDataZatw(e.target.value)}
-                      disabled={isPodpisany}
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              {/* Podpis */}
-              <h6 className="mt-4 mb-3">Podpis</h6>
-              <div className="d-flex align-items-center justify-content-between">
-                <div>
-                  <strong>Status podpisu:</strong> {zadanie?.vZNAG_KlientPodpis ? "Złożony" : "Brak podpisu"}
-                </div>
-                {!isPodpisany && (
-                  <Button
-                    variant="primary"
-                    onClick={() => setShowSignatureDialog(true)}
-                  >
-                    Złóż podpis
-                  </Button>
-                )}
-                {isPodpisany && zadanie?.vZNAG_KlientPodpis && (
-                  <div style={{ maxWidth: '200px', border: '1px solid #ccc', padding: '5px' }}>
-                    <img src={zadanie.vZNAG_KlientPodpis} alt="Podpis klienta" style={{ width: '100%' }} />
-                  </div>
-                )}
+            <div className="d-flex align-items-center justify-content-between">
+              <div>
+                <strong>Status podpisu:</strong> {zadanie?.vZNAG_KlientPodpis ? "Złożony" : "Brak podpisu"}
               </div>
-            </Form>
+              {!isPodpisany && (
+                <Button
+                  variant="primary"
+                  onClick={() => setShowSignatureDialog(true)}
+                >
+                  Złóż podpis
+                </Button>
+              )}
+              {isPodpisany && zadanie?.vZNAG_KlientPodpis && (
+                <div style={{ maxWidth: '200px', border: '1px solid #ccc', padding: '5px' }}>
+                  <img src={zadanie.vZNAG_KlientPodpis} alt="Podpis klienta" style={{ width: '100%' }} />
+                </div>
+              )}
+            </div>
           </Card.Body>
         </Card>
 
@@ -552,30 +511,29 @@ export default function ZadaniePozycjePage() {
                     <DoPrzegladuButton
                       isDoPrzegladu={r.ZPOZ_UrzadzenieDoPrzegladu === true}
                       onChange={(v) => toggle(r, v)}
-                      disabled={isPodpisany}
                     />
                   </td>
                 )}
 
                 <td style={{ padding: 8 }}>
-                  {r.ZPOZ_UrzadzenieDoPrzegladu === true && !isPodpisany && (
+                  {r.ZPOZ_UrzadzenieDoPrzegladu === true && !isPodpisany && r.PNAGL_Id && (
                     <Button
                       variant="primary"
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/protokol/${r.ZPOZ_Id}`);
+                        navigate(`/protokol/${r.PNAGL_Id}`);
                       }}
                     >
                       Otwórz protokół
                     </Button>
                   )}
-                  {r.ZPOZ_UrzadzenieDoPrzegladu === true && isPodpisany && (
+                  {r.ZPOZ_UrzadzenieDoPrzegladu === true && isPodpisany && r.PNAGL_Id && (
                     <div style={{ display: 'flex', gap: 8 }}>
                       <Button
                         variant="secondary"
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/protokol/${r.ZPOZ_Id}`);
+                          navigate(`/protokol/${r.PNAGL_Id}`);
                         }}
                       >
                         Podgląd
@@ -586,11 +544,11 @@ export default function ZadaniePozycjePage() {
                           e.stopPropagation();
                           try {
                             const { generateProtokolPdf } = await import("../api/protokoly");
-                            const blob = await generateProtokolPdf(r.ZPOZ_Id);
+                            const blob = await generateProtokolPdf(r.PNAGL_Id!);
                             const url = URL.createObjectURL(blob);
                             const a = document.createElement("a");
                             a.href = url;
-                            a.download = `protokol_${r.ZPOZ_Id}.pdf`;
+                            a.download = `protokol_${r.PNAGL_Id}.pdf`;
                             a.click();
                             URL.revokeObjectURL(url);
                           } catch (err: any) {

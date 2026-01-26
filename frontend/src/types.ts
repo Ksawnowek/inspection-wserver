@@ -37,6 +37,9 @@ export type ZadaniePozycja = {
   ZPOZ_UrzadzenieNumer: string;
   ZPOZ_UrzadzenieOpis: string;
   ZPOZ_UrzadzenieDoPrzegladu: false | true;
+  PNAGL_Id?: number;
+  PNAGL_Aktywny?: number;
+  PNAGL_DataAkceptacji?: string;
 };
 
 export type ProtokolNaglowek = {
@@ -47,10 +50,8 @@ export type ProtokolNaglowek = {
   PNAGL_NrUrzadzenia: string;
   PNAGL_PodpisKlienta: string;
   PNAGL_Uwagi?: string | null;
-  PNAGL_Dopuszczenie?: boolean | null;
-  PNAGL_KlientNazwisko?: string | null;
-  PNAGL_KlientDzial?: string | null;
-  PNAGL_KlientDataZatw?: string | null;
+
+
 };
 
 // export type ProtokolPozycja = {

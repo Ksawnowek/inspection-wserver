@@ -13,6 +13,7 @@ class ZdjeciaRepo:
         zdjecie.ZDJP_PPOZ_Id = parent_ppoz_id
         zdjecie.ZDJP_Sciezka = sciezka
         self.session.add(zdjecie)
+        self.session.flush()  # Flush aby uzyskać ZDJP_Id przed zwróceniem
         return zdjecie
 
     def get_pozycja_zdjecie_by_id(self, zdjp_id):
