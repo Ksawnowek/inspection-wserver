@@ -66,7 +66,7 @@ class ZdjeciaService:
                 relative_to_storage = path_str.lstrip('/').split('/', 1)[1]
                 from app.core.paths import STORAGE_DIR
                 file_path = STORAGE_DIR / relative_to_storage
-            elif path_str.startswith('/Protokoly/'):
+            elif path_str.startswith('/photos/'):
                 # /Protokoly/abc.jpg -> C:\Zdjecia\Protokoly\abc.jpg
                 filename = path_str.split('/')[-1]
                 OLD_PHOTO_DIR = Path(os.getenv("OLD_PHOTO_DIR", r"C:\Zdjecia\Protokoly"))
@@ -100,7 +100,7 @@ class ZdjeciaService:
                     relative_to_storage = path_str.lstrip('/').split('/', 1)[1]  # photos/abc.jpg
                     from app.core.paths import STORAGE_DIR
                     file_path_to_delete = STORAGE_DIR / relative_to_storage
-                elif path_str.startswith('/Protokoly/'):
+                elif path_str.startswith('/photos/'):
                     # /Protokoly/abc.jpg -> C:\Zdjecia\Protokoly\abc.jpg (stary katalog)
                     import os
                     filename = path_str.split('/')[-1]
