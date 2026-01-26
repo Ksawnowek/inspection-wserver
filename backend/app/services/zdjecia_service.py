@@ -1,7 +1,6 @@
 import os
 import uuid
 import aiofiles
-import asyncio
 from pathlib import Path
 
 from fastapi import HTTPException
@@ -16,10 +15,11 @@ class ZdjeciaService:
         self.config_service = config_service
 
     def _get_photo_dir(self) -> Path:
-        """Pobiera ścieżkę do katalogu ze zdjęciami"""
-        from app.core.paths import PHOTO_DIR
-        PHOTO_DIR.mkdir(parents=True, exist_ok=True)
-        return PHOTO_DIR
+        """Pobiera ścieżkę do katalogu ze zdjęciami z konfiguracji w bazie danych"""
+        sciezka = self.config_service.get_zdjecia_sciezka()
+        photo_dir = Path(sciezka)
+        photo_dir.mkdir(parents=True, exist_ok=True)
+        return photo_dir
 
     async def add_pozycja_zdjecie(self, ppoz_id, file):
         photo_dir = self._get_photo_dir()
@@ -36,17 +36,11 @@ class ZdjeciaService:
             print(f"BŁĄD REPOZYTORIUM: Nie udało się zapisać pliku {file_path}: {e}")
             raise HTTPException(status_code=500, detail="Błąd zapisu pliku na serwerze")
 
-        # Zapisz relatywny URL do bazy danych (zamiast pełnej ścieżki systemowej)
-        # Konwertuj np. C:\storage\photos\abc.jpg -> /storage/photos/abc.jpg
-        relative_path = file_path.relative_to(photo_dir.parent)
-        file_url = "/" + str(relative_path).replace("\\", "/")
-
-        zdjecie = self.repo.dodaj_zdjecie(ppoz_id, file_url)
+        # Zapisz tylko nazwę pliku do bazy danych
+        # Ścieżka katalogu jest w konfiguracji (ZDJECIA_SCIEZKA)
+        zdjecie = self.repo.dodaj_zdjecie(ppoz_id, safe_filename)
         self.repo.session.commit()
         self.repo.session.refresh(zdjecie)
-
-        # Upewnij się że ścieżka jest znormalizowana przy zwracaniu
-        zdjecie.ZDJP_Sciezka = zdjecie._normalize_path()
 
         return zdjecie
 
@@ -59,27 +53,21 @@ class ZdjeciaService:
 
         path_str = zdjecie.ZDJP_Sciezka
 
-        # Konwertuj URL lub pełną ścieżkę na fizyczną ścieżkę do pliku
-        if path_str.startswith('/'):
-            if path_str.startswith('/storage/'):
-                # /storage/photos/abc.jpg -> STORAGE_DIR/photos/abc.jpg
-                relative_to_storage = path_str.lstrip('/').split('/', 1)[1]
-                from app.core.paths import STORAGE_DIR
-                file_path = STORAGE_DIR / relative_to_storage
-            elif path_str.startswith('/photos/'):
-                # /photos/abc.jpg -> STORAGE_DIR/photos/abc.jpg (nowe zdjęcia)
-                from app.core.paths import STORAGE_DIR
-                file_path = STORAGE_DIR / path_str.lstrip('/')
-            elif path_str.startswith('/Protokoly/'):
-                # /Protokoly/abc.jpg -> C:\Zdjecia\Protokoly\abc.jpg (stare zdjęcia)
-                filename = path_str.split('/')[-1]
-                OLD_PHOTO_DIR = Path(os.getenv("OLD_PHOTO_DIR", r"C:\Zdjecia\Protokoly"))
-                file_path = OLD_PHOTO_DIR / filename
-            else:
-                raise HTTPException(status_code=400, detail=f"Nieznany format URL: {path_str}")
+        # Pobierz katalog ze zdjęciami z konfiguracji
+        photo_dir = Path(self.config_service.get_zdjecia_sciezka())
+
+        # Obsługa różnych formatów ścieżek (kompatybilność wsteczna)
+        if path_str.startswith('/') or path_str.startswith('\\'):
+            # Stary format URL lub ścieżki - wyciągnij tylko nazwę pliku
+            filename = path_str.split('/')[-1].split('\\')[-1]
+            file_path = photo_dir / filename
+        elif ':' in path_str and len(path_str) > 2:
+            # Pełna ścieżka Windows (np. C:\...) - wyciągnij tylko nazwę pliku
+            filename = Path(path_str).name
+            file_path = photo_dir / filename
         else:
-            # Stara pełna ścieżka systemowa
-            file_path = Path(path_str)
+            # Nowy format - tylko nazwa pliku
+            file_path = photo_dir / path_str
 
         # Sprawdź czy plik istnieje
         if not file_path.exists():
@@ -93,46 +81,23 @@ class ZdjeciaService:
         if zdjecie is None:
             raise HTTPException(status_code=404, detail="Nie znaleziono zdjęcia o podanym ID")
 
-        # Konwertuj ścieżkę z URL lub pełnej ścieżki systemowej na fizyczną ścieżkę do pliku
+        # Pobierz fizyczną ścieżkę do pliku
         try:
-            path_str = zdjecie.ZDJP_Sciezka
+            file_path_to_delete = self.get_zdjecie_file_path(zdjp_id)
+        except HTTPException:
+            # Plik nie istnieje na dysku - kontynuuj usuwanie z bazy
+            file_path_to_delete = None
 
-            # Jeśli to URL (zaczyna się od /), konwertuj na ścieżkę systemową
-            if path_str.startswith('/'):
-                if path_str.startswith('/storage/'):
-                    # /storage/photos/abc.jpg -> STORAGE_DIR/photos/abc.jpg
-                    relative_to_storage = path_str.lstrip('/').split('/', 1)[1]  # photos/abc.jpg
-                    from app.core.paths import STORAGE_DIR
-                    file_path_to_delete = STORAGE_DIR / relative_to_storage
-                elif path_str.startswith('/photos/'):
-                    # /photos/abc.jpg -> STORAGE_DIR/photos/abc.jpg (nowe zdjęcia)
-                    from app.core.paths import STORAGE_DIR
-                    file_path_to_delete = STORAGE_DIR / path_str.lstrip('/')
-                elif path_str.startswith('/Protokoly/'):
-                    # /Protokoly/abc.jpg -> C:\Zdjecia\Protokoly\abc.jpg (stare zdjęcia)
-                    filename = path_str.split('/')[-1]
-                    OLD_PHOTO_DIR = Path(os.getenv("OLD_PHOTO_DIR", r"C:\Zdjecia\Protokoly"))
-                    file_path_to_delete = OLD_PHOTO_DIR / filename
-                else:
-                    raise ValueError(f"Nieznany format URL: {path_str}")
-            else:
-                # Stara pełna ścieżka systemowa
-                file_path_to_delete = Path(path_str)
+        # Usuń plik z dysku (jeśli istnieje)
+        if file_path_to_delete and file_path_to_delete.exists():
+            try:
+                os.remove(file_path_to_delete)
+            except Exception as e:
+                print(f"BŁĄD: Nie udało się usunąć pliku {file_path_to_delete}: {e}")
+                raise HTTPException(status_code=500, detail="Błąd podczas usuwania pliku z dysku.")
 
-        except Exception as e:
-            print(f"BŁĄD: Nie można ustalić ścieżki pliku dla {zdjecie.ZDJP_Sciezka}: {e}")
-            raise HTTPException(status_code=500, detail="Błąd przetwarzania ścieżki pliku")
-
-        try:
-            os.remove(file_path_to_delete)
-        except FileNotFoundError:
-            print(f"OSTRZEŻENIE: Próbowano usunąć plik, którego nie ma na dysku: {file_path_to_delete}")
-        except Exception as e:
-            print(f"BŁĄD: Nie udało się usunąć pliku {file_path_to_delete}: {e}")
-            raise HTTPException(status_code=500, detail=f"Błąd podczas usuwania pliku z dysku.")
-
+        # Usuń rekord z bazy danych
         self.repo.delete_zdjecie(zdjecie)
         self.repo.session.commit()
 
         return True
-
