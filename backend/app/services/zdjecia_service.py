@@ -67,7 +67,11 @@ class ZdjeciaService:
                 from app.core.paths import STORAGE_DIR
                 file_path = STORAGE_DIR / relative_to_storage
             elif path_str.startswith('/photos/'):
-                # /Protokoly/abc.jpg -> C:\Zdjecia\Protokoly\abc.jpg
+                # /photos/abc.jpg -> STORAGE_DIR/photos/abc.jpg (nowe zdjęcia)
+                from app.core.paths import STORAGE_DIR
+                file_path = STORAGE_DIR / path_str.lstrip('/')
+            elif path_str.startswith('/Protokoly/'):
+                # /Protokoly/abc.jpg -> C:\Zdjecia\Protokoly\abc.jpg (stare zdjęcia)
                 filename = path_str.split('/')[-1]
                 OLD_PHOTO_DIR = Path(os.getenv("OLD_PHOTO_DIR", r"C:\Zdjecia\Protokoly"))
                 file_path = OLD_PHOTO_DIR / filename
@@ -101,8 +105,11 @@ class ZdjeciaService:
                     from app.core.paths import STORAGE_DIR
                     file_path_to_delete = STORAGE_DIR / relative_to_storage
                 elif path_str.startswith('/photos/'):
-                    # /Protokoly/abc.jpg -> C:\Zdjecia\Protokoly\abc.jpg (stary katalog)
-                    import os
+                    # /photos/abc.jpg -> STORAGE_DIR/photos/abc.jpg (nowe zdjęcia)
+                    from app.core.paths import STORAGE_DIR
+                    file_path_to_delete = STORAGE_DIR / path_str.lstrip('/')
+                elif path_str.startswith('/Protokoly/'):
+                    # /Protokoly/abc.jpg -> C:\Zdjecia\Protokoly\abc.jpg (stare zdjęcia)
                     filename = path_str.split('/')[-1]
                     OLD_PHOTO_DIR = Path(os.getenv("OLD_PHOTO_DIR", r"C:\Zdjecia\Protokoly"))
                     file_path_to_delete = OLD_PHOTO_DIR / filename
