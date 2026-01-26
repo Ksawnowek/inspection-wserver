@@ -125,6 +125,7 @@ class ZdjeciaService:
             raise HTTPException(status_code=500, detail=f"Błąd podczas usuwania pliku z dysku.")
 
         self.repo.delete_zdjecie(zdjecie)
+        self.repo.session.commit()
 
         return True
 

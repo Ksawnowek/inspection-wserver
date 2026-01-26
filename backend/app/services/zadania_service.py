@@ -14,7 +14,7 @@ class ZadaniaService:
         self.session = session
 
     def get_pozycje_by_user_role(self, user: Uzytkownik, znag_id: int) -> List[Dict[str, Any]]:
-        if Uzytkownik.UZT_ROL_Id == 101:
+        if user.UZT_ROL_Id == 101:
             return self.repo.pozycje_serwisant(znag_id)
         else:
             return self.repo.pozycje_zadania(znag_id)

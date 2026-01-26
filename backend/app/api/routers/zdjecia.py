@@ -1,3 +1,6 @@
+from pathlib import Path
+import mimetypes
+
 from fastapi import APIRouter, UploadFile, File, Depends, HTTPException, Response, status
 from fastapi.responses import FileResponse
 
@@ -42,21 +45,13 @@ def delete_pozycja_zdjecie(
 
 
 @router.get("/file/{zdjp_id}")
-def get_zdjecie_file(
+def get_zdjecie_file_by_id(
         zdjp_id: int,
-        repo: ZdjeciaRepo = Depends(get_zdjecia_repo),
+        service: ZdjeciaService = Depends(get_zdjecia_service),
         user: Uzytkownik = Depends(any_logged_in_user)
     ):
-    """Serwuje plik zdjęcia na podstawie ID z bazy danych"""
-    zdjecie = repo.get_pozycja_zdjecie_by_id(zdjp_id)
-
-    if zdjecie is None:
-        raise HTTPException(status_code=404, detail="Nie znaleziono zdjęcia")
-
-    file_path = Path(zdjecie.ZDJP_Sciezka)
-
-    if not file_path.exists():
-        raise HTTPException(status_code=404, detail="Plik zdjęcia nie istnieje na dysku")
+    """Serwuje plik zdjęcia na podstawie ID z bazy danych (z obsługą różnych formatów ścieżek)"""
+    file_path = service.get_zdjecie_file_path(zdjp_id)
 
     # Wykryj typ MIME na podstawie rozszerzenia
     mime_type, _ = mimetypes.guess_type(str(file_path))
