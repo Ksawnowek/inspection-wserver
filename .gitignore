@@ -16,4 +16,4 @@ venv/
 backend/venv/
 playwright_browsers/
 backend/playwright_browsers/
-/backend/playwright_browsers/backend/logs/*.log
+/backend/playwright_browsers/

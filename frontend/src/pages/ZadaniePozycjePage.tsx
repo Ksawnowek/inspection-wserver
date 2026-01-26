@@ -201,8 +201,12 @@ export default function ZadaniePozycjePage() {
       const updatedZadanie = await getZadanie(Number(znagId));
       setZadanie(updatedZadanie);
       setShowSignatureDialog(false);
-    } catch (error) {
+      toast.success('Podpis zapisany pomyślnie');
+    } catch (error: any) {
       console.error("Błąd podpisu:", error);
+      // Wyświetl komunikat błędu z backendu (np. blokada przy niewypełnionych protokołach)
+      const errorMessage = error.response?.data?.detail || error.message || 'Wystąpił błąd podczas zapisywania podpisu';
+      toast.error(errorMessage, { duration: 6000 });
     }
   }
 
