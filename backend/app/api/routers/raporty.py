@@ -9,7 +9,7 @@ router = APIRouter(prefix="/api/raporty", tags=["raporty"])
 
 
 @router.post("/generuj/awaria/{znag_id}")
-async def generuj_raport_awarii(
+def generuj_raport_awarii(
     znag_id: int,
     pdf_service: PDFService = Depends(get_pdf_service),
     current_user: Uzytkownik = Depends(any_logged_in_user)
@@ -36,7 +36,7 @@ async def generuj_raport_awarii(
 
 
 @router.post("/generuj/prace_rozne/{znag_id}")
-async def generuj_raport_prac_roznych(
+def generuj_raport_prac_roznych(
     znag_id: int,
     pdf_service: PDFService = Depends(get_pdf_service),
     current_user: Uzytkownik = Depends(any_logged_in_user)
@@ -63,7 +63,7 @@ async def generuj_raport_prac_roznych(
 
 
 @router.post("/generuj/konserwacja/{pnagl_id}")
-async def generuj_raport_konserwacji(
+def generuj_raport_konserwacji(
     pnagl_id: int,
     pdf_service: PDFService = Depends(get_pdf_service),
     protokoly_service: ProtokolyService = Depends(get_protokoly_service),
@@ -88,7 +88,7 @@ async def generuj_raport_konserwacji(
 
 
 @router.post("/generuj/montaz/{znag_id}")
-async def generuj_raport_montazu(
+def generuj_raport_montazu(
     znag_id: int,
     pdf_service: PDFService = Depends(get_pdf_service),
     current_user: Uzytkownik = Depends(any_logged_in_user)
